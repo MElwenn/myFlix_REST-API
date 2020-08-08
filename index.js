@@ -1,6 +1,7 @@
 const express = require('express'); // Import express package
 const app = express(); // variable that encapsulates Express’s functionality to configure the web server
 const morgan = require('morgan'); // logging middleware
+const uuid = require('uuid'); // generates a Universally Unique Identifier
 // Obsolete as logging is done by Morgan middleware
 //let myLogger = (req, res, next) => {
 //  console.log(req.url);
