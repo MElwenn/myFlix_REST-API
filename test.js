@@ -6,6 +6,12 @@ const app = express();
 
 app.use(bodyParser.json());
 
+// Definitions
+let director = Object.values(movie.classes); // Object.values() filters out object's keys and keeps the values that are returned as a new array
+let genre = Object.values(movie.classes);
+let description = Object.values(movie.classes);
+let imageUrl = Object.values(movie.classes);
+
 let movies = [
   {
     id: 1,
@@ -45,13 +51,6 @@ let movies = [
   }
 ];
 
-// Definitions
-let director = Object.values(movie.classes); // Object.values() filters out object's keys and keeps the values that are returned as a new array
-let genre = Object.values(movie.classes);
-let description = Object.values(movie.classes);
-let imageUrl = Object.values(movie.classes);
-
-
 // Gets the list of data about ALL movies
 
 app.get('/movies', (req, res) => {
@@ -78,7 +77,7 @@ app.get('/movies/:title', (req, res) => {
 
   if (movie) {
     Object.values(movie.classes); // Object.values() filters out object's keys and keeps the values that are returned as a new array
-    
+
     console.log(director);
     console.log(genre);
     console.log(description);
