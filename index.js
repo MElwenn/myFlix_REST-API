@@ -11,6 +11,19 @@ let requestTime = (req, res, next) => {
   next();
 };
 
+// middleware components
+app.use(express.static('public')); // invoke files from the public folder
+app.use(morgan('common'));         // logging
+//app.use(myLogger);               // presumably replaced by morgan
+app.use(requestTime);
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
+app.use(methodOverride());
+
 // JSON object containing data about your top 10 movies
 let movies = [
   {
@@ -18,7 +31,7 @@ let movies = [
     title: 'Snatch',
     director: 'Guy Ritchie',
     year: '2000',
-    genre: 'Crime-Comedy',
+    genre: 'Comedy',
     description: 'Snatch is a 2000 British crime comedy film written and directed by Guy Ritchie, featuring an ensemble cast. Set in the London criminal underworld, the film contains two intertwined plots: one dealing with the search for a stolen diamond, the other with a small-time boxing promoter (Jason Statham) who finds himself under the thumb of a ruthless gangster (Alan Ford) who is ready and willing to have his subordinates carry out severe and sadistic acts of violence.',
     imageUrl: 'https://picsum.photos/200/300.jpg',
     featured: 'Yes.'
@@ -28,27 +41,27 @@ let movies = [
     title: 'Pulp Fiction',
     director: 'Quentin Tarantino',
     year: '1994',
-    genre: 'Crime-Comedy',
+    genre: 'Comedy',
     description: 'Pulp Fiction is a 1994 American neo-noir black comedy crime drama film written and directed by Quentin Tarantino, who conceived it with Roger Avary.[4] Starring John Travolta, Samuel L. Jackson, Bruce Willis, Tim Roth, Ving Rhames, and Uma Thurman, it tells several stories of criminal Los Angeles. The title refers to the pulp magazines and hardboiled crime novels popular during the mid-20th century, known for their graphic violence and punchy dialogue.',
     imageUrl: 'https://picsum.photos/200/300.jpg',
     featured: 'Yes.'
   },
-  {
+/*  {
     id: 3,
     title: 'Fargo',
     director: 'Ethan Coen, Joel Coen',
     year: '1996'
-    genre: 'Comedy-Thriller',
-    description: 'Fargo is a 1996 black comedy thriller film written, produced and directed by Joel and Ethan Coen. Frances McDormand stars as Marge Gunderson, a pregnant Minnesota police chief investigating roadside homicides that ensue after a desperate car salesman (William H. Macy) hires two criminals (Steve Buscemi and Peter Stormare) to kidnap his wife in order to extort a hefty ransom from his wealthy father-in-law (Harve Presnell). The film was an international co-production between the United States and United Kingdom.',
-    imageUrl: 'https://picsum.photos/200/300.jpg',
-    featured: 'Yes.'
-  },
+//    genre: 'Thriller',
+//    description: 'Fargo is a 1996 black comedy thriller film written, produced and directed by Joel and Ethan Coen. Frances McDormand stars as Marge Gunderson, a pregnant Minnesota police chief investigating roadside homicides that ensue after a desperate car salesman (William H. Macy) hires two criminals (Steve Buscemi and Peter Stormare) to kidnap his wife in order to extort a hefty ransom from his wealthy father-in-law (Harve Presnell). The film was an international co-production between the United States and United Kingdom.',
+//    imageUrl: 'https://picsum.photos/200/300.jpg',
+//    featured: 'Yes.'
+},*/
   {
     id: 4,
     title: 'The Cabin in the Woods',
     director: 'Drew Goddard',
     year: '2011',
-    genre: 'Horror-Comedy',
+    genre: 'Horror',
     description: 'The Cabin in the Woods is a 2011 American horror comedy film directed by Drew Goddard in his directorial debut, produced by Joss Whedon, and written by Whedon and Goddard.[4] The film stars Kristen Connolly, Chris Hemsworth, Anna Hutchison, Fran Kranz, Jesse Williams, Richard Jenkins, and Bradley Whitford. The plot follows a group of college students who retreat to a remote forest cabin where they fall victim to backwoods zombies while technicians manipulate events from an underground facility.',
     imageUrl: 'https://picsum.photos/200/300.jpg',
     featured: 'Yes.'
@@ -72,8 +85,8 @@ let movies = [
     description: 'Night on Earth is a 1991 art comedy-drama film written and directed by Jim Jarmusch. It is a collection of five vignettes, taking place during the same night, concerning the temporary bond formed between taxi driver and passenger in five cities: Los Angeles, New York, Paris, Rome, and Helsinki. Jarmusch wrote the screenplay in about eight days, and the choice of certain cities was largely based on the actors with whom he wanted to work.[1] The soundtrack of the same name is by Tom Waits.',
     imageUrl: 'https://picsum.photos/200/300.jpg',
     featured: 'Yes.'
-  },
-  {
+  }
+  /*{
     id: 7,
     title: 'Departed',
     director: 'Martin Scorsese',
@@ -112,7 +125,7 @@ let movies = [
     description: 'Dune is a 1984 American epic science fiction film written and directed by David Lynch and based on the 1965 Frank Herbert novel of the same name. The film stars Kyle MacLachlan (in his film debut) as young nobleman Paul Atreides, and includes an ensemble of well-known American and European actors in supporting roles. It was filmed at the Churubusco Studios in Mexico City and included a soundtrack by the rock band Toto, as well as Brian Eno.',
     imageUrl: 'https://picsum.photos/200/300.jpg',
     featured: 'Yes.'
-  }
+  }*/
 ];
 
 let genreType = [
@@ -137,6 +150,7 @@ let genreType = [
     definition: 'Thriller is a genre of fiction, having numerous, often overlapping subgenres. Thrillers are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense, excitement, surprise, anticipation and anxiety.'
   },
 ];
+
 
 let directors = [
   {
@@ -175,24 +189,11 @@ let usersTopMovie = [
     user: 'John Doe',
     userEmail:  'john.doe@web.de',
     userPassword:  'YAq1XSw2',
-    userDateOfBirth: '1991-05-01'
-    topMovie: [1]
+    userDateOfBirth: '1991-05-01',
+    topMovie: '1'
   }
 ];
 
-
-// middleware components
-app.use(express.static('public')); // invoke files from the public folder
-app.use(morgan('common'));         // logging
-//app.use(myLogger);               // presumably replaced by morgan
-app.use(requestTime);
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-
-app.use(bodyParser.json());
-app.use(methodOverride());
 
 
 // Requests against REST API
@@ -205,6 +206,7 @@ app.get('/secreturl', (req, res, next) => {
 app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
+
 
 // Task 2.5 starts here...
 
