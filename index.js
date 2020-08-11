@@ -1,6 +1,6 @@
 const express = require('express'); // Import express package
 const app = express(); // variable that encapsulates Express’s functionality to configure the web server
-const bodyParser = require('bodyParser'); // require the body-parser module
+const bodyParser = require('body-parser'); // require the body-parser module
 const methodOverride = require('method-override');
 const morgan = require('morgan'); // logging middleware
 const uuid = require('uuid'); // generates a Universally Unique Identifier
@@ -210,47 +210,47 @@ app.get('/documentation', (req, res) => {
 
 // Task 2.5 starts here...
 
-// GET the list of data about ALL movies
+// GET the list of data about ALL movies http://localhost:8080/movies
 app.get('/movies', (req, res) => {
   res.send('Successful GET request returning data on all movies');
 });
 
-// GET about a single movie by title to the user
+// GET data about a single movie by title to the user http://localhost:8080/movies/snatch
 app.get('/movies/:title', (req, res) => {
   res.send('Successful GET request returning data on a single movie by title to the user');
 });
 
-// GET data about a genre by genreType
+// GET data about a genre by genreType http://localhost:8080/genreType/genre
 app.get('/genreType/:genre', (req, res) => {
   res.send('Successful GET request returning data on a genre and its definition');
 });
 
-// GET data about a drector by name
+// GET data about a drector by name http://localhost:8080/directors/director
 app.get('/directors/:director', (req, res) => {
   res.send('Successful GET request returning data on a director by name');
 });
 
-// POST new user and allow to deregister
+// POST new user and allow to register http://localhost:8080/users
 app.post('/users', (req, res) => {
   res.send('User name is missing in request body. Please add a user name.');
 });
 
-// PUT request to update user data
+// PUT request to update user data http://localhost:8080/users/0
 app.put('/users/:user', (req, res) => {
   res.send('User data has been updeted successfully.');
 });
 
-// DELETE request to allow user to deregister
+// DELETE request to allow user to deregister http://localhost:8080/users/0
 app.delete('/users/:user', (req, res) => {
   res.send('User has been deleted successfully.');
 });
 
-// POST request to allow a user to add a movie to a favorites list
+// POST request to allow a user to add a movie to a favorites list http://localhost:8080/users/0/movies/3
 app.post('/users/:user/movies/:title', (req, res) => {
   res.send('Movie has been added to your favorites list successfully.');
 });
 
-// DELETE request to allow a user to remove a movie from the favorites list
+// DELETE request to allow a user to remove a movie from the favorites list http://localhost:8080/users/0/movies/3
 app.delete('/users/:user/movies/:title', (req, res) => {
   res.send('Movie has been deleted from your favorites list successfully.');
 });
