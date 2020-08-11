@@ -27,7 +27,7 @@ app.use(methodOverride());
 // JSON object containing data about your top 10 movies
 let movies = [
   {
-    id: 1,
+    id: 0,
     title: 'Snatch',
     director: 'Guy Ritchie',
     year: '2000',
@@ -37,7 +37,7 @@ let movies = [
     featured: 'Yes.'
   },
   {
-    id: 2,
+    id: 1,
     title: 'Pulp Fiction',
     director: 'Quentin Tarantino',
     year: '1994',
@@ -47,7 +47,7 @@ let movies = [
     featured: 'Yes.'
   },
 /*  {
-    id: 3,
+    id: 2,
     title: 'Fargo',
     director: 'Ethan Coen, Joel Coen',
     year: '1996'
@@ -57,7 +57,7 @@ let movies = [
 //    featured: 'Yes.'
 },*/
   {
-    id: 4,
+    id: 3,
     title: 'The Cabin in the Woods',
     director: 'Drew Goddard',
     year: '2011',
@@ -67,7 +67,7 @@ let movies = [
     featured: 'Yes.'
   },
   {
-    id: 5,
+    id: 4,
     title: '28 days later',
     director: 'Danny Boyle',
     year: '2002',
@@ -77,7 +77,7 @@ let movies = [
     featured: 'Yes.'
   },
   {
-    id: 6,
+    id: 5,
     title: 'Night on Earth',
     director: 'Jim Jarmush',
     year: '1991',
@@ -87,7 +87,7 @@ let movies = [
     featured: 'Yes.'
   }
   /*{
-    id: 7,
+    id: 6,
     title: 'Departed',
     director: 'Martin Scorsese',
     year: '2006',
@@ -97,7 +97,7 @@ let movies = [
     featured: 'Yes.'
   },
   {
-    id: 8,
+    id: 7,
     title: 'Dogville',
     director: 'Lars von Trier',
     year: '2003',
@@ -107,7 +107,7 @@ let movies = [
     featured: 'Yes.'
   },
   {
-    id: 9,
+    id: 8,
     title: 'The Empire strikes back',
     director: 'George Lucas',
     year: '2003',
@@ -117,7 +117,7 @@ let movies = [
     featured: 'Yes.'
   },
   {
-    id: 10,
+    id: 9,
     title: 'Dune',
     director: 'David Lynch',
     year: '1984',
@@ -175,6 +175,7 @@ let directors = [
 
 let users = [
   {
+    id: [0],
     user: 'John Doe',
     userFirstName: 'John',
     userLastName:  'Doe',

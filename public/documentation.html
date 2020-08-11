@@ -16,30 +16,188 @@
             Users will be able to sign up, update their personal information, and create a list
             of their favorite movies.
         <br>
-        <h3 class="heading3">Version 0.0.1 (Note: the API is under construction)</h3>
+        <h3 class="heading3">Version 0.1.1 (Note: the API is under construction)</h3>
         <h2 class="heading2">Planned Features</h2>
-        <ul class="table">
-            <li>Return a list of ALL movies to the user</li>
-            <li>Return data (description, genre, director, image URL, whether it’s featured or not) about
-                a single movie by title to the user
-            </li>
-            <li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
-            <li>Return data about a director (bio, birth year, death year) by name</li>
-            <li>Allow new users to register</li>
-            <li>Allow users to update their user info (username, password, email, date of birth)</li>
-            <li>Allow users to add a movie to their list of favorites</li>
-            <li>Allow users to remove a movie from their list of favorites</li>
-            <li>Allow existing users to deregister</li>
-        </ul>
-        <h2 class="heading2">Ressource Types</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Method  </th>
-                    <th>HTTP request  </th>
-                    <th>Description  </th>
-                </tr>
-            </thead>
+        <table class="table">
+          <tr>
+            <th>Description</th>
+            <th>URL</th>
+            <th>HTTP METHOD</th>
+            <th>Request body data format</th>
+            <th>Response body data format</th>
+          </tr>
+          <tr>
+            <td>Returns a list of ALL movies to the user</td>
+            <td>http://localhost:8080/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all movies</td>
+          </tr>
+          <tr>
+            <td>Returns data about a single movie by title to the user</td>
+            <td>http://localhost:8080/movies/:title</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+              A JSON object holding data about a single movie, <br>
+              Example: <br>
+              { <br>
+                id: 0, <br>
+                title: 'Snatch', <br>
+                director: 'Guy Ritchie', <br>
+                year: '2000', <br>
+                genre: 'Comedy', <br>
+                description: 'Snatch is a 2000 British crime ...', <br>
+                imageUrl: 'https://picsum.photos/200/300.jpg', <br>
+                featured: 'Yes.' <br>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Return data about a genre type and its description</td>
+            <td>http://localhost:8080/genreType/genre</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+              A JSON object holding data about a genre, <br>
+              Example: <br>
+              { <br>
+                genre: 'Crime', <br>
+                definition: 'A crime story can be described as...' <br>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Returns data about a director</td>
+            <td>http://localhost:8080/directors/director</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>
+              A JSON object holding data about a director, <br>
+              Example: <br>
+              { <br>
+                director: 'Guy Ritchie', <br>
+                bio: 'Guy Stuart Ritchie (born 10 September 1968)...', <br>
+                birth: '1968', <br>
+                death: '' <br>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Allow new users to register</td>
+            <td>http://localhost:8080/users</td>
+            <td>POST</td>
+            <td>
+              A JSON object holding data about a user, <br>
+              containing an ID and classes property. <br>
+              Example: <br>
+              { <br>
+                id: [0], <br>
+                user: 'John Doe', <br>
+                userFirstName: 'John', <br>
+                userLastName:  'Doe', <br>
+                userEmail:  'john.doe@web.de', <br>
+                userPassword:  'YAq1XSw2', <br>
+                userDateOfBirth: '1991-05-01' <br>
+              }
+            </td>
+            <td>
+              A JSON object holding data about a user, <br>
+              containing an ID and classes property. <br>
+              Example: <br>
+              { <br>
+                id: [0], <br>
+                user: 'John Doe', <br>
+                userFirstName: 'John', <br>
+                userLastName:  'Doe', <br>
+                userEmail:  'john.doe@web.de', <br>
+                userPassword:  'YAq1XSw2', <br>
+                userDateOfBirth: '1991-05-01' <br>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to update their user info</td>
+            <td>http://localhost:8080/users/0</td>
+            <td>PUT</td>
+            <td>
+              A JSON object holding data about a user, <br>
+              containing an ID and classes property. <br>
+              Example: <br>
+              {
+                id: [0], <br>
+                user: 'John Doe', <br>
+                userFirstName: 'John', <br>
+                userLastName:  'Doe', <br>
+                userEmail:  'john.doe@web.de', <br>
+                userPassword:  'YAq1XSw2', <br>
+                userDateOfBirth: '1991-05-01' <br>
+                title: ''
+              }
+            </td>
+            <td>
+              A JSON object holding data about a user, <br>
+              containing an ID and classes property. <br>
+              Example: <br>
+              {
+                id: [0], <br>
+                user: 'John Doe', <br>
+                userFirstName: 'John', <br>
+                userLastName:  'Doe', <br>
+                userEmail:  'john.doe@web.de', <br>
+                userPassword:  'YAq1XSw2', <br>
+                userDateOfBirth: '1991-05-01' <br>
+                title: ''
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Allows an existing users to deregister</td>
+            <td>http://localhost:8080/users/0</td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text message indicating whether the user was successfully removed</td>
+          </tr>
+          <tr>
+            <td>Allows users to add a movie to their list of favorites</td>
+            <td>http://localhost:8080/users/0/movies/3</td>
+            <td>POST</td>
+            <td>
+              A JSON object holding data about a user, <br>
+              containing an ID and classes property. <br>
+              Example: <br>
+              {
+                id: [0], <br>
+                user: 'John Doe', <br>
+                userFirstName: 'John', <br>
+                userLastName:  'Doe', <br>
+                userEmail:  'john.doe@web.de', <br>
+                userPassword:  'YAq1XSw2', <br>
+                userDateOfBirth: '1991-05-01' <br>
+                title: 'Snatch'
+              }
+            </td>
+            <td>
+              A JSON object holding data about a user, <br>
+              containing an ID and classes property. <br>
+              Example: <br>
+              {
+                id: [0], <br>
+                user: 'John Doe', <br>
+                userFirstName: 'John', <br>
+                userLastName:  'Doe', <br>
+                userEmail:  'john.doe@web.de', <br>
+                userPassword:  'YAq1XSw2', <br>
+                userDateOfBirth: '1991-05-01' <br>
+                title: 'Snatch'
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Allow users to remove a movie from their list of favorites</td>
+            <td>http://localhost:8080/users/0/movies/3</td>
+            <td>DELETE</td>
+            <td>None</td>
+            <td>A text message indicating whether the user was successfully removed</td>
+          </tr>
         </table>
-        <p>To be completed...</p>
