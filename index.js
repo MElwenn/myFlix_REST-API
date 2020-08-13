@@ -46,6 +46,17 @@ let movies = [
     imageUrl: 'https://picsum.photos/200/300.jpg',
     featured: 'Yes.'
   },
+  {
+    id: 1,
+    title: 'Jackie Brown',
+    director: 'Quentin Tarantino',
+    year: '1997',
+    genre: 'Crime',
+    description: 'Jackie Brown is a 1997 American crime film written and directed by Quentin Tarantino and starring Pam Grier in the title role. The film is an adaptation of Elmore Leonards 1992 novel Rum Punch. It is the only feature-length film that Tarantino has adapted from a previous work.',
+    imageUrl: 'https://picsum.photos/200/300.jpg',
+    featured: 'Yes.'
+  },
+
 /*  {
     id: 2,
     title: 'Fargo',
