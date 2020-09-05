@@ -62,7 +62,8 @@ app.get('/movies', (req, res) => {
 app.get('/movies/:Title', (req, res) => {
   Movies.findOne({ Title: rep.params.Title })
     .then((movie) => {
-      res.json(movie);
+//      res.json(movie);
+      res.status(201).json(movies);
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
@@ -70,13 +71,17 @@ app.get('/movies/:Title', (req, res) => {
     });
 });
 
-// GET data about a genre by genreType http://localhost:8080/genreType/genre
-app.get('/movies/Genre/:Name', (req, res) => { //was that :Name or :Title or:Type?
-  Movies.findOne({ Genre.Name: req.params.Name })
-    .then((movies) => {
-      res.json(
-        'Genre: ' + movies.Director.Name,
-        'Description: ' + movies.Director.Bio // was that description or definition?
+// GET data about a genre by Title http://localhost:8080/movies/genre
+//app.get('/movies/Genre/:Name', (req, res) => { //was that :Name or :Title or:Type?
+app.get('/movies/Genre/:Title', (req, res) => { //was that :Name or :Title or:Type?
+//  Movies.findOne({ Genre: { Name: req.params.Name }})
+  Movies.findOne({ Genre: { Title: req.params.Title }})
+    .then((movie) => {
+      res.status(201).json(
+//        'Genre: ' + movies.Director.Name,
+        'Genre of this movie: ' + movie.Genre.Name,
+//        'Description: ' + movie.Director.Bio // was that description or definition?
+        'Description: ' + movie.Genre.Description // was that description or definition?
       );
     })
     .catch((err) => {  // ES6-error handling
@@ -92,7 +97,7 @@ app.get('/genreType/:genre', (req, res) => {
 
 // GET data about a director by name
 app.get('/movies/Director/:Name', (req, res) => {
-  Movies.findOne({ Director.Name: req.params.Name })
+  Movies.findOne({ Director: { Name: req.params.Name }})
     .then((movies) => {
       res.json(
         'Name: ' + movies.Director.Name,
