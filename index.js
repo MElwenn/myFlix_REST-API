@@ -62,7 +62,7 @@ app.get('/movies', (req, res) => {
 app.get('/movies/:Title', (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
-      res.json(movie);
+      res.status(201).json(movie);
 //      res.status(201).json(movies);
     })
     .catch((err) => {  // ES6-error handling
@@ -76,15 +76,9 @@ app.get('/movies/:Title', (req, res) => {
 app.get('/movies/Genre/:Title', (req, res) => { //was that :Name or :Title or:Type?
 //  Movies.findOne({ Genre: { Name: req.params.Name }})
 //  Movies.findOne({ Genre: { Title: req.params.Title }})
-  Movies.findOne({ Title: req.params.Title })
+  Movies.findOne({ 'Genre.Name': req.params.Title })
     .then((movie) => {
-      res.status(201).json(
-//        'Genre: ' + movies.Director.Name,
-//        'Genre of this movie: ' + movie.Genre.Name,
-        'Genre of this movie: ' + movie.Genre.Name +
-//        'Description: ' + movie.Director.Bio // was that description or definition?
-        'Description: ' + movie.Genre.Description // was that description or definition?
-      );
+      res.status(201).json(movie.Genre);
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
@@ -99,13 +93,14 @@ app.get('/genreType/:genre', (req, res) => {
 
 // GET data about a director by name
 app.get('/movies/Director/:Name', (req, res) => {
-  Movies.findOne({ Director: { Name: req.params.Name }})
-    .then((movies) => {
-      res.json(
-        'Name: ' + movies.Director.Name,
-        'Bio: ' + movies.Director.Bio,
-        'Birth: ' + movies.Director.Birth,
-      );
+  Movies.findOne({ 'Director.Name': req.params.Name })
+    .then((movie) => {
+      res.status(201).json(movie.Director);
+//      res.json(
+//        'Name: ' + movies.Director.Name,
+//        'Bio: ' + movies.Director.Bio,
+//        'Birth: ' + movies.Director.Birth,
+//      );
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
@@ -132,80 +127,27 @@ app.get('/users', (req, res) => {
 });
 
 // Get ONE specific user by username
-app.get('/users/:Username', (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-    .then((users) => {
-      res.json(user);
+app.get('/users/:User', (req, res) => {
+  Users.findOne({ User: req.params.User })
+    .then((user) => {
+      res.status(201).json(user);
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-
-// POST new user and allow to register http://localhost:8080/users
-/*  OLD version from exercise 2.5
-app.post('/users', (req, res) => {
-  res.send('User name is missing in request body. Please add a user name.');
-}); */
-//Add a user
-/* A JSON in this format is expected
-{
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
-}*/
-app.post('/users', (req, res) => {
-  Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
-    .then((users) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + ' already exists');
-      }
-      else {
-        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Birthday: req.body.Birthday
-        })
-          .then((users) => {
-            res.status(201).json(user);
-          })
-          .catch((error) => {  // ES6-error handling
-            console.error(error);
-          res.status(500).send('Error: ' + error);
-          });
-      }
-    })
-    .catch((error) => {  // ES6-error handling
-      console.error(error);
-      res.status(500).send('Error: ' + error);
+      res.status(500).send('Error: Could not GET this user by name.' + err);
     });
 });
 
 // Update a user-profile, by username
-/* A JSON in this format is expected
-{
-  Username: String,
-  (required)
-  Password: String,
-  (required)
-  Email: String,
-  (required)
-  Birthday: Date
-}*/
-app.put('/users/:Username', (req, res) => {
-  Users.findOneAndUpdate({
-    Username: req.params.Username
-  },
+app.put('/users/:User', (req, res) => {
+  Users.findOneAndUpdate({ User: req.params.User },
   {
     $set: {
-      Username: req.body.Username,
-      Password: req.body.Password,
+      User: req.body.User,
       Email: req.body.Email,
-      Birthday: req.body.Birthday
+      Password: req.body.Password,
+      Birthdate: req.body.Birthdate,
+      FavoriteMovies: []
     }
   },
   { new: true }, // This returns the updated document in case it's been updated
@@ -215,9 +157,39 @@ app.put('/users/:Username', (req, res) => {
       res.status(500).send('Error: ' + err);
     }
     else {
-      res.json(updatedUser);
+      res.status(201).json(updatedUser);
     }
   });
+});
+
+// POST new user and allow to register http://localhost:8080/users
+app.post('/users/:User', (req, res) => {
+  Users.findOne({ User: req.body.User }) // check if a user with the username provided by the client already exists
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.User + ' already exists');
+      }
+      else {
+        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
+          User: req.body.User,
+          Email: req.body.Email,
+          Password: req.body.Password,
+          Birthdate: req.body.Birthdate,
+          FavoriteMovies: []
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {  // ES6-error handling
+            console.error(error);
+          res.status(500).send('Error: New user could not be created. ' + error);
+          });
+      }
+    })
+    .catch((error) => {  // ES6-error handling
+      console.error(error);
+      res.status(500).send('Error: Registration of new user failed. ' + error);
+    });
 });
 
 /* obsolete version 2.5 // PUT request to update user data http://localhost:8080/users/0
@@ -231,8 +203,10 @@ app.delete('/users/:user', (req, res) => {
 }); */
 
 // Add a movie to a user's list of favorites
-app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+//app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+app.post('/users/:User/Movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
+//  Users.findOneAndUpdate({ User: req.params.User }, {
      $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
    },
    { new: true }, // This returns the updated document in case it's been updated
@@ -241,14 +215,14 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
       console.error(err);
       res.status(500).send('Error: ' + err);
     } else {
-      res.json(updatedUser);
+      res.status(201).json(updatedUser);
     }
   });
 });
 
 // Remove a movie from a user's list of favorites
-app.post('/users/:Username/Movies/:MovieID', (req, res) => {
-  Users.findOneAndRemove({ Username: req.params.Username }, {
+app.delete('/users/:User/Movies/:MovieID', (req, res) => {
+  Users.findOneAndRemove({ User: req.params.User }, {
      $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
    },
    { new: true }, // This returns the updated document in case it's been updated
@@ -268,7 +242,7 @@ app.post('/users/:user/movies/:title', (req, res) => {
 }); */
 // Delete a user by username
 app.delete('/users/:Username', (req, res) => {
-  Users.findOneAndRemove({ Username: req.params.Username })
+  Users.findOneAndRemove({ User: req.params.Username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found.');
