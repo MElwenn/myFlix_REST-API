@@ -163,6 +163,7 @@ app.put('/users/:User', (req, res) => {
 });
 
 // POST new user and allow to register http://localhost:8080/users
+//app.post('/users/:User', (req, res) => {
 app.post('/users/:User', (req, res) => {
   Users.findOne({ User: req.body.User }) // check if a user with the username provided by the client already exists
     .then((user) => {
@@ -192,28 +193,19 @@ app.post('/users/:User', (req, res) => {
     });
 });
 
-/* obsolete version 2.5 // PUT request to update user data http://localhost:8080/users/0
-app.put('/users/:user', (req, res) => {
-  res.send('User data has been updeted successfully.');
-}); */
-
-/* obsolete version 2.5 // DELETE request to allow user to deregister http://localhost:8080/users/0
-app.delete('/users/:user', (req, res) => {
-  res.send('User has been deleted successfully.');
-}); */
-
 // Add a movie to a user's list of favorites
 //app.post('/users/:Username/Movies/:MovieID', (req, res) => {
-app.post('/users/:User/Movies/:MovieID', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, {
-//  Users.findOneAndUpdate({ User: req.params.User }, {
-     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
+app.post('/users/:User/movies/:_id', (req, res) => {
+//  Users.findOneAndUpdate({ Username: req.params.Username }, {
+  Users.findOneAndUpdate({ User: req.params.User }, {
+//     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
+     $addToSet: { FavoriteMovies: req.params._id }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
    },
    { new: true }, // This returns the updated document in case it's been updated
   (err, updatedUser) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send('Error: Movie could not be added to your favorites list. ' + err);
     } else {
       res.status(201).json(updatedUser);
     }
@@ -221,17 +213,19 @@ app.post('/users/:User/Movies/:MovieID', (req, res) => {
 });
 
 // Remove a movie from a user's list of favorites
-app.delete('/users/:User/Movies/:MovieID', (req, res) => {
+//app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
+app.delete('/users/:User/movies/:_id', (req, res) => {
   Users.findOneAndRemove({ User: req.params.User }, {
-     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
+//     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
+     $addToSet: { FavoriteMovies: req.params._id }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
    },
    { new: true }, // This returns the updated document in case it's been updated
   (err, updatedUser) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send('Error: Movie could not be removed from your favorites list. ' + err);
     } else {
-      res.json(updatedUser);
+      res.status(201).jason(updatedUser);
     }
   });
 });
