@@ -164,7 +164,7 @@ app.put('/users/:User', (req, res) => {
 
 // POST new user and allow to register http://localhost:8080/users
 //app.post('/users/:User', (req, res) => {
-app.post('/users/:User', (req, res) => {
+app.post('/users', (req, res) => {
   Users.findOne({ User: req.body.User }) // check if a user with the username provided by the client already exists
     .then((user) => {
       if (user) {
@@ -215,19 +215,20 @@ app.post('/users/:User/movies/:_id', (req, res) => {
 // Remove a movie from a user's list of favorites
 //app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
 app.delete('/users/:User/movies/:_id', (req, res) => {
-  Users.findOneAndRemove({ User: req.params.User }, {
-//     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
-     $addToSet: { FavoriteMovies: req.params._id }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
-   },
-   { new: true }, // This returns the updated document in case it's been updated
-  (err, updatedUser) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error: Movie could not be removed from your favorites list. ' + err);
-    } else {
-      res.status(201).jason(updatedUser);
+  Users.findOneAndUpdate(
+    { User: req.params.User },
+    { $pull: { FavoriteMovies: req.params._id } },
+    { new: true }, // This returns the updated document in case it's been updated
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: Movie could not be removed from your favorites list. ' + err);
+      }
+      else {
+        res.status(201).jason(updatedUser);
+      }
     }
-  });
+  );
 });
 
 /* obsolete version 2.5 // POST request to allow a user to add a movie to a favorites list http://localhost:8080/users/0/movies/3
