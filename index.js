@@ -164,6 +164,29 @@ app.put('/users/:User', (req, res) => {
 
 // POST new user and allow to register http://localhost:8080/users
 //app.post('/users/:User', (req, res) => {
+//UserNAME-version
+/* app.post('/users', (req, res) => {
+  Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + ' already exists');
+      }
+      else {
+        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
+          Username: req.body.Username,
+          Email: req.body.Email,
+          Password: req.body.Password,
+          Birthdate: req.body.Birthdate,
+          FavoriteMovies: []
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {  // ES6-error handling
+            console.error(error);
+          res.status(500).send('Error: New user could not be created. ' + error);
+        }); */
+//User-version
 app.post('/users', (req, res) => {
   Users.findOne({ User: req.body.User }) // check if a user with the username provided by the client already exists
     .then((user) => {
@@ -184,7 +207,7 @@ app.post('/users', (req, res) => {
           .catch((error) => {  // ES6-error handling
             console.error(error);
           res.status(500).send('Error: New user could not be created. ' + error);
-          });
+        }); 
       }
     })
     .catch((error) => {  // ES6-error handling
