@@ -164,7 +164,7 @@ app.put('/users/:User', (req, res) => {
 
 // POST new user and allow to register http://localhost:8080/users
 //app.post('/users/:User', (req, res) => {
-app.post('/users', (req, res) => {
+/* app.post('/users', (req, res) => {
   Users.findOne({ User: req.body.User }) // check if a user with the username provided by the client already exists
     .then((user) => {
       if (user) {
@@ -173,6 +173,35 @@ app.post('/users', (req, res) => {
       else {
         Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
           User: req.body.User,
+          Email: req.body.Email,
+          Password: req.body.Password,
+          Birthdate: req.body.Birthdate,
+          FavoriteMovies: []
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {  // ES6-error handling
+            console.error(error);
+          res.status(500).send('Error: New user could not be created. ' + error);
+          });
+      }
+    })
+    .catch((error) => {  // ES6-error handling
+      console.error(error);
+      res.status(500).send('Error: Registration of new user failed. ' + error);
+    });
+}); */
+//POST new user (allow to register) using Username
+app.post('/users', (req, res) => {
+  Users.findOne({ Usernam: req.body.Username }) // check if a user with the username provided by the client already exists
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + ' already exists');
+      }
+      else {
+        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
+          Username: req.body.Username,
           Email: req.body.Email,
           Password: req.body.Password,
           Birthdate: req.body.Birthdate,
