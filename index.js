@@ -17,6 +17,10 @@ const methodOverride = require('method-override');
 const morgan = require('morgan'); // logging middleware
 const uuid = require('uuid'); // generates a Universally Unique Identifier
 
+// integrate authentication
+const passport = require('passport');
+require('./passport');
+
 // set time stamp
 let requestTime = (req, res, next) => {
   req.requestTime = Date.now();
@@ -30,6 +34,9 @@ app.use(requestTime);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
+
+// Import auth.js file
+let auth = require('./auth')(app);
 
 // Requests against REST API
 app.get('/secreturl', (req, res, next) => {
