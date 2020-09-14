@@ -1,9 +1,5 @@
 // integrate mongoose to allow REST API to perform CRUD operation on your MongoDB data
 const mongoose = require('mongoose');
-const Models = require('./models.js');
-
-const Movies = Models.Movie;
-const Users = Models.User;
 
 // allows mongoose to connect to the database named "test"
 mongoose.connect('mongodb://localhost:27017/test', {
@@ -18,8 +14,14 @@ const morgan = require('morgan'); // logging middleware
 const uuid = require('uuid'); // generates a Universally Unique Identifier
 
 // integrate authentication
-const passport = require('passport');
-require('./passport');
+const passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy,
+  Models = require('./models.js'),
+  passportJWT = require('passport-jwt');
+const Movies = Models.Movie;
+let Users = Models.User,
+  JWTStrategy = passportJWT.Strategy,
+  ExtractJWT = passportJWT.ExtractJwt;
 
 // set time stamp
 let requestTime = (req, res, next) => {
@@ -44,12 +46,12 @@ app.get('/secreturl', (req, res, next) => {
 });
 
 // GET public documentation
-app.get('/documentation', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
 // Get ALL movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -201,7 +203,8 @@ app.put('/users/:User', (req, res) => {
 }); */
 //POST new user (allow to register) using Username
 app.post('/users', (req, res) => {
-  Users.findOne({ Usernam: req.body.Username }) // check if a user with the username provided by the client already exists
+  console.log(req.body);
+  Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + ' already exists');
@@ -212,7 +215,7 @@ app.post('/users', (req, res) => {
           Email: req.body.Email,
           Password: req.body.Password,
           Birthdate: req.body.Birthdate,
-          FavoriteMovies: []
+          FavoriteMovies: req.body.FavoriteMovies || []
         })
           .then((user) => {
             res.status(201).json(user);
@@ -261,7 +264,7 @@ app.delete('/users/:User/movies/:_id', (req, res) => {
         res.status(500).send('Error: Movie could not be removed from your favorites list. ' + err);
       }
       else {
-        res.status(201).jason(updatedUser);
+        res.status(201).json(updatedUser);
       }
     }
   );
