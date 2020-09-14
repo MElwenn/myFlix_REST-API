@@ -44,7 +44,7 @@ app.get('/secreturl', (req, res, next) => {
 });
 
 // GET public documentation
-app.get('/documentation', (req, res) => {
+app.get('/documentation', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
