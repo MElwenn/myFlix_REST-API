@@ -1,3 +1,6 @@
+// Cross Origin Resource Sharing (CORS)
+const cors = require('cors');
+
 // integrate mongoose to allow REST API to perform CRUD operation on your MongoDB data
 const mongoose = require('mongoose');
 
@@ -29,6 +32,9 @@ let requestTime = (req, res, next) => {
   next();
 };
 
+// Experess validator for user-input validation (security)
+const { check, validationResult } = require('express-validator');
+
 // middleware components
 app.use(express.static('public')); // invoke files from the public folder
 app.use(morgan('common'));         // logging
@@ -36,6 +42,7 @@ app.use(requestTime);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
+app.use(cors());
 
 // Import auth.js file
 let auth = require('./auth')(app);
@@ -44,6 +51,21 @@ let auth = require('./auth')(app);
 app.get('/secreturl', (req, res, next) => {
   res.send('This is a secret url with super top-secret content.');
 });
+
+// use cors function
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({ // creates a list of allowed domains within the variable allowedOrigins
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
+
 
 // GET public documentation
 app.get('/documentation', (req, res) => {
@@ -62,17 +84,11 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
     });
 });
 
-/* obsolete version 2.5 // GET the list of data about ALL movies http://localhost:8080/movies
-app.get('/movies', (req, res) => {
-  res.send('Successful GET request returning data on all movies');
-});*/
-
 // GET data about a single movie by title to the user http://localhost:8080/movies/snatch
 app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       res.status(201).json(movie);
-//      res.status(201).json(movies);
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
@@ -83,8 +99,6 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
 // GET data about a genre and description by Title http://localhost:8080/movies/Genre/:Title
 //app.get('/movies/Genre/:Name', (req, res) => { //was that :Name or :Title or:Type?
 app.get('/movies/Genre/:Title', passport.authenticate('jwt', { session: false }), (req, res) => { //was that :Name or :Title or:Type?
-//  Movies.findOne({ Genre: { Name: req.params.Name }})
-//  Movies.findOne({ Genre: { Title: req.params.Title }})
   Movies.findOne({ 'Genre.Name': req.params.Title })
     .then((movie) => {
       res.status(201).json(movie.Genre);
@@ -95,33 +109,17 @@ app.get('/movies/Genre/:Title', passport.authenticate('jwt', { session: false })
     });
 });
 
-/* obsolete version 2.5 // GET data about a genre by genreType http://localhost:8080/genreType/genre
-app.get('/genreType/:genre', (req, res) => {
-  res.send('Successful GET request returning data on a genre and its definition');
-});*/
-
 // GET data about a director by name
 app.get('/movies/Director/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.findOne({ 'Director.Name': req.params.Name })
     .then((movie) => {
       res.status(201).json(movie.Director);
-//      res.json(
-//        'Name: ' + movies.Director.Name,
-//        'Bio: ' + movies.Director.Bio,
-//        'Birth: ' + movies.Director.Birth,
-//      );
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
 });
-
-/* obsolete version 2.5 // GET data about a director by name http://localhost:8080/directors/director
-app.get('/directors/:director', (req, res) => {
-  res.send('Successful GET request returning data on a director by name');
-}); */
-
 
 // Get ALL users
 app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -148,7 +146,23 @@ app.get('/users/:User', passport.authenticate('jwt', { session: false }), (req, 
 });
 
 // Update a user-profile, by username
-app.put('/users/:User', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put(
+  '/users/:User',
+  [ // validation logic "express-vaidator"
+    check('Username', 'Username is required').isLength({min: 3}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ],
+  (req, res) => {
+    let errors = validationResult(req); // check the validation object for errors
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
+  },
+
+  passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ User: req.params.User },
   {
     $set: {
@@ -171,39 +185,26 @@ app.put('/users/:User', passport.authenticate('jwt', { session: false }), (req, 
   });
 });
 
-// POST new user and allow to register http://localhost:8080/users
-//app.post('/users/:User', (req, res) => {
-/* app.post('/users', (req, res) => {
-  Users.findOne({ User: req.body.User }) // check if a user with the username provided by the client already exists
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.User + ' already exists');
-      }
-      else {
-        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
-          User: req.body.User,
-          Email: req.body.Email,
-          Password: req.body.Password,
-          Birthdate: req.body.Birthdate,
-          FavoriteMovies: []
-        })
-          .then((user) => {
-            res.status(201).json(user);
-          })
-          .catch((error) => {  // ES6-error handling
-            console.error(error);
-          res.status(500).send('Error: New user could not be created. ' + error);
-          });
-      }
-    })
-    .catch((error) => {  // ES6-error handling
-      console.error(error);
-      res.status(500).send('Error: Registration of new user failed. ' + error);
-    });
-}); */
 //POST new user (allow to register) using Username
-app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.body);
+app.post(
+  '/users',
+  [ // validation logic "express-vaidator"
+    check('Username', 'Username is required').isLength({min: 3}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ],
+  (req, res) => {
+    let errors = validationResult(req); // check the validation object for errors
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
+  },
+
+  passport.authenticate('jwt', { session: false }), (req, res) => {
+//  console.log(req.body);
+  let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
   Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
     .then((user) => {
       if (user) {
@@ -213,7 +214,8 @@ app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) 
         Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
           Username: req.body.Username,
           Email: req.body.Email,
-          Password: req.body.Password,
+//          Password: req.body.Password,
+          Password: hashedPassword,
           Birthdate: req.body.Birthdate,
           FavoriteMovies: req.body.FavoriteMovies || []
         })
@@ -270,10 +272,6 @@ app.delete('/users/:User/movies/:_id', passport.authenticate('jwt', { session: f
   );
 });
 
-/* obsolete version 2.5 // POST request to allow a user to add a movie to a favorites list http://localhost:8080/users/0/movies/3
-app.post('/users/:user/movies/:title', (req, res) => {
-  res.send('Movie has been added to your favorites list successfully.');
-}); */
 // Delete a user by username
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ User: req.params.Username })
@@ -290,13 +288,6 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
     });
 });
 
-/* obsolete version 2.5 // DELETE request to allow a user to remove a movie from the favorites list http://localhost:8080/users/0/movies/3
-app.delete('/users/:user/movies/:title', (req, res) => {
-  res.send('Movie has been deleted from your favorites list successfully.');
-}); */
-
-// ...Task 2.5 ends here
-
 // error handling middleware function using express
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -306,4 +297,3 @@ app.use((err, req, res, next) => {
 // listen for requests
 app.listen(8080, () =>
   console.log('My app is listening on port 8080.'));
-//);
