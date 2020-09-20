@@ -295,5 +295,11 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-app.listen(8080, () =>
-  console.log('My app is listening on port 8080.'));
+//app.listen(8080, () =>
+//  console.log('My app is listening on port 8080.'));
+
+// new app.listen functional
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
+});
