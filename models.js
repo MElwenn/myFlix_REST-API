@@ -35,7 +35,7 @@ module.exports.User = User;
 // module to hash users’ passwords and compare hashed passwords every time users log in
 const bcrypt = require('bcrypt');
 
-userSchema.statics.hashPassword = (password) => {
+userSchema.statics.hashPassword = function(password) {
   return bcrypt.hashSync(password, 10);
 };
 

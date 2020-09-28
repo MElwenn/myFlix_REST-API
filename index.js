@@ -5,7 +5,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 // allows mongoose to connect to the database named "test"
-mongoose.connect('mongodb://localhost:27017/test', {
+//mongoose.connect('mongodb://localhost:27017/test', {
+//  useNewUrlParser: true, useUnifiedTopology: true
+//});
+mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 
@@ -22,7 +25,7 @@ const passport = require('passport'),
   Models = require('./models.js'),
   passportJWT = require('passport-jwt');
 const Movies = Models.Movie;
-let Users = Models.User,
+const Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
   ExtractJWT = passportJWT.ExtractJwt;
 
@@ -199,11 +202,11 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    let hashedPassword = Users.hashPassword(req.body.Password);
-  },
+   // let hashedPassword = Users.hashPassword(req.body.Password);
 
-  passport.authenticate('jwt', { session: false }), (req, res) => {
-//  console.log(req.body);
+
+//  passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log(Users);
   let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
   Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
     .then((user) => {
@@ -232,7 +235,8 @@ app.post(
       console.error(error);
       res.status(500).send('Error: Registration of new user failed. ' + error);
     });
-});
+  }
+);
 
 // Add a movie to a user's list of favorites
 //app.post('/users/:Username/Movies/:MovieID', (req, res) => {
