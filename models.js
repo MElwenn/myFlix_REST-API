@@ -28,10 +28,6 @@ let userSchema = mongoose.Schema({  // define user schema
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
 
-// exprot models to index.js
-module.exports.Movie = Movie;
-module.exports.User = User;
-
 // module to hash users’ passwords and compare hashed passwords every time users log in
 const bcrypt = require('bcrypt');
 
@@ -42,3 +38,7 @@ userSchema.statics.hashPassword = function(password) {
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.Password);
 };
+
+// exprot models to index.js
+module.exports.Movie = Movie;
+module.exports.User = User;
