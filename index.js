@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost:27017/test', {
 //  useNewUrlParser: true, useUnifiedTopology: true
 //});
-mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', {
+mongoose.connect('process.env.CONNECTION_URI', {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 
@@ -191,7 +191,8 @@ app.put(
 //POST new user (allow to register) using Username
 app.post(
   '/users',
-  [ // validation logic "express-vaidator"
+  // validation logic "express-vaidator"
+  [ 
     check('Username', 'Username is required').isLength({min: 3}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
@@ -202,11 +203,7 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-   // let hashedPassword = Users.hashPassword(req.body.Password);
 
-
-//  passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(Users);
   let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
   Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
     .then((user) => {
@@ -216,9 +213,8 @@ app.post(
       else {
         Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
           Username: req.body.Username,
-          Email: req.body.Email,
-//          Password: req.body.Password,
           Password: hashedPassword,
+          Email: req.body.Email,
           Birthdate: req.body.Birthdate,
           FavoriteMovies: req.body.FavoriteMovies || []
         })
@@ -227,7 +223,7 @@ app.post(
           })
           .catch((error) => {  // ES6-error handling
             console.error(error);
-          res.status(500).send('Error: New user could not be created. ' + error);
+            res.status(500).send('Error: New user could not be created. ' + error);
           });
       }
     })
