@@ -24,12 +24,12 @@ let userSchema = mongoose.Schema({  // define user schema
   FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 });
 
-// create mongoose models ('Movie' & 'User' will create collections called “db.movies” & “db.users” on the db-side)
-let Movie = mongoose.model('Movie', movieSchema);
-let User = mongoose.model('User', userSchema);
-
 // module to hash users’ passwords and compare hashed passwords every time users log in
 const bcrypt = require('bcrypt');
+
+//userSchema.methods.hashPassword = function(password) {
+//  return bcrypt.hashSync(password, 10);
+//};
 
 userSchema.statics.hashPassword = function(password) {
   return bcrypt.hashSync(password, 10);
@@ -38,6 +38,11 @@ userSchema.statics.hashPassword = function(password) {
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.Password);
 };
+
+
+// create mongoose models ('Movie' & 'User' will create collections called “db.movies” & “db.users” on the db-side)
+let Movie = mongoose.model('Movie', movieSchema);
+let User = mongoose.model('User', userSchema);
 
 // exprot models to index.js
 module.exports.Movie = Movie;

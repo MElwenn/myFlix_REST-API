@@ -5,8 +5,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 // allows mongoose to connect to the database named "test"
-//mongoose.connect('mongodb://localhost:27017/test', {
-//  useNewUrlParser: true, useUnifiedTopology: true
+
+//mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', () => {}, { useNewUrlParser: true })
+//.catch(err => {
+//console.log(err);
 //});
 mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true, useUnifiedTopology: true
@@ -203,7 +205,7 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-
+console.log(Users);
   let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
   Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
     .then((user) => {
@@ -213,6 +215,7 @@ app.post(
       else {
         Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
           Username: req.body.Username,
+         // Password: req.body.Password,
           Password: hashedPassword,
           Email: req.body.Email,
           Birthdate: req.body.Birthdate,
