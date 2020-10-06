@@ -6,13 +6,13 @@ const mongoose = require('mongoose');
 
 // allows mongoose to connect to the database named "test"
 
-//mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', () => {}, { useNewUrlParser: true })
-//.catch(err => {
-//console.log(err);
-//});
-mongoose.connect(process.env.CONNECTION_URI, {
-  useNewUrlParser: true, useUnifiedTopology: true
+mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', () => {}, { useNewUrlParser: true })
+.catch(err => {
+console.log(err);
 });
+//mongoose.connect(process.env.CONNECTION_URI, {
+//  useNewUrlParser: true, useUnifiedTopology: true
+//});
 
 const express = require('express'); // Import express package
 const app = express(); // variable that encapsulates Express’s functionality to configure the web server
@@ -73,8 +73,12 @@ app.use(cors({ // creates a list of allowed domains within the variable allowedO
 
 
 // GET public documentation
-app.get('/documentation', (req, res) => {
-  res.sendFile('public/documentation.html', { root: __dirname });
+//app.get('/documentation', (req, res) => {
+//  res.sendFile('public/documentation.html', { root: __dirname });
+//});
+// GET public documentation
+app.get(‘/’, (req, res) => {
+  res.sendFile(‘public/documentation.html’, { root: __dirname });
 });
 
 // Get ALL movies
