@@ -76,9 +76,10 @@ app.use(cors({ // creates a list of allowed domains within the variable allowedO
 //app.get('/documentation', (req, res) => {
 //  res.sendFile('public/documentation.html', { root: __dirname });
 //});
-// GET public documentation
-app.get(‘/’, (req, res) => {
-  res.sendFile(‘public/documentation.html’, { root: __dirname });
+
+//GET public documentation
+app.get('/', (req, res) => {
+  res.sendFile('public/documentation.html', { root: __dirname });
 });
 
 // Get ALL movies
