@@ -159,7 +159,6 @@ app.get('/users/:User', passport.authenticate('jwt', { session: false }), (req, 
 
 // Update a user-profile, by username
 app.put(
-  //'/users/:User',
   '/users/:Username',
   // validation logic "express-vaidator"
   [ 
@@ -174,34 +173,31 @@ app.put(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-   // let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
-  },
-  let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
-  //passport.authenticate('jwt', { session: false }), (req, res) => {
-  //(req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }), 
-  {
-    $set: {
-      Username: req.body.Username,
-      Email: req.body.Email,
-      //Password: req.body.Password,
-      Password: hashedPassword,
-      Birthdate: req.body.Birthdate,
-      FavoriteMovies: req.body.FavoriteMovies || []
-    }
-  },
-  { new: true }, // This returns the updated document in case it's been updated
-  (err, updatedUser) => {  // mongoose error handling
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    }
-    else {
-      res.status(201).json(updatedUser);
+    let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
+
+    Users.findOneAndUpdate({ Username: req.params.Username }), 
+    {
+      $set: {
+        Username: req.body.Username,
+        Email: req.body.Email,
+        //Password: req.body.Password,
+        Password: hashedPassword,
+        Birthdate: req.body.Birthdate,
+        FavoriteMovies: req.body.FavoriteMovies || []
+      }
+    },
+    { new: true }, // This returns the updated document in case it's been updated
+    (err, updatedUser) => {  // mongoose error handling
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      }
+      else {
+        res.status(201).json(updatedUser);
+      }
     }
   }
 );
-//});
 
 //POST new user (allow to register) using Username
 app.post(
