@@ -1,11 +1,10 @@
-// Cross Origin Resource Sharing (CORS)
+// Cross Origin Resource Sharing (CORS) ensure that all domains are allowed to make requests to the API
 const cors = require('cors');
 
 // integrate mongoose to allow REST API to perform CRUD operation on your MongoDB data
 const mongoose = require('mongoose');
 
 // allows mongoose to connect to the database named "test"
-
 mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', () => {}, { useNewUrlParser: true })
 .catch(err => {
 console.log(err);
@@ -83,7 +82,10 @@ app.get('/', (req, res) => {
 });
 
 // Get ALL movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get(
+  '/movies', 
+  passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -157,30 +159,35 @@ app.get('/users/:User', passport.authenticate('jwt', { session: false }), (req, 
 
 // Update a user-profile, by username
 app.put(
-  '/users/:User',
-  [ // validation logic "express-vaidator"
+  //'/users/:User',
+  '/users/:Username',
+  // validation logic "express-vaidator"
+  [ 
     check('Username', 'Username is required').isLength({min: 3}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
   ],
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let errors = validationResult(req); // check the validation object for errors
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    let hashedPassword = Users.hashPassword(req.body.Password);
+   // let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
   },
-
-  passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate({ User: req.params.User },
+  let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
+  //passport.authenticate('jwt', { session: false }), (req, res) => {
+  //(req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username }), 
   {
     $set: {
-      User: req.body.User,
+      Username: req.body.Username,
       Email: req.body.Email,
-      Password: req.body.Password,
+      //Password: req.body.Password,
+      Password: hashedPassword,
       Birthdate: req.body.Birthdate,
-      FavoriteMovies: []
+      FavoriteMovies: req.body.FavoriteMovies || []
     }
   },
   { new: true }, // This returns the updated document in case it's been updated
@@ -192,8 +199,9 @@ app.put(
     else {
       res.status(201).json(updatedUser);
     }
-  });
-});
+  }
+);
+//});
 
 //POST new user (allow to register) using Username
 app.post(
