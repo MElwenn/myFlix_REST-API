@@ -147,7 +147,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 
 // Get ONE specific user by username
 app.get('/users/:User', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ User: req.params.User })
+  Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.status(201).json(user);
     })
@@ -159,7 +159,7 @@ app.get('/users/:User', passport.authenticate('jwt', { session: false }), (req, 
 
 // Update a user-profile, by username
 app.put(
-  '/users/:Username',
+  '/users/:User',
   // validation logic "express-vaidator"
   [ 
     check('Username', 'Username is required').isLength({min: 3}),
@@ -250,7 +250,7 @@ console.log(Users);
 //app.post('/users/:Username/Movies/:MovieID', (req, res) => {
 app.post('/users/:User/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
 //  Users.findOneAndUpdate({ Username: req.params.Username }, {
-  Users.findOneAndUpdate({ User: req.params.User }, {
+  Users.findOneAndUpdate({ Username: req.params.Username }, {
 //     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
      $addToSet: { FavoriteMovies: req.params._id }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
    },
@@ -269,7 +269,7 @@ app.post('/users/:User/movies/:_id', passport.authenticate('jwt', { session: fal
 //app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
 app.delete('/users/:User/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate(
-    { User: req.params.User },
+    { Username: req.params.Username },
     { $pull: { FavoriteMovies: req.params._id } },
     { new: true }, // This returns the updated document in case it's been updated
     (err, updatedUser) => {
@@ -285,8 +285,8 @@ app.delete('/users/:User/movies/:_id', passport.authenticate('jwt', { session: f
 });
 
 // Delete a user by username
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndRemove({ User: req.params.Username })
+app.delete('/users/:User', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found.');
