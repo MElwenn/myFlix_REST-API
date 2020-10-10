@@ -24,9 +24,11 @@ module.exports = (router) => {
       }
       req.login(user, { session: false }, (error) => {
         if (error) {
-          res.send(error);
+          return res.send(error);
         }
+        console.log(user)
         let token = generateJWTToken(user.toJSON()); // generate a JWT token for authenticating
+        console.log(token)
         return res.json({ user, token }); //ES6 shorthand for res.json({ user: user, token: token })
       });
     })(req, res);

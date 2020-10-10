@@ -1,17 +1,15 @@
 // Cross Origin Resource Sharing (CORS) ensure that all domains are allowed to make requests to the API
 const cors = require('cors');
 
+require('dotenv').config()
+
 // integrate mongoose to allow REST API to perform CRUD operation on your MongoDB data
 const mongoose = require('mongoose');
 
 // allows mongoose to connect to the database named "test"
-mongoose.connect('mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority', () => {}, { useNewUrlParser: true })
-.catch(err => {
-console.log(err);
+mongoose.connect(process.env.CONNECTION_URI, {
+  useNewUrlParser: true, useUnifiedTopology: true
 });
-//mongoose.connect(process.env.CONNECTION_URI, {
-//  useNewUrlParser: true, useUnifiedTopology: true
-//});
 
 const express = require('express'); // Import express package
 const app = express(); // variable that encapsulates Express’s functionality to configure the web server
@@ -97,20 +95,27 @@ app.get(
 });
 
 // GET data about a single movie by title to the user http://localhost:8080/movies/snatch
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get(
+  '/movies/:Title', 
+  passport.authenticate('jwt', { session: false }), 
+  (req, res) => {
   Movies.findOne({ Title: req.params.Title })
-    .then((movie) => {
-      res.status(201).json(movie);
+    .then((movies) => {
+      res.status(201).json(movies);
     })
     .catch((err) => {  // ES6-error handling
       console.error(err);
       res.status(500).send('Error: Could not GET data about a single movie by title' + err);
     });
-});
+  }
+);
 
 // GET data about a genre and description by Title http://localhost:8080/movies/Genre/:Title
 //app.get('/movies/Genre/:Name', (req, res) => { //was that :Name or :Title or:Type?
-app.get('/movies/Genre/:Title', passport.authenticate('jwt', { session: false }), (req, res) => { //was that :Name or :Title or:Type?
+app.get(
+  '/movies/Genre/:Title',
+  passport.authenticate('jwt', { session: false }), 
+  (req, res) => { 
   Movies.findOne({ 'Genre.Name': req.params.Title })
     .then((movie) => {
       res.status(201).json(movie.Genre);
@@ -146,16 +151,20 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 });
 
 // Get ONE specific user by username
-app.get('/users/:User', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOne({ Username: req.params.Username })
-    .then((user) => {
-      res.status(201).json(user);
-    })
-    .catch((err) => {  // ES6-error handling
-      console.error(err);
-      res.status(500).send('Error: Could not GET this user by name.' + err);
-    });
-});
+app.get(
+  '/users/:User',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.findOne({ Username: req.params.Username })
+      .then((user) => {
+        res.status(201).json(user);
+      })
+      .catch((err) => {  // ES6-error handling
+        console.error(err);
+        res.status(500).send('Error: Could not GET this user by name.' + err);
+      });
+  }
+);
 
 // Update a user-profile, by username
 app.put(
