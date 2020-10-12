@@ -210,7 +210,7 @@ app.put(
 );
 
 //POST new user (allow to register) using Username version 2.12
-app.post(
+/*app.post(
   '/users',
   // validation logic "express-vaidator"
   [ 
@@ -255,9 +255,9 @@ console.log(Users);
     });
   }
 );
-
+*/
 //POST new user (allow to register) using Username version master 12.10.2020
-/*app.post(
+app.post(
   '/users',
   // validation logic "express-vaidator"
   [ 
@@ -301,7 +301,7 @@ console.log(Users);
     });
   }
 );
-*/
+
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
