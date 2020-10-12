@@ -68,7 +68,6 @@ app.use(cors({ // creates a list of allowed domains within the variable allowedO
   }
 }));
 
-
 // GET public documentation
 //app.get('/documentation', (req, res) => {
 //  res.sendFile('public/documentation.html', { root: __dirname });
@@ -96,17 +95,17 @@ app.get(
 
 // GET data about a single movie by title to the user http://localhost:8080/movies/snatch
 app.get(
-  '/movies/:Title', 
-  passport.authenticate('jwt', { session: false }), 
+  '/movies/:Title',
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
-  Movies.findOne({ Title: req.params.Title })
-    .then((movies) => {
-      res.status(201).json(movies);
-    })
-    .catch((err) => {  // ES6-error handling
-      console.error(err);
-      res.status(500).send('Error: Could not GET data about a single movie by title' + err);
-    });
+    Movies.findOne({ Title: req.params.Title })
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((err) => {  // ES6-error handling
+        console.error(err);
+        res.status(500).send('Error: Could not GET data about a single movie by title' + err);
+      });
   }
 );
 
@@ -138,21 +137,9 @@ app.get('/movies/Director/:Name', passport.authenticate('jwt', { session: false 
     });
 });
 
-// Get ALL users
-app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.find()
-    .then((users) => {
-      res.status(201).json(users);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
-
 // Get ONE specific user by username
 app.get(
-  '/users/:User',
+  '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOne({ Username: req.params.Username })
@@ -166,12 +153,26 @@ app.get(
   }
 );
 
+// Get ALL users
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
+});
+
+
+
 // Update a user-profile, by username
 app.put(
-  '/users/:User',
+  '/users/:Username',
   // validation logic "express-vaidator"
-  [ 
-    check('Username', 'Username is required').isLength({min: 3}),
+  [
+    check('Username', 'Username is required').isLength({ min: 3 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -180,30 +181,31 @@ app.put(
   (req, res) => {
     let errors = validationResult(req); // check the validation object for errors
     if (!errors.isEmpty()) {
+      console.log(errors)
       return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
 
-    Users.findOneAndUpdate({ Username: req.params.Username }), 
-    {
-      $set: {
-        Username: req.body.Username,
-        Password: hashedPassword,
-        Email: req.body.Email,
-        Birthdate: req.body.Birthdate,
-        FavoriteMovies: req.body.FavoriteMovies || []
+    Users.findOneAndUpdate({ Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: hashedPassword,
+          Email: req.body.Email,
+          Birthdate: req.body.Birthdate,
+          FavoriteMovies: req.body.FavoriteMovies || []
+        },
       },
-    },
-    { new: true }, // This returns the updated document in case it's been updated
-    (err, updatedUser) => {  // mongoose error handling
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error: User could not be updated' + err);
-      }
-      else {
-        res.status(201).json(updatedUser);
-      }
-    }
+      { new: true }, // This returns the updated document in case it's been updated
+      (err, updatedUser) => {  // mongoose error handling
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: User could not be updated' + err);
+        }
+        else {
+          res.status(201).json(updatedUser);
+        }
+      })
   }
 );
 
@@ -222,7 +224,7 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-console.log(Users);
+
   let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
   Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
     .then((user) => {
@@ -232,7 +234,6 @@ console.log(Users);
       else {
         Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
           Username: req.body.Username,
-         // Password: req.body.Password,
           Password: hashedPassword,
           Email: req.body.Email,
           Birthdate: req.body.Birthdate,
@@ -255,28 +256,24 @@ console.log(Users);
 );
 
 // Add a movie to a user's list of favorites
-//app.post('/users/:Username/Movies/:MovieID', (req, res) => {
-app.post('/users/:User/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
-//  Users.findOneAndUpdate({ Username: req.params.Username }, {
+app.post('/users/:Username/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
-//     $addToSet: { FavoriteMovies: req.params.MovieID }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
-     $addToSet: { FavoriteMovies: req.params._id }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
-   },
-   { new: true }, // This returns the updated document in case it's been updated
-  (err, updatedUser) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error: Movie could not be added to your favorites list. ' + err);
-    } else {
-      res.status(201).json(updatedUser);
-    }
-  });
+    $addToSet: { FavoriteMovies: req.params._id }  // used 'addToSet' instead of '$push' to avoid duplicates in case a movie had been added already
+  },
+    { new: true }, // This returns the updated document in case it's been updated
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error: Movie could not be added to your favorites list. ' + err);
+      } else {
+        res.status(201).json(updatedUser);
+      }
+    });
 });
 
 // Remove a movie from a user's list of favorites
-//app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
 app.delete(
-  '/users/:User/movies/:_id',
+  '/users/:Username/movies/:_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
@@ -298,21 +295,21 @@ app.delete(
 
 // Delete a user by username
 app.delete(
-  '/users/:User',
+  '/users/:Username',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-  Users.findOneAndRemove({ Username: req.params.Username })
-    .then((user) => {
-      if (!user) {
-        res.status(400).send(req.params.Username + ' was not found.');
-      } else {
-        res.status(200).send(req.params.Username + ' was deleted sucessfully.');
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
+    Users.findOneAndRemove({ Username: req.params.Username })
+      .then((user) => {
+        if (!user) {
+          res.status(400).send(req.params.Username + ' was not found.');
+        } else {
+          res.status(200).send(req.params.Username + ' was deleted sucessfully.');
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
   }
 );
 
@@ -323,10 +320,6 @@ app.use((err, req, res, next) => {
 });
 
 // listen for requests
-//app.listen(8080, () =>
-//  console.log('My app is listening on port 8080.'));
-
-// new app.listen functional
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0',() => {
  console.log('Listening on Port ' + port);
