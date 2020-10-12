@@ -188,18 +188,17 @@ app.put(
     {
       $set: {
         Username: req.body.Username,
-        Email: req.body.Email,
-        //Password: req.body.Password,
         Password: hashedPassword,
+        Email: req.body.Email,
         Birthdate: req.body.Birthdate,
         FavoriteMovies: req.body.FavoriteMovies || []
-      }
+      },
     },
     { new: true }, // This returns the updated document in case it's been updated
     (err, updatedUser) => {  // mongoose error handling
       if (err) {
         console.error(err);
-        res.status(500).send('Error: ' + err);
+        res.status(500).send('Error: User could not be updated' + err);
       }
       else {
         res.status(201).json(updatedUser);
@@ -276,25 +275,32 @@ app.post('/users/:User/movies/:_id', passport.authenticate('jwt', { session: fal
 
 // Remove a movie from a user's list of favorites
 //app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
-app.delete('/users/:User/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    { $pull: { FavoriteMovies: req.params._id } },
-    { new: true }, // This returns the updated document in case it's been updated
-    (err, updatedUser) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error: Movie could not be removed from your favorites list. ' + err);
+app.delete(
+  '/users/:User/movies/:_id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      { $pull: { FavoriteMovies: req.params._id } },
+      { new: true }, // This returns the updated document in case it's been updated
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: Movie could not be removed from your favorites list. ' + err);
+        }
+        else {
+          res.status(201).json(updatedUser);
+        }
       }
-      else {
-        res.status(201).json(updatedUser);
-      }
-    }
-  );
-});
+    );
+  }
+);
 
 // Delete a user by username
-app.delete('/users/:User', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.delete(
+  '/users/:User',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -307,7 +313,8 @@ app.delete('/users/:User', passport.authenticate('jwt', { session: false }), (re
       console.error(err);
       res.status(500).send('Error: ' + err);
     });
-});
+  }
+);
 
 // error handling middleware function using express
 app.use((err, req, res, next) => {
