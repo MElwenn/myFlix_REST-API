@@ -109,8 +109,7 @@ app.get(
   }
 );
 
-// GET data about a genre and description by Title http://localhost:8080/movies/Genre/:Title
-//app.get('/movies/Genre/:Name', (req, res) => { //was that :Name or :Title or:Type?
+// GET data about a genre and description by Title
 app.get(
   '/movies/Genre/:Title',
   passport.authenticate('jwt', { session: false }), 
@@ -165,8 +164,6 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
     });
 });
 
-
-
 // Update a user-profile, by username
 app.put(
   '/users/:Username',
@@ -209,59 +206,12 @@ app.put(
   }
 );
 
-//POST new user (allow to register) using Username version 2.12
-/*app.post(
-  '/users',
-  // validation logic "express-vaidator"
-  [ 
-    check('Username', 'Username is required').isLength({min: 3}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail()
-  ],
-  (req, res) => {
-    let errors = validationResult(req); // check the validation object for errors
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-console.log(Users);
-  let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
-  Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + ' already exists');
-      }
-      else {
-        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
-          Username: req.body.Username,
-         // Password: req.body.Password,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthdate: req.body.Birthdate,
-          FavoriteMovies: req.body.FavoriteMovies || []
-        })
-          .then((user) => {
-            res.status(201).json(user);
-          })
-          .catch((error) => {  // ES6-error handling
-            console.error(error);
-            res.status(500).send('Error: New user could not be created. ' + error);
-          });
-      }
-    })
-    .catch((error) => {  // ES6-error handling
-      console.error(error);
-      res.status(500).send('Error: Registration of new user failed. ' + error);
-    });
-  }
-);
-*/
-//POST new user (allow to register) using Username copied from working googl doc backup
+//POST new user (allow to register) using Username
 app.post(
   '/users',
   // validation logic "express-vaidator"
   [
-    check('Username', 'Username is required').isLength({min: 3}),
+    check('Username', 'Username is required').isLength({ min: 3 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -271,85 +221,38 @@ app.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
- console.log(Users);
-  let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
-  Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + ' already exists');
-      }
-      else {
-        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
-          Username: req.body.Username,
-         // Password: req.body.Password,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthdate: req.body.Birthdate,
-          FavoriteMovies: req.body.FavoriteMovies || []
-        })
-          .then((user) => {
-            res.status(201).json(user);
+    console.log(Users);
+    let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
+    Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + ' already exists');
+        }
+        else {
+          Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
+            Username: req.body.Username,
+            // Password: req.body.Password,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthdate: req.body.Birthdate,
+            FavoriteMovies: req.body.FavoriteMovies || []
           })
-          .catch((error) => {  // ES6-error handling
-            console.error(error);
-            res.status(500).send('Error: New user could not be created. ' + error);
-          });
-      }
-    })
-    .catch((error) => {  // ES6-error handling
-      console.error(error);
-      res.status(500).send('Error: Registration of new user failed. ' + error);
-    });
+            .then((user) => {
+              res.status(201).json(user);
+            })
+            .catch((error) => {  // ES6-error handling
+              console.error(error);
+              res.status(500).send('Error: New user could not be created. ' + error);
+            });
+        }
+      })
+      .catch((error) => {  // ES6-error handling
+        console.error(error);
+        res.status(500).send('Error: Registration of new user failed. ' + error);
+      });
   }
 );
- 
 
-//POST new user (allow to register) using Username version master 12.10.2020
-/*app.post(
-  '/users',
-  // validation logic "express-vaidator"
-  [ 
-    check('Username', 'Username is required').isLength({min: 3}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail()
-  ],
-  (req, res) => {
-    let errors = validationResult(req); // check the validation object for errors
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-  let hashedPassword = Users.hashPassword(req.body.Password); // Hash any password entered by the user when registering before storing it in the MongoDB database
-  Users.findOne({ Username: req.body.Username }) // check if a user with the username provided by the client already exists
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + ' already exists');
-      }
-      else {
-        Users.create({   // each key in the object corresponds to a certain field specified in the schema of “models.js”
-          Username: req.body.Username,
-          Password: hashedPassword,
-          Email: req.body.Email,
-          Birthdate: req.body.Birthdate,
-          FavoriteMovies: req.body.FavoriteMovies || []
-        })
-          .then((user) => {
-            res.status(201).json(user);
-          })
-          .catch((error) => {  // ES6-error handling
-            console.error(error);
-            res.status(500).send('Error: New user could not be created. ' + error);
-          });
-      }
-    })
-    .catch((error) => {  // ES6-error handling
-      console.error(error);
-      res.status(500).send('Error: Registration of new user failed. ' + error);
-    });
-  }
-);
-*/
 // Add a movie to a user's list of favorites
 app.post('/users/:Username/movies/:_id', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
