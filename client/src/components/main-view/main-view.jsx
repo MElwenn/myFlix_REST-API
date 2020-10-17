@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 import { MainView } from './components/main-view/main-view';
+import { MovieCard } from '../movie-card/movie-card';
+import { MovieView } from '../movie-view/movie-view';
 
 // Import statement to indicate that we need to bundle `./index.scss`
 import './index.scss';
@@ -26,7 +28,10 @@ export class MainView extends React.Component {
     super();
 
     // Initialize the state to an empty object so we can destructure it later
-    this.state = {};
+    this.state = {
+      movies: null,
+      selectedMovie: null
+    };
   }
 
   // This overrides the render() method of the superclass
@@ -51,6 +56,13 @@ export class MainView extends React.Component {
       });
   }
 
+  //event listener for CTA select movie
+  onMovieClick(movie) {
+    this.setState({
+      selectedMovie: movie
+    });
+  }
+
   render() {  //render the search result from GET all movies
     // If the state isn't initialized, this will throw on runtime
     // before the data is initially loaded
@@ -61,9 +73,12 @@ export class MainView extends React.Component {
 
     return (
       <div className="main-view">
-        { movies.map(movie => (
-          <div className="movie-card" key={movie._id}>{movie.Title}</div>
-        ))}
+        {selectedMovie
+          ? <MovieView movie={selectedMovie} />
+          : movies.map(movie => (
+            <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)} />
+          ))
+        }
       </div>
     );
   }
