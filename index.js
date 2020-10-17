@@ -55,14 +55,14 @@ app.get('/secreturl', (req, res, next) => {
 });
 
 // use cors function
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:1234', 'http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({ // creates a list of allowed domains within the variable allowedOrigins
   origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
+      return callback(new Error(message), false);
     }
     return callback(null, true);
   }
@@ -80,18 +80,18 @@ app.get('/', (req, res) => {
 
 // Get ALL movies
 app.get(
-  '/movies', 
-  passport.authenticate('jwt', { session: false }), 
+  '/movies',
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
-  Movies.find()
-    .then((movies) => {
-      res.status(201).json(movies);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+    Movies.find()
+      .then((movies) => {
+        res.status(201).json(movies);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  });
 
 // GET data about a single movie by title to the user http://localhost:8080/movies/snatch
 app.get(
@@ -112,17 +112,17 @@ app.get(
 // GET data about a genre and description by Title
 app.get(
   '/movies/Genre/:Title',
-  passport.authenticate('jwt', { session: false }), 
-  (req, res) => { 
-  Movies.findOne({ 'Genre.Name': req.params.Title })
-    .then((movie) => {
-      res.status(201).json(movie.Genre);
-    })
-    .catch((err) => {  // ES6-error handling
-      console.error(err);
-      res.status(500).send('Error: Could not GET data about a genre and description by Title' + err);
-    });
-});
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Movies.findOne({ 'Genre.Name': req.params.Title })
+      .then((movie) => {
+        res.status(201).json(movie.Genre);
+      })
+      .catch((err) => {  // ES6-error handling
+        console.error(err);
+        res.status(500).send('Error: Could not GET data about a genre and description by Title' + err);
+      });
+  });
 
 // GET data about a director by name
 app.get('/movies/Director/:Name', passport.authenticate('jwt', { session: false }), (req, res) => {
@@ -319,6 +319,6 @@ app.use((err, req, res, next) => {
 
 // listen for requests
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
 });
