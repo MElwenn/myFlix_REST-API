@@ -39,8 +39,7 @@ export class MainView extends React.Component {
 
   // GET ALL movies from myFlix_REST-API 
   componentDidMount() {
-    //axios.get('<https://movie-api-elwen.herokuapp.com/movies>')
-    axios.get('<mongodb+srv://martin_elwenn:TestMartin1234@cluster0.qcgy1.mongodb.net/MovieApi?retryWrites=true&w=majority>')
+    axios.get('<https://movie-api-elwen.herokuapp.com/movies>')
       .then(response => {
         // Assign the result to the state
         this.setState({
