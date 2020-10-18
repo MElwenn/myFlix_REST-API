@@ -2,8 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 import { MainView } from './components/main-view/main-view';
+import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+//import PropTypes from 'prop-types'; Is this a ToDo in main-view.jsx as well?    Akunna
+//how do the MainView.propTypes = { } look like?                                  Akunna
 
 // Import statement to indicate that we need to bundle `./index.scss`
 import './index.scss';
@@ -59,7 +62,14 @@ export class MainView extends React.Component {
   //event listener for CTA select movie
   onMovieClick(movie) {
     this.setState({
-      selectedMovie: movie
+      selectedMovie: movie,
+      user: null
+    });
+  }
+
+  onLoggedIn(user) {
+    this.setState({
+      user
     });
   }
 
@@ -67,6 +77,8 @@ export class MainView extends React.Component {
     // If the state isn't initialized, this will throw on runtime
     // before the data is initially loaded
     const { movies } = this.state;
+
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
     // Before the movies have been loaded
     if (!movies) return <div className="main-view" />;

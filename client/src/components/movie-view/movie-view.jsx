@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export class MovieView extends React.Component {
 
@@ -43,3 +44,22 @@ export class MovieView extends React.Component {
     );
   }
 }
+
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string,
+    Description: PropTypes.string.isRequired,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string.isRequired,
+      Description: PropTypes.string.isRequired
+    }),
+    Director: PropTypes.shape({
+      Bio: PropTypes.string.isRequired,
+      Birth: PropTypes.string.isRequired, // ask Akunna about the correct notation for .date.isRequired
+      Death: PropTypes.string.isRequired
+    }),
+    ImagePath: PropTypes.string.isRequired,
+    Featured: PropTypes.bool.isOptional  // What should be optional what should be required?
+  }).isRequired,
+  onClick: PropTypes.func.isRequired
+};
