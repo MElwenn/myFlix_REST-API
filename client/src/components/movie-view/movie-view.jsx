@@ -33,12 +33,7 @@ export class MovieView extends React.Component {
           <span className="label">Director: </span>
           <span className="value">{movie.Director.Name}</span>
         </div>
-        //clicking the back-button links to main-view
-        <div>
-          <Link to={"/"}>
-            <Button className="button-back">Back</Button>
-          </Link>
-        </div>
+      //clicking the back-button links to main-view
       </div>
     );
   }
