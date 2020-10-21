@@ -1,4 +1,16 @@
 import React from 'react';
+import { Link, Button } from 'react-router-dom';
+import './movie-view.scss';
+
+function backButton() {
+  alert('Clicked!');
+}
+
+//const backButton = () => (
+//  <div>
+//    <Link to="/"> Back </Link>
+//  </div>
+//)
 
 export class MovieView extends React.Component {
 
@@ -8,8 +20,12 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+
   render() {
     const { movie } = this.props;
+    // const button = backButton.button;
+
+    // <button onClick={backButton}>Back</button>;
 
     if (!movie) return null;
 
@@ -33,8 +49,29 @@ export class MovieView extends React.Component {
           <span className="label">Director: </span>
           <span className="value">{movie.Director.Name}</span>
         </div>
-      //clicking the back-button links to main-view
+        <div>
+          <a href="http://localhost:1234/">Back</a>
+        </div>
       </div>
     );
+
+    //<Button>Back</Button>
+
+    //<button onClick={backButton}>Back</button>
+
+    //<div>
+    //  <Link to="/"> Back </Link>
+    //</div>
+
+
+
+    //
+    //<div>
+    //  <Link to={"/"}>Back
+    //    <Button className="button-back">Back</Button>
+    //  </Link>
+    //</div>
+
+
   }
 }
