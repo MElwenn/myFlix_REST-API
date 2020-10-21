@@ -12,7 +12,8 @@ import { MovieView } from '../movie-view/movie-view';
 // Tell React to render our app in the root DOM element
 // ReactDOM.render(React.createElement(MyFlixApplication), container);
 
-export default class MainView extends React.Component {
+export class MainView extends React.Component {
+  //export default class MainView extends React.Component {
   constructor(props) {
     // Call the superclass constructor
     // so React can initialize it
@@ -55,8 +56,6 @@ export default class MainView extends React.Component {
   }
 
   render() {  //render the search result from GET all movies
-    // If the state isn't initialized, this will throw on runtime
-    // before the data is initially loaded
     const { movies, selectedMovie } = this.state;
 
     // Before the movies have been loaded

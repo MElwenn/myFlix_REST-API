@@ -30135,7 +30135,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
           return _onClick(movie);
         },
         className: "movie-card"
-      }, "  ", movie.Titel);
+      }, "  ", movie.Title);
     }
   }]);
 
@@ -30533,7 +30533,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58458" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57677" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
