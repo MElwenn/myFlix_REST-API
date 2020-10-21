@@ -30284,6 +30284,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 //const container = document.getElementsByClassName('app-container')[0];
 // Tell React to render our app in the root DOM element
 // ReactDOM.render(React.createElement(MyFlixApplication), container);
+//export class MainView extends React.Component {
 var MainView = /*#__PURE__*/function (_React$Component) {
   _inherits(MainView, _React$Component);
 
@@ -30341,8 +30342,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       //render the search result from GET all movies
-      // If the state isn't initialized, this will throw on runtime
-      // before the data is initially loaded
       var _this$state = this.state,
           movies = _this$state.movies,
           selectedMovie = _this$state.selectedMovie; // Before the movies have been loaded
@@ -30533,7 +30532,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57677" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60142" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

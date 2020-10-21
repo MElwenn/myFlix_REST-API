@@ -12,8 +12,8 @@ import { MovieView } from '../movie-view/movie-view';
 // Tell React to render our app in the root DOM element
 // ReactDOM.render(React.createElement(MyFlixApplication), container);
 
-export class MainView extends React.Component {
-  //export default class MainView extends React.Component {
+//export class MainView extends React.Component {
+export default class MainView extends React.Component {
   constructor(props) {
     // Call the superclass constructor
     // so React can initialize it
