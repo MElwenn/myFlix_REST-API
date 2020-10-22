@@ -75,3 +75,5 @@ export class MovieView extends React.Component {
 
   }
 }
+
+//Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
