@@ -16,10 +16,17 @@ export function LoginView(props) {  //function component with hooks
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(username, password);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username);
+    axios.post('https://movie-api-elwen.herokuapp.com/', {
+      Username: username,
+      Password: password
+    })
+      .then((response) => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch((e) => {
+        console.log('User is unknown.');
+      });
   };
 
   // do I have to wrap 'render() {}' around the 'return()' ?
