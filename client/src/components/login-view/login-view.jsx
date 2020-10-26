@@ -13,7 +13,7 @@ export function LoginView(props) {  //function component with hooks
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {  // Why this does not work (Line 59 uses it)?
     e.preventDefault();
 
     axios.post('https://movie-api-elwen.herokuapp.com/', {
