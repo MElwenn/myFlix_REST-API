@@ -1,3 +1,9 @@
+$primary-color: #FF9900;
+$primary-color-darker: darken($primary-color, 20%);
+$primary-color-lighter: lighten($primary-color, 20%);
+$secondary-color: #2B2B2B;
+$base-color: #F5F5F5;
+
 body {
   background-color: $secondary-color;
   font-family: 'Lato', sans-serif;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactDOM from 'react-dom';
 
 import { LoginView } from '../login-view/login-view';
-import { RegistrationView } from '../registration-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
@@ -65,12 +65,12 @@ export default class MainView extends React.Component {
   }
 
   render() {  //render the search result from GET all movies
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user } = this.state;
 
     if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
 
     // Before the movies have been loaded
-    if (!movies) return <div className="main-view" />;
+    if (!movies) return <div className="main-view">no movies</div>
 
     return (
       <div className="main-view">
