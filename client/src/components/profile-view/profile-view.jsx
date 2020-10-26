@@ -51,7 +51,7 @@ export default class ProfileView extends React.Component {
     axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
       .put('<https://movie-api-elwen.herokuapp.com/users>',
         {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          headers: { Authorization: `Bearer ${localStorage.postItem('token')}` }
         }
           //  {
           //    Username: username,
@@ -63,7 +63,14 @@ export default class ProfileView extends React.Component {
           .then((response) => {
             const data = response.data;
             alert('Your update was successful, please login.');
-            console.log(data);
+            localStorage.postItem(
+              'token',
+              'user',
+              'password',
+              'email',
+              'birthdate',
+              'FavoriteMovies'
+            );
             window.open('/client', '_self');
           })
           .catch((e) => {
@@ -88,7 +95,23 @@ export default class ProfileView extends React.Component {
       });
   }
 
-  //Allows users to remove a movie from their list of favorites
+  deleteFavoriteMovie(e) {
+    console.log(this.props.movies);
+
+    axios  //Allows users to remove a movie from their list of favorites
+      .delete('<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>',
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        })
+      .then((response) => {
+        alert('Movie has been removed from your fovorites list.');
+        localStorage.removeItem('token', 'user');
+        window.open('/client', '_self');
+      })
+      .catch((e) => {
+        console.log('Error. Movie could not be removed from your favorites list.');
+      });
+  }
 
   render() {
     const { movies } = this.props;
@@ -148,10 +171,5 @@ export default class ProfileView extends React.Component {
         </Card>
       </Container>
     )
-
   }
-
-
-
 }
-
