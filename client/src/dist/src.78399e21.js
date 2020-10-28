@@ -37331,7 +37331,7 @@ function LoginView(props) {
     className: "button-primary",
     variant: "primary",
     type: "submit",
-    onClick: this.handleSubmit
+    onClick: handleSubmit
   }, "LOGIN"), _react.default.createElement(_reactRouterDom.Link, {
     to: '/registration'
   }, _react.default.createElement(_Button.default, {
@@ -37340,6 +37340,12 @@ function LoginView(props) {
 }
 
 ;
+/* DEBUGGING TRY
+<Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
+          LOGIN
+        </Button>
+*/
+
 /*LoginView.propTypes = {  // why LoginView is yellow whereas in other components it's cyan?
   user: PropTypes.shape({
     Username: PropTypes.string,
@@ -37412,75 +37418,79 @@ function RegistrationView() {
   var handleSubmit = function handleSubmit(e) {
     //Send a request to the server for authentication
     e.preventDefault();
-
-    _axios.default.post('<https://movie-api-elwen.herokuapp.com/users>', {
+    var createdUser = {
       Username: username,
       Password: password,
       Email: email,
       Birthdate: birthdate
-    }).then(function (response) {
+    };
+
+    _axios.default.post('<https://movie-api-elwen.herokuapp.com/users>', createdUser).then(function (response) {
+      //console.log(response);
+      //console.log(response.data);
       var data = response.data;
-      alert('Your sign up was successful, please login.');
+      alert('You signed up successfully, please login.');
       console.log(data);
       window.open('/client', '_self');
     }).catch(function (e) {
       console.log('Error. Your sign up was not successful.');
     });
-  };
+  }; // do I have to wrap 'render() {}' around the 'return()' ?
+
+
+  return _react.default.createElement(_Container.default, {
+    className: "container-box"
+  }, _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicUsername"
+  }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
+    type: "text",
+    placeholder: "Firtstname blank Lastname",
+    value: username,
+    onChange: function onChange(e) {
+      return createUsername(e.target.value);
+    }
+  }), _react.default.createElement(_Form.default.Text, {
+    className: "text-muted"
+  }, "We'll never share your personal data with anyone else.")), _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicPassword"
+  }, _react.default.createElement(_Form.default.Label, null, "Password"), _react.default.createElement(_Form.default.Control, {
+    type: "password",
+    placeholder: "Enter password (8 digits letters and numbers)",
+    value: password,
+    onChange: function onChange(e) {
+      return createPassword(e.target.value);
+    }
+  })), _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicEmail"
+  }, _react.default.createElement(_Form.default.Label, null, "Email"), _react.default.createElement(_Form.default.Control, {
+    type: "email",
+    placeholder: "Your Email address",
+    value: email,
+    onChange: function onChange(e) {
+      return createEmail(e.target.value);
+    }
+  })), _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicBirthdate"
+  }, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
+    type: "date",
+    placeholder: "Your day of birth (dd.mm.yyyy)",
+    value: birthdate,
+    onChange: function onChange(e) {
+      return createBirthdate(e.target.value);
+    }
+  })), _react.default.createElement(_Button.default, {
+    className: "button-primary",
+    variant: "primary",
+    type: "submit",
+    onClick: this.handleSubmit
+  }, "SIGN UP"), _react.default.createElement(_reactRouterDom.Link, {
+    to: '/login'
+  }, _react.default.createElement(_Button.default, {
+    className: "button-secondary"
+  }, "LOGIN"))));
 }
 
-; // do I have to wrap 'render() {}' around the 'return()' ?
-
-return _react.default.createElement(_Container.default, {
-  className: "container-box"
-}, _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default.Group, {
-  controlId: "formBasicUsername"
-}, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
-  type: "text",
-  placeholder: "Firtstname blank Lastname",
-  value: username,
-  onChange: function onChange(e) {
-    return createUsername(e.target.value);
-  }
-}), _react.default.createElement(_Form.default.Text, {
-  className: "text-muted"
-}, "We'll never share your personal data with anyone else.")), _react.default.createElement(_Form.default.Group, {
-  controlId: "formBasicPassword"
-}, _react.default.createElement(_Form.default.Label, null, "Password"), _react.default.createElement(_Form.default.Control, {
-  type: "password",
-  placeholder: "Enter password (8 digits letters and numbers)",
-  value: password,
-  onChange: function onChange(e) {
-    return createPassword(e.target.value);
-  }
-})), _react.default.createElement(_Form.default.Group, {
-  controlId: "formBasicEmail"
-}, _react.default.createElement(_Form.default.Label, null, "Email"), _react.default.createElement(_Form.default.Control, {
-  type: "email",
-  placeholder: "Your Email address",
-  value: email,
-  onChange: function onChange(e) {
-    return createEmail(e.target.value);
-  }
-})), _react.default.createElement(_Form.default.Group, {
-  controlId: "formBasicBirthdate"
-}, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
-  type: "date",
-  placeholder: "Your day of birth (dd.mm.yyyy)",
-  value: birthdate,
-  onChange: function onChange(e) {
-    return createBirthdate(e.target.value);
-  }
-})), _react.default.createElement(_Button.default, {
-  className: "button-primary",
-  variant: "primary",
-  type: "submit",
-  onClick: (void 0).handleSubmit
-}, "SIGN UP"), _react.default.createElement(_reactRouterDom.Link, {
-  to: '/login'
-}, _react.default.createElement(_Button.default, {
-  className: "button-secondary"
-}, "LOGIN"))));
+;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
 
@@ -38276,7 +38286,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49336" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61526" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

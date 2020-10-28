@@ -56,7 +56,7 @@ export function LoginView(props) {  //function component with hooks
           />
         </Form.Group>
 
-        <Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
+        <Button className="button-primary" variant="primary" type="submit" onClick={handleSubmit}>
           LOGIN
         </Button>
         <Link to={'/registration'}>
@@ -66,6 +66,13 @@ export function LoginView(props) {  //function component with hooks
     </Container>
   );
 };
+
+/* DEBUGGING TRY
+<Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
+          LOGIN
+        </Button>
+*/
+
 /*LoginView.propTypes = {  // why LoginView is yellow whereas in other components it's cyan?
   user: PropTypes.shape({
     Username: PropTypes.string,
