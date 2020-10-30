@@ -16,18 +16,20 @@ export class MovieCard extends React.Component {
 
     return (
       //<div onClick={() => onClick(movie)} className="movie-card">  {movie.Title}</div>
-      <Card style={{ width: '16rem' }}>
+      <Card style={{ width: '70%' }}>
         <Card.Img variant="top" src={movie.ImagePath} />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>
           <Card.Text>{movie.Description}</Card.Text>
-          <Button onClick={() => onClick(movie)} variant="link">Open</Button>
+          <Link to={'/movies/${movie._id}'}>
+            <Button className="button-primary" variant="link">Open</Button>
+          </Link>
         </Card.Body>
       </Card>
     );
   }
 }
-
+/* <Button onClick={() => onClick(movie)} variant="link">Open</Button> removed as throws error
 MovieCard.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string,
@@ -44,4 +46,4 @@ MovieCard.propTypes = {
     ImagePath: PropTypes.string.isRequired
   }).isRequired,
   onClick: PropTypes.func.isRequired
-};
+}; */
