@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 
 import { Link } from "react-router-dom";
 
-import './movie-card.scss';
+import './director-view.scss';
 
 export class DirectorView extends React.Component {
 

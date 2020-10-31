@@ -89,7 +89,7 @@ export function RegistrationView() {  //function component with hooks
         <Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
           SIGN UP
         </Button>
-        <Link to={'/login'}>
+        <Link to={`/login`}>
           <Button className="button-secondary">LOGIN</Button>
         </Link>
       </Form>

@@ -2,12 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
+import { ProfileView } from '../profile-view/profile-view';
 import Button from 'react-bootstrap/esm/Button';
 
 import './main-view.scss';
@@ -138,7 +141,7 @@ export default class MainView extends React.Component {
             } />
           } />
 
-          <Route path="/genres/:name" render={
+          <Route path="/movies/genres/:name" render={
             ({ match }) => {
               if (!movies)
                 return <div className="main-view" />;
@@ -146,12 +149,15 @@ export default class MainView extends React.Component {
             }
           } />
 
-          <Route path="/directors/:name" render={
+          <Route path="/movies/directors/:name" render={
             ({ match }) => {
               if (!movies)
                 return <div className="main-view" />;
               return <DirectorView director={movies.find(m => m.Director.Name === match.params.name).Director} />
             }
+          } />
+          <Route exact path="/user" render={
+            () => <ProfileView movies={movies} />
           } />
 
           <Button className="button-secondary" onClick={() => this.onLoggedOut()}>

@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 
 import { Link } from "react-router-dom";
 
-import './movie-card.scss';
+import './genre-view.scss';
 
 export class GenreView extends React.Component {
 

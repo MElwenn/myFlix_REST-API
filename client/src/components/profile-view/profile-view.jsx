@@ -152,7 +152,7 @@ export default class ProfileView extends React.Component {
               </div>
             ))}
             <br />
-            <Link to={'/user/update'}>
+            <Link to={`/user/update`}>
               <Button className='button-primary' variant='dark'>
                 UPDATE PROFILE
               </Button>
