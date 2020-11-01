@@ -51900,7 +51900,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
-        path: "/profile",
+        path: "/user",
         render: function render() {
           return _react.default.createElement(_profileView.ProfileView, {
             movies: movies
@@ -52034,7 +52034,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56211" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56307" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
