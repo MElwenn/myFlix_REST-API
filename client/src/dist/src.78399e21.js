@@ -51222,12 +51222,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       }, "Director:"), _react.default.createElement("span", {
         className: "value"
       }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
-        to: "/genres/".concat(movie.Genre.Name)
+        to: "/movies/genres/".concat(movie.Genre.Name)
       }, _react.default.createElement(_reactBootstrap.Button, {
         className: "button-primary",
         variant: "link"
       }, "Genre")), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/directors/".concat(movie.Director.Name)
+        to: "/movies/directors/".concat(movie.Director.Name)
       }, _react.default.createElement(_reactBootstrap.Button, {
         className: "button-primary",
         variant: "link"
@@ -51312,20 +51312,23 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          movies = _this$props.movies,
+          movie = _this$props.movie,
           director = _this$props.director;
-      if (!dirctor) return null;
+      if (!director) return null;
       return _react.default.createElement(_Container.default, {
         className: "container-box"
+      }, _react.default.createElement("div", {
+        className: "director-view"
       }, _react.default.createElement(_Card.default, {
+        className: "container-box",
         style: {
-          width: '16rem'
+          width: '70%'
         }
       }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, director.Name), _react.default.createElement(_Card.default.Text, null, "Bio: ", director.Bio), _react.default.createElement(_Card.default.Text, null, "Born: ", director.Birth), _react.default.createElement(_Card.default.Text, null, "Died: ", director.Death), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "CLOSE")))));
+      }, "CLOSE"))))));
     }
   }]);
 
@@ -51402,20 +51405,23 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          movies = _this$props.movies,
+          movie = _this$props.movie,
           genre = _this$props.genre;
       if (!genre) return null;
       return _react.default.createElement(_Container.default, {
         className: "container-box"
+      }, _react.default.createElement("div", {
+        className: "genre-view"
       }, _react.default.createElement(_Card.default, {
+        className: "container-box",
         style: {
-          width: '32rem'
+          width: '70%'
         }
       }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, genre.Name), _react.default.createElement(_Card.default.Text, null, "Description: ", genre.Description), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "CLOSE")))));
+      }, "CLOSE"))))));
     }
   }]);
 
@@ -51688,6 +51694,10 @@ var _genreView = require("../genre-view/genre-view");
 
 var _profileView = require("../profile-view/profile-view");
 
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _reactBootstrap = require("react-bootstrap");
+
 var _Button = _interopRequireDefault(require("react-bootstrap/esm/Button"));
 
 require("./main-view.scss");
@@ -51716,10 +51726,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-// Find the root of our app
-//const container = document.getElementsByClassName('app-container')[0];
-// Tell React to render our app in the root DOM element
-// ReactDOM.render(React.createElement(MyFlixApplication), container);
 //export class MainView extends React.Component {
 var MainView = /*#__PURE__*/function (_React$Component) {
   _inherits(MainView, _React$Component);
@@ -51731,37 +51737,15 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
-    // Call the superclass constructor
-    // so React can initialize it
-    _this = _super.call(this, props); // Initialize the state to an empty object so we can destructure it later
+    _this = _super.call(this, props); // Call the superclass constructor so React can initialize it
 
     _this.state = {
+      // Initialize the state to an empty object so we can destructure it later
       movies: [],
       user: null
     };
     return _this;
-  } // This overrides the render() method of the superclass
-  // No need to call super() though, as it does nothing by default
-  //render() {
-  //  return (
-  //    <div className="main-view"></div>
-  //  );
-  //}
-  // GET ALL movies from myFlix_REST-API 
-
-  /*componentDidMount() {
-    axios.get('https://movie-api-elwen.herokuapp.com/movies')
-      .then(response => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }*/
-
+  }
 
   _createClass(MainView, [{
     key: "componentDidMount",
@@ -51830,18 +51814,28 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       //render the search result from GET all movies
       var _this$state = this.state,
           movies = _this$state.movies,
-          user = _this$state.user; //if (!user)  // removed here, as would immediately render the login view if the user hadn't already logged in
-      //  return <LoginView onLoggedIn={
-      //    user => this.onLoggedIn(user)
-      //  } />;
-      // Before the movies have been loaded
+          user = _this$state.user; // Before the movies have been loaded
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
-      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
+      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement(_Container.default, null, _react.default.createElement("div", {
         className: "main-view"
-      }, _react.default.createElement(_reactRouterDom.Route, {
+      }, _react.default.createElement(_reactBootstrap.Navbar, {
+        className: "fixed-top",
+        bg: "dark",
+        variant: "dark"
+      }, _react.default.createElement(_reactBootstrap.Navbar.Brand, {
+        href: "#home"
+      }, "Navbar"), _react.default.createElement(_reactBootstrap.Nav, {
+        className: "mr-auto"
+      }, _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: "/"
+      }, "Home"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: "/user"
+      }, "Profile"))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -51906,39 +51900,26 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             movies: movies
           });
         }
-      }), _react.default.createElement(_Button.default, {
+      }), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/user"
+      }, _react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "PROFILE")), _react.default.createElement(_Button.default, {
         className: "button-secondary",
         onClick: function onClick() {
           return _this3.onLoggedOut();
         }
-      }, "LOGOUT")));
+      }, "LOGOUT"))));
     }
   }]);
 
   return MainView;
-}(_react.default.Component);
-/* Removed obsolete Routes after inheriting the more detailed code version within exercise 3.5
-<Route exact path="/genres/:name" render={/* genre view } />
-<Route exact path="/directors/:name" render={/* director view } />
-*/
-
-/* Removed this because the authors have chosen to make up their minds (again) within the the same exercise 3.5, wow!:
-<Route exact path="/" render={() => movies.map(m => <MovieCard key={m._id} movie={m} />)} />
-          <Route path="/movies/:movieId" render={({ match }) => <MovieView movie={movies.find(m => m._id === match.params.movieId)} />} />
-*/
-
-/* Removed this from the return function between 2nd <Route> and <Button LOGOUT>:
-{selectedMovie
-  ? <MovieView movie={selectedMovie} />
-  : movies.map(movie => (
-    <MovieCard key={movie._id} movie={movie} onClick={movie => this.onMovieClick(movie)} />
-  ))
-} */
-//Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
+}(_react.default.Component); //Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
+// <Route exact path="/users" component={ProfileView} />
 
 
 exports.default = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","react-bootstrap/esm/Button":"../node_modules/react-bootstrap/esm/Button.js","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-bootstrap/esm/Button":"../node_modules/react-bootstrap/esm/Button.js","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -52034,7 +52015,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56307" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62681" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
