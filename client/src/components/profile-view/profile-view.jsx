@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+//import React, { useState } from 'react';
+import React from 'react';
 //import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -9,7 +10,8 @@ import Button from 'react-bootstrap/Button';
 
 import './profile-view.scss';
 
-export default class ProfileView extends React.Component {
+export class ProfileView extends React.Component {
+  //export default class ProfileView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,7 +32,7 @@ export default class ProfileView extends React.Component {
     const username = localStorage.getItem('user');
 
     axios  //Displays users profile and favorite movies
-      .get('https://movie-api-elwen.herokuapp.com/users/${username}', {
+      .get(`https://movie-api-elwen.herokuapp.com/users/${username}`, {
         headers: { Authorization: 'Bearer ${token}' }
       })
       .then((response) => {
@@ -49,7 +51,7 @@ export default class ProfileView extends React.Component {
 
   updateProfile(e) {
     axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      .put('<https://movie-api-elwen.herokuapp.com/users>',
+      .put(`<https://movie-api-elwen.herokuapp.com/users>`,
         {
           headers: { Authorization: `Bearer ${localStorage.postItem('token')}` }
         }
@@ -74,14 +76,15 @@ export default class ProfileView extends React.Component {
             window.open('/client', '_self');
           })
           .catch((e) => {
-            console.log('Error. Your update was not successful.');
+            alert('Error. Your update was not successful.');
           })
       );
   }
 
   deleteProfile(e) {
     axios  //Allows existing users to deregister
-      .delete('<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>',
+      .delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}>`,
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         })
@@ -91,15 +94,17 @@ export default class ProfileView extends React.Component {
         window.open('/');
       })
       .catch((e) => {
-        console.log('Error. Your account could not be deleted.');
+        alert('Error. Your account could not be deleted.');
       });
   }
 
-  deleteFavoriteMovie(e) {
+  deleteFavoriteMovie(_id) {
+    //deleteFavoriteMovie(e) {
     console.log(this.props.movies);
 
     axios  //Allows users to remove a movie from their list of favorites
-      .delete('<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>',
+      .delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}>`,
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         })
@@ -108,8 +113,9 @@ export default class ProfileView extends React.Component {
         localStorage.removeItem('token', 'user');
         window.open('/client', '_self');
       })
+      //.catch((_id) => {
       .catch((e) => {
-        console.log('Error. Movie could not be removed from your favorites list.');
+        alert('Error. Movie could not be removed from your favorites list.');
       });
   }
 
@@ -120,56 +126,58 @@ export default class ProfileView extends React.Component {
     );
 
     return (
-      <Container className="container-box">
-        <br />
-        <h1> {this.state.Username}'s Profile</h1>
-        <br />
-        <Card>
-          <Card.Body>
-            <Card.Text>Username: {this.state.Username}</Card.Text>
-            <Card.Text>Password: xxxxxxxx</Card.Text>
-            <Card.Text>Email: {this.state.Email}</Card.Text>
-            <Card.Text>Birthday {this.state.Birthdate}</Card.Text>
+      <div className="movie-view">
+        <Container className="container-box">
+          <br />
+          <h1> {this.state.Username}'s Profile</h1>
+          <br />
+          <Card>
+            <Card.Body>
+              <Card.Text>Username: {this.state.Username}</Card.Text>
+              <Card.Text>Password: xxxxxxxx</Card.Text>
+              <Card.Text>Email: {this.state.Email}</Card.Text>
+              <Card.Text>Birthday {this.state.Birthdate}</Card.Text>
               Favorite Movies:
               {FavoriteMovies.map((movie) => (
-              <div key={movie._id}>
-                <Link to={`/movies/${movie._id}`}>
-                  <Button variant='link'>{movie.Title}</Button>
-                </Link>
-                <Button className='button-primary' variant='dark'
-                  onClick={(e) => this.addFavoriteMovie(movie._id)}>
-                  ADD MOVIE
+                <div key={movie._id}>
+                  <Link to={`/movies/${movie._id}`}>
+                    <Button variant='link'>{movie.Title}</Button>
+                  </Link>
+                  <Button className='button-primary' variant='dark'
+                    onClick={(e) => this.addFavoriteMovie(movie._id)}>
+                    ADD MOVIE
                   </Button>
-              </div>,
-              <div key={movie._id}>
-                <Link to={`/movies/${movie._id}`}>
-                  <Button variant='link'>{movie.Title}</Button>
-                </Link>
-                <Button className='button-secondary' variant='dark'
-                  onClick={(e) => this.deleteFavoriteMovie(movie._id)}>
-                  REMOVE MOVIE
+                </div>,
+                <div key={movie._id}>
+                  <Link to={`/movies/${movie._id}`}>
+                    <Button variant='link'>{movie.Title}</Button>
+                  </Link>
+                  <Button className='button-secondary' variant='dark'
+                    onClick={(e) => this.deleteFavoriteMovie(movie._id)}>
+                    REMOVE MOVIE
                   </Button>
-              </div>
-            ))}
-            <br />
-            <Link to={`/user/update`}>
-              <Button className='button-primary' variant='dark'>
-                UPDATE PROFILE
+                </div>
+              ))}
+              <br />
+              <Link to={`/user/update`}>
+                <Button className='button-primary' variant='dark'>
+                  UPDATE PROFILE
               </Button>
-              <br />
-              <br />
-            </Link>
-            <Button className='button-secondary' variant='dark' onClick={() => this.deleteUser()}>
-              DELETE ACCOUNT
+                <br />
+                <br />
+              </Link>
+              <Button className='button-secondary' variant='dark' onClick={() => this.deleteUser()}>
+                DELETE ACCOUNT
             </Button>
-            <br />
-            <br />
-            <Link to={`/`}>
-              <Button className='button-primary' variant='dark'>CLOSE</Button>
-            </Link>
-          </Card.Body>
-        </Card>
-      </Container>
+              <br />
+              <br />
+              <Link to={`/`}>
+                <Button className='button-primary' variant='dark'>CLOSE</Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        </Container>
+      </div>
     )
   }
 }

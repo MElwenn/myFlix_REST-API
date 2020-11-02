@@ -25,10 +25,6 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-<<<<<<< HEAD
-  border-radius: 3px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-=======
   border-radius: 8px;
   transition: 0.2s opacity;
 }
@@ -114,7 +110,6 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
->>>>>>> movieTopApp3.5
   transition: 0.2s opacity;
 }
 
@@ -172,8 +167,6 @@ body {
   transition: 0.2s opacity;
   white-space: nowrap;
 }
-<<<<<<< HEAD
-=======
 body {
   background-color: #2B2B2B;
   font-family: "Lato", sans-serif;
@@ -300,7 +293,6 @@ body {
   transition: 0.2s opacity;
   white-space: nowrap;
 }
->>>>>>> movieTopApp3.5
 .my-flix {
   color: steelblue;
 }

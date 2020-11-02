@@ -96,7 +96,7 @@ export default class MainView extends React.Component {
                 <Nav.Link as={Link} to='/'>
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to='/user'>
+                <Nav.Link as={Link} to='/users/:Username'>
                   Profile
                 </Nav.Link>
               </Nav>
@@ -140,7 +140,7 @@ export default class MainView extends React.Component {
                 () => <ProfileView movies={movies} />
               }
             />
-            <Link to={`/user`}>
+            <Link to={`/users/:Username`}>
               <Button variant="link">PROFILE</Button>
             </Link>
 
@@ -153,6 +153,7 @@ export default class MainView extends React.Component {
     );
   }
 }
+
 
 //Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
 
