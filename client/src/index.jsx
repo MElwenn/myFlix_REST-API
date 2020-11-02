@@ -10,7 +10,8 @@ class MyFlixApplication extends React.Component {
   render() {
     return (
       <div className="my-flix">
-        <div>Good morning</div>
+        <div><h1>These are 10 top movies</h1></div>
+        <br />
         <MainView />
       </div>
     );

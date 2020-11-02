@@ -16,12 +16,28 @@ export function RegistrationView() {  //function component with hooks
   const handleSubmit = (e) => {  //Send a request to the server for authentication
     e.preventDefault();
 
-    console.log(username, password);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username);
+    const createdUser = {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthdate: birthdate
+    };
 
+    axios
+      .post('<https://movie-api-elwen.herokuapp.com/users>', createdUser)
+      .then((response) => {
+        //console.log(response);
+        //console.log(response.data);
+        const data = response.data;
+        alert('You signed up successfully, please login.');
+        console.log(data);
+        window.open('/client', '_self');
+      })
+      .catch((e) => {
+        console.log('Error. Your sign up was not successful.');
+      });
   };
+
 
   // do I have to wrap 'render() {}' around the 'return()' ?
   return (
@@ -73,10 +89,10 @@ export function RegistrationView() {  //function component with hooks
         <Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
           SIGN UP
         </Button>
-        <Link to={'/login'}>
+        <Link to={`/login`}>
           <Button className="button-secondary">LOGIN</Button>
         </Link>
       </Form>
     </Container>
   );
-}
+};
