@@ -37417,7 +37417,7 @@ function RegistrationView() {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
 
-    _axios.default.post("<https://movie-api-elwen.herokuapp.com/users>", {
+    _axios.default.post('https://movie-api-elwen.herokuapp.com/register', {
       Username: username,
       Password: password,
       Email: email,
@@ -51481,13 +51481,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProfileView = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+
+var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _reactRouterDom = require("react-router-dom");
 
@@ -51497,7 +51499,23 @@ require("./profile-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -51574,27 +51592,57 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "updateProfile",
-    value: function updateProfile(e) {
-      _axios.default //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      .put("<https://movie-api-elwen.herokuapp.com/users>", {
-        headers: {
-          Authorization: "Bearer ".concat(localStorage.postItem('token'))
-        } //  {
-        //    Username: username,
-        //    Password: password,
-        //    Email: email,
-        //    Birthdate: birthdate,
-        //    FavoriteMovies: response.data.FavoriteMovies
-        //  })
+    value: function updateProfile(props) {
+      var _useState = (0, _react.useState)(''),
+          _useState2 = _slicedToArray(_useState, 2),
+          Username = _useState2[0],
+          updateUsername = _useState2[1];
 
-      }.then(function (response) {
-        var data = response.data;
-        alert('Your update was successful, please login.');
-        localStorage.postItem('token', 'user', 'password', 'email', 'birthdate', 'FavoriteMovies');
-        window.open('/client', '_self');
-      }).catch(function (e) {
-        alert('Error. Your update was not successful.');
-      }));
+      var _useState3 = (0, _react.useState)(''),
+          _useState4 = _slicedToArray(_useState3, 2),
+          Password = _useState4[0],
+          updatePassword = _useState4[1];
+
+      var _useState5 = (0, _react.useState)(''),
+          _useState6 = _slicedToArray(_useState5, 2),
+          Email = _useState6[0],
+          updateEmail = _useState6[1];
+
+      var _useState7 = (0, _react.useState)(''),
+          _useState8 = _slicedToArray(_useState7, 2),
+          Birthdate = _useState8[0],
+          updateBirthdate = _useState8[1];
+
+      var _useState9 = (0, _react.useState)(''),
+          _useState10 = _slicedToArray(_useState9, 2),
+          FavoriteMovies = _useState10[0],
+          updateFavoriteMovies = _useState10[1];
+
+      var handleUpdate = function handleUpdate(e) {
+        e.preventDefault();
+        console.log();
+
+        _axios.default //Allows users to update their user info (username, password, email, date of birth, favorite movies)
+        .put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+          Username: Username,
+          Password: Password,
+          Email: Email,
+          Birthdate: Birthdate,
+          FavoriteMovies: FavoriteMovies
+        }, {
+          headers: {
+            Authorization: "Bearer ".concat(localStorage.postItem('token'))
+          }
+        }.then(function (response) {
+          var data = response.data;
+          console.log(data);
+          alert('Your profile was updated successfully, please login.');
+          localStorage.postItem('token', 'user', 'password', 'email', 'birthdate', 'favoriteMovies');
+          window.open('/client', '_self');
+        }).catch(function (e) {
+          alert('Error. Your update was not successful.');
+        }));
+      };
     }
   }, {
     key: "deleteProfile",
@@ -51699,7 +51747,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -51884,12 +51932,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/user"
       }, "Profile Sh"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
-        to: "/users/".concat(this.state.user)
-      }, "Profile AK"), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/users/:Username"
-      }, _react.default.createElement(_Button.default, {
-        variant: "link"
-      }, "PROFILE")))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
+        to: "/registration"
+      }, "Sign Up"))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -51954,11 +51998,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             movies: movies
           });
         }
-      }), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/users/:Username"
-      }, _react.default.createElement(_Button.default, {
-        variant: "link"
-      }, "PROFILE")), _react.default.createElement(_Button.default, {
+      }), _react.default.createElement("br", null), _react.default.createElement(_Button.default, {
         className: "button-secondary",
         onClick: function onClick() {
           return _this3.onLoggedOut();
@@ -51991,6 +52031,14 @@ The following attemots are all WRONG
                 <Nav.Link as={Link} to={'/user/${Username._id}'}>
                   Profile F
                 </Nav.Link>
+
+                <Nav.Link as={Link} to={`/users/${this.state.user}`}>  Akunnas Suggestion
+                  Profile AK
+                </Nav.Link>
+
+                <Link to={`/users/:Username`}>
+                  <Button variant="link">PROFILE</Button>
+                </Link>
 */
 //Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
 // <Route exact path="/users" component={ProfileView} />
@@ -52093,7 +52141,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50123" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54514" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

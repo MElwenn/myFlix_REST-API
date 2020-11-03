@@ -1,10 +1,11 @@
-//import React, { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
+//import React from 'react';
 //import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
@@ -49,36 +50,48 @@ export class ProfileView extends React.Component {
       });
   };
 
-  updateProfile(e) {
-    axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      .put(`<https://movie-api-elwen.herokuapp.com/users>`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.postItem('token')}` }
-        }
-          //  {
-          //    Username: username,
-          //    Password: password,
-          //    Email: email,
-          //    Birthdate: birthdate,
-          //    FavoriteMovies: response.data.FavoriteMovies
-          //  })
-          .then((response) => {
-            const data = response.data;
-            alert('Your update was successful, please login.');
-            localStorage.postItem(
-              'token',
-              'user',
-              'password',
-              'email',
-              'birthdate',
-              'FavoriteMovies'
-            );
-            window.open('/client', '_self');
-          })
-          .catch((e) => {
-            alert('Error. Your update was not successful.');
-          })
-      );
+  updateProfile(props) {
+    const [Username, updateUsername] = useState('');
+    const [Password, updatePassword] = useState('');
+    const [Email, updateEmail] = useState('');
+    const [Birthdate, updateBirthdate] = useState('');
+    const [FavoriteMovies, updateFavoriteMovies] = useState('');
+
+    const handleUpdate = (e) => {
+      e.preventDefault();
+      console.log();
+
+      axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
+        .put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+          {
+            Username: Username,
+            Password: Password,
+            Email: Email,
+            Birthdate: Birthdate,
+            FavoriteMovies: FavoriteMovies
+          },
+          {
+            headers: { Authorization: `Bearer ${localStorage.postItem('token')}` }
+          }
+            .then((response) => {
+              const data = response.data;
+              console.log(data);
+              alert('Your profile was updated successfully, please login.');
+              localStorage.postItem(
+                'token',
+                'user',
+                'password',
+                'email',
+                'birthdate',
+                'favoriteMovies'
+              );
+              window.open('/client', '_self');
+            })
+            .catch((e) => {
+              alert('Error. Your update was not successful.');
+            })
+        );
+    }
   }
 
   deleteProfile(e) {

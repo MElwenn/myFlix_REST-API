@@ -109,14 +109,10 @@ export default class MainView extends React.Component {
                   Profile Sh
                 </Nav.Link>
 
-                <Nav.Link as={Link} to={`/users/${this.state.user}`}>
-                  Profile AK
+                <Nav.Link as={Link} to='/registration'>
+                  Sign Up
                 </Nav.Link>
 
-
-                <Link to={`/users/:Username`}>
-                  <Button variant="link">PROFILE</Button>
-                </Link>
               </Nav>
             </Navbar>
             <br />
@@ -158,13 +154,11 @@ export default class MainView extends React.Component {
                 () => <ProfileView movies={movies} />
               }
             />
-            <Link to={`/users/:Username`}>
-              <Button variant="link">PROFILE</Button>
-            </Link>
+            <br />
 
             <Button className="button-secondary" onClick={() => this.onLoggedOut()}>
               LOGOUT
-          </Button>
+            </Button>
           </div >
         </Container>
       </Router >
@@ -194,6 +188,14 @@ The following attemots are all WRONG
                 <Nav.Link as={Link} to={'/user/${Username._id}'}>
                   Profile F
                 </Nav.Link>
+
+                <Nav.Link as={Link} to={`/users/${this.state.user}`}>  Akunnas Suggestion
+                  Profile AK
+                </Nav.Link>
+
+                <Link to={`/users/:Username`}>
+                  <Button variant="link">PROFILE</Button>
+                </Link>
 */
 
 

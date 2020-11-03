@@ -17,7 +17,7 @@ export function RegistrationView() {  //function component with hooks
     e.preventDefault();
 
     axios
-      .post(`<https://movie-api-elwen.herokuapp.com/users>`, {
+      .post('https://movie-api-elwen.herokuapp.com/register', {
         Username: username,
         Password: password,
         Email: email,
