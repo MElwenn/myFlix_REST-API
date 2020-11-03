@@ -121,18 +121,18 @@ export class ProfileView extends React.Component {
 
   render() {
     const { movies } = this.props;
-    const { FavoriteMovies } = movies.filter(
+    const FavoriteMovies = movies.filter(
       (movie) => this.state.FavoriteMovies.includes(movie._id)
     );
 
     return (
-      <div className="movie-view">
+      <div className="profile-view">
         <Container className="container-box">
           <br />
-          <h1> {this.state.Username}'s Profile</h1>
+          <h1> My Profile</h1>
           <br />
           <Card>
-            <Card.Body>
+            <Card.Body className="container-box">
               <Card.Text>Username: {this.state.Username}</Card.Text>
               <Card.Text>Password: xxxxxxxx</Card.Text>
               <Card.Text>Email: {this.state.Email}</Card.Text>

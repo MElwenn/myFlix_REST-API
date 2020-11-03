@@ -51640,17 +51640,16 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       var movies = this.props.movies;
-
-      var _movies$filter = movies.filter(function (movie) {
+      var FavoriteMovies = movies.filter(function (movie) {
         return _this3.state.FavoriteMovies.includes(movie._id);
-      }),
-          FavoriteMovies = _movies$filter.FavoriteMovies;
-
+      });
       return _react.default.createElement("div", {
-        className: "movie-view"
+        className: "profile-view"
       }, _react.default.createElement(_Container.default, {
         className: "container-box"
-      }, _react.default.createElement("br", null), _react.default.createElement("h1", null, " ", this.state.Username, "'s Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: xxxxxxxx"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthdate), "Favorite Movies:", FavoriteMovies.map(function (movie) {
+      }, _react.default.createElement("br", null), _react.default.createElement("h1", null, " My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, {
+        className: "container-box"
+      }, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: xxxxxxxx"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthdate), "Favorite Movies:", FavoriteMovies.map(function (movie) {
         return _react.default.createElement("div", {
           key: movie._id
         }, _react.default.createElement(_reactRouterDom.Link, {
@@ -51882,34 +51881,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, "Home"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
-        to: "/user/:Username"
-      }, "Profile A"), _react.default.createElement(_reactBootstrap.Nav.Link, {
-        as: _reactRouterDom.Link,
         to: "/user"
-      }, "Profile B"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+      }, "Profile Sh"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
-        to: "/profile/:_id"
-      }, "Profile C"), _react.default.createElement(_reactBootstrap.Nav.Link, {
-        as: _reactRouterDom.Link,
-        to: "/user/:_id"
-      }, "Profile D"), _react.default.createElement(_reactBootstrap.Nav.Link, {
-        as: _reactRouterDom.Link,
-        to: "/profile"
-      }, "Profile E"), _react.default.createElement(_reactBootstrap.Nav.Link, {
-        as: _reactRouterDom.Link,
-        to: '/user/${Username._id}'
-      }, "Profile F"), _react.default.createElement(_reactBootstrap.Nav.Link, {
-        as: _reactRouterDom.Link,
-        to: '/profile/${Username._id}'
-      }, "Profile G"), _react.default.createElement(_reactRouterDom.Route, {
-        exact: true,
-        path: "/user",
-        render: function render() {
-          return _react.default.createElement(_profileView.ProfileView, {
-            movies: movies
-          });
-        }
-      }), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/users/".concat(this.state.user)
+      }, "Profile AK"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/users/:Username"
       }, _react.default.createElement(_Button.default, {
         variant: "link"
@@ -51992,7 +51968,31 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return MainView;
-}(_react.default.Component); //Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
+}(_react.default.Component);
+/* OLD Navbar approaches 3.5
+
+ <Route exact path='/user' render={       THIS is the working code to show the Profile content
+  () => <ProfileView movies={movies} />
+} />
+
+The following attemots are all WRONG
+                <Nav.Link as={Link} to='/user/:Username'>
+                  Profile A
+                </Nav.Link>
+                <Nav.Link as={Link} to='/profile/:_id'>
+                  Profile C
+                </Nav.Link>
+                <Nav.Link as={Link} to='/user/:_id'>
+                  Profile D
+                </Nav.Link>
+                <Nav.Link as={Link} to='/profile'>
+                  Profile E
+                </Nav.Link>
+                <Nav.Link as={Link} to={'/user/${Username._id}'}>
+                  Profile F
+                </Nav.Link>
+*/
+//Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
 // <Route exact path="/users" component={ProfileView} />
 
 
@@ -52093,7 +52093,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50441" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50123" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

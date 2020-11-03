@@ -104,30 +104,16 @@ export default class MainView extends React.Component {
                 <Nav.Link as={Link} to='/'>
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to='/user/:Username'>
-                  Profile A
-                </Nav.Link>
+
                 <Nav.Link as={Link} to='/user'>
-                  Profile B
+                  Profile Sh
                 </Nav.Link>
-                <Nav.Link as={Link} to='/profile/:_id'>
-                  Profile C
+
+                <Nav.Link as={Link} to={`/users/${this.state.user}`}>
+                  Profile AK
                 </Nav.Link>
-                <Nav.Link as={Link} to='/user/:_id'>
-                  Profile D
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile'>
-                  Profile E
-                </Nav.Link>
-                <Nav.Link as={Link} to={'/user/${Username._id}'}>
-                  Profile F
-                </Nav.Link>
-                <Nav.Link as={Link} to={'/profile/${Username._id}'}>
-                  Profile G
-                </Nav.Link>
-                <Route exact path='/user' render={
-                  () => <ProfileView movies={movies} />
-                } />
+
+
                 <Link to={`/users/:Username`}>
                   <Button variant="link">PROFILE</Button>
                 </Link>
@@ -185,6 +171,30 @@ export default class MainView extends React.Component {
     );
   }
 }
+
+/* OLD Navbar approaches 3.5
+
+ <Route exact path='/user' render={       THIS is the working code to show the Profile content
+  () => <ProfileView movies={movies} />
+} />
+
+The following attemots are all WRONG
+                <Nav.Link as={Link} to='/user/:Username'>
+                  Profile A
+                </Nav.Link>
+                <Nav.Link as={Link} to='/profile/:_id'>
+                  Profile C
+                </Nav.Link>
+                <Nav.Link as={Link} to='/user/:_id'>
+                  Profile D
+                </Nav.Link>
+                <Nav.Link as={Link} to='/profile'>
+                  Profile E
+                </Nav.Link>
+                <Nav.Link as={Link} to={'/user/${Username._id}'}>
+                  Profile F
+                </Nav.Link>
+*/
 
 
 //Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
