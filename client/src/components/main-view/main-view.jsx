@@ -86,6 +86,14 @@ export default class MainView extends React.Component {
     if (!movies)
       return <div className="main-view" />;
 
+    //Profile A: no error, no content rendered
+    //Profile B: 3 react-dom errors
+    //Profile C: no error, no content rendered
+    //Profile D: no error, no content rendered
+    //Profile E: no error, no content rendered
+    //Profile F: no error, no content rendered (Shan's Advice?)
+    //Profile F: no error, no content rendered (Shan's Advice?)
+
     return (
       <Router>
         <Container>
@@ -96,9 +104,33 @@ export default class MainView extends React.Component {
                 <Nav.Link as={Link} to='/'>
                   Home
                 </Nav.Link>
-                <Nav.Link as={Link} to='/users/:Username'>
-                  Profile
+                <Nav.Link as={Link} to='/user/:Username'>
+                  Profile A
                 </Nav.Link>
+                <Nav.Link as={Link} to='/user'>
+                  Profile B
+                </Nav.Link>
+                <Nav.Link as={Link} to='/profile/:_id'>
+                  Profile C
+                </Nav.Link>
+                <Nav.Link as={Link} to='/user/:_id'>
+                  Profile D
+                </Nav.Link>
+                <Nav.Link as={Link} to='/profile'>
+                  Profile E
+                </Nav.Link>
+                <Nav.Link as={Link} to={'/user/${Username._id}'}>
+                  Profile F
+                </Nav.Link>
+                <Nav.Link as={Link} to={'/profile/${Username._id}'}>
+                  Profile G
+                </Nav.Link>
+                <Route exact path='/user' render={
+                  () => <ProfileView movies={movies} />
+                } />
+                <Link to={`/users/:Username`}>
+                  <Button variant="link">PROFILE</Button>
+                </Link>
               </Nav>
             </Navbar>
             <br />

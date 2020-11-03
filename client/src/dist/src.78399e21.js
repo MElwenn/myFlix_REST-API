@@ -51859,7 +51859,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
-      });
+      }); //Profile A: no error, no content rendered
+      //Profile B: 3 react-dom errors
+      //Profile C: no error, no content rendered
+      //Profile D: no error, no content rendered
+      //Profile E: no error, no content rendered
+      //Profile F: no error, no content rendered (Shan's Advice?)
+      //Profile F: no error, no content rendered (Shan's Advice?)
+
       return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement(_Container.default, null, _react.default.createElement("div", {
         className: "main-view"
       }, _react.default.createElement(_reactBootstrap.Navbar, {
@@ -51875,8 +51882,38 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, "Home"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
+        to: "/user/:Username"
+      }, "Profile A"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: "/user"
+      }, "Profile B"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: "/profile/:_id"
+      }, "Profile C"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: "/user/:_id"
+      }, "Profile D"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: "/profile"
+      }, "Profile E"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: '/user/${Username._id}'
+      }, "Profile F"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+        as: _reactRouterDom.Link,
+        to: '/profile/${Username._id}'
+      }, "Profile G"), _react.default.createElement(_reactRouterDom.Route, {
+        exact: true,
+        path: "/user",
+        render: function render() {
+          return _react.default.createElement(_profileView.ProfileView, {
+            movies: movies
+          });
+        }
+      }), _react.default.createElement(_reactRouterDom.Link, {
         to: "/users/:Username"
-      }, "Profile"))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
+      }, _react.default.createElement(_Button.default, {
+        variant: "link"
+      }, "PROFILE")))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -52056,7 +52093,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56646" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50441" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
