@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
+//import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -133,62 +133,96 @@ export class ProfileView extends React.Component {
   }
 
   render() {
+    const { Username } = this.props;
+    const { Password } = this.props;
+    const { Email } = this.props;
+    const { Birthdate } = this.props;
     const { movies } = this.props;
+    //const { FavoriteMovies } = this.props;
     const FavoriteMovies = movies.filter(
       (movie) => this.state.FavoriteMovies.includes(movie._id)
     );
+    const { handleUpdate } = this.props;
 
     return (
-      <div className="profile-view">
-        <Container className="container-box">
+      <div className="profile-view" >
+        <Container className="container-box" >
           <br />
           <h1> My Profile</h1>
           <br />
-          <Card>
-            <Card.Body className="container-box">
-              <Card.Text>Username: {this.state.Username}</Card.Text>
-              <Card.Text>Password: xxxxxxxx</Card.Text>
-              <Card.Text>Email: {this.state.Email}</Card.Text>
-              <Card.Text>Birthday {this.state.Birthdate}</Card.Text>
-              Favorite Movies:
-              {FavoriteMovies.map((movie) => (
-                <div key={movie._id}>
-                  <Link to={`/movies/${movie._id}`}>
-                    <Button variant='link'>{movie.Title}</Button>
-                  </Link>
-                  <Button className='button-primary' variant='dark'
-                    onClick={(e) => this.addFavoriteMovie(movie._id)}>
-                    ADD MOVIE
-                  </Button>
-                </div>,
-                <div key={movie._id}>
-                  <Link to={`/movies/${movie._id}`}>
-                    <Button variant='link'>{movie.Title}</Button>
-                  </Link>
-                  <Button className='button-secondary' variant='dark'
-                    onClick={(e) => this.deleteFavoriteMovie(movie._id)}>
-                    REMOVE MOVIE
-                  </Button>
-                </div>
-              ))}
-              <br />
-              <Link to={`/user/update`}>
-                <Button className='button-primary' variant='dark'>
-                  UPDATE PROFILE
-              </Button>
-                <br />
-                <br />
-              </Link>
-              <Button className='button-secondary' variant='dark' onClick={() => this.deleteUser()}>
-                DELETE ACCOUNT
+          <Form>
+            <Form.Group controlId="formBasicUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Firtstname blank Lastname"
+                value={Username}
+                onChange={(e) => updateUsername(e.target.value)}
+              />
+              <Form.Text className="text-muted">
+                We'll never share your personal data with anyone else.
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={Password}
+                onChange={(e) => updatePassword(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Email"
+                value={Email}
+                onChange={(e) => updateEmail(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicBirthdate">
+              <Form.Label>Birthdate</Form.Label>
+              <Form.Control
+                type="birthdate"
+                placeholder="30.09.1999"
+                value={Birthdate}
+                onChange={(e) => updateBirthdate(e.target.value)}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formBasicFavoriteMovies">
+              <Form.Label>Favorite Movie</Form.Label>
+              <Form.Control
+                type="favoriteMovies"
+                placeholder="Add Favorite Movie"
+                value={FavoriteMovies}
+                onChange={(e) => updateFavoriteMovies(e.target.value)}
+              />
+            </Form.Group>
+
+            <Button
+              className="button-primary"
+              variant="dark"
+              type="submit"
+              onClick={handleUpdate}>
+              UPDATE PROFILE
             </Button>
-              <br />
-              <br />
-              <Link to={`/`}>
-                <Button className='button-primary' variant='dark'>CLOSE</Button>
-              </Link>
-            </Card.Body>
-          </Card>
+          </Form>
+          <br />
+          <br />
+
+          <Button className='button-secondary' variant='dark' onClick={() => this.deleteUser()}>
+            DELETE ACCOUNT
+          </Button>
+
+          <Link to={`/`}>
+            <Button className='button-primary' variant='dark'>CLOSE</Button>
+          </Link>
+
         </Container>
       </div>
     )

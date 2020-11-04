@@ -51487,8 +51487,6 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
-var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
-
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _reactRouterDom = require("react-router-dom");
@@ -51687,59 +51685,84 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      var movies = this.props.movies;
+      var Username = this.props.Username;
+      var Password = this.props.Password;
+      var Email = this.props.Email;
+      var Birthdate = this.props.Birthdate;
+      var movies = this.props.movies; //const { FavoriteMovies } = this.props;
+
       var FavoriteMovies = movies.filter(function (movie) {
         return _this3.state.FavoriteMovies.includes(movie._id);
       });
+      var handleUpdate = this.props.handleUpdate;
       return _react.default.createElement("div", {
         className: "profile-view"
       }, _react.default.createElement(_Container.default, {
         className: "container-box"
-      }, _react.default.createElement("br", null), _react.default.createElement("h1", null, " My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, {
-        className: "container-box"
-      }, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: xxxxxxxx"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthdate), "Favorite Movies:", FavoriteMovies.map(function (movie) {
-        return _react.default.createElement("div", {
-          key: movie._id
-        }, _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
-        }, _react.default.createElement(_Button.default, {
-          variant: "link"
-        }, movie.Title)), _react.default.createElement(_Button.default, {
-          className: "button-primary",
-          variant: "dark",
-          onClick: function onClick(e) {
-            return _this3.addFavoriteMovie(movie._id);
-          }
-        }, "ADD MOVIE")), _react.default.createElement("div", {
-          key: movie._id
-        }, _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
-        }, _react.default.createElement(_Button.default, {
-          variant: "link"
-        }, movie.Title)), _react.default.createElement(_Button.default, {
-          className: "button-secondary",
-          variant: "dark",
-          onClick: function onClick(e) {
-            return _this3.deleteFavoriteMovie(movie._id);
-          }
-        }, "REMOVE MOVIE"));
-      }), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/user/update"
-      }, _react.default.createElement(_Button.default, {
+      }, _react.default.createElement("br", null), _react.default.createElement("h1", null, " My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Form.default, null, _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicUsername"
+      }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
+        type: "text",
+        placeholder: "Firtstname blank Lastname",
+        value: Username,
+        onChange: function onChange(e) {
+          return updateUsername(e.target.value);
+        }
+      }), _react.default.createElement(_Form.default.Text, {
+        className: "text-muted"
+      }, "We'll never share your personal data with anyone else.")), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicPassword"
+      }, _react.default.createElement(_Form.default.Label, null, "Password"), _react.default.createElement(_Form.default.Control, {
+        type: "password",
+        placeholder: "Password",
+        value: Password,
+        onChange: function onChange(e) {
+          return updatePassword(e.target.value);
+        }
+      })), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicEmail"
+      }, _react.default.createElement(_Form.default.Label, null, "Email"), _react.default.createElement(_Form.default.Control, {
+        type: "email",
+        placeholder: "Email",
+        value: Email,
+        onChange: function onChange(e) {
+          return updateEmail(e.target.value);
+        }
+      })), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicBirthdate"
+      }, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
+        type: "birthdate",
+        placeholder: "30.09.1999",
+        value: Birthdate,
+        onChange: function onChange(e) {
+          return updateBirthdate(e.target.value);
+        }
+      })), _react.default.createElement(_Form.default.Group, {
+        controlId: "formBasicFavoriteMovies"
+      }, _react.default.createElement(_Form.default.Label, null, "Favorite Movie"), _react.default.createElement(_Form.default.Control, {
+        type: "favoriteMovies",
+        placeholder: "Add Favorite Movie",
+        value: FavoriteMovies,
+        onChange: function onChange(e) {
+          return updateFavoriteMovies(e.target.value);
+        }
+      })), _react.default.createElement(_Button.default, {
         className: "button-primary",
-        variant: "dark"
-      }, "UPDATE PROFILE"), _react.default.createElement("br", null), _react.default.createElement("br", null)), _react.default.createElement(_Button.default, {
+        variant: "dark",
+        type: "submit",
+        onClick: handleUpdate
+      }, "UPDATE PROFILE")), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_Button.default, {
         className: "button-secondary",
         variant: "dark",
         onClick: function onClick() {
           return _this3.deleteUser();
         }
-      }, "DELETE ACCOUNT"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      }, "DELETE ACCOUNT"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         className: "button-primary",
         variant: "dark"
-      }, "CLOSE"))))));
+      }, "CLOSE"))));
     }
   }]);
 
@@ -51747,7 +51770,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -52141,7 +52164,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54514" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54958" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
