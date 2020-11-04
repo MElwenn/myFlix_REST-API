@@ -37354,7 +37354,12 @@ function LoginView(props) {
   }).isRequired,
   onClick: PropTypes.func.isRequired
 };*/
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/registration-view/registration-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -37373,6 +37378,8 @@ var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 var _reactRouterDom = require("react-router-dom");
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+
+require("./registration-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37415,65 +37422,27 @@ function RegistrationView() {
       setBirthdate = _useState8[1];
 
   var handleSubmit = function handleSubmit(e) {
+    //Send a request to the server for authentication
     e.preventDefault();
-
-    _axios.default.post('https://movie-api-elwen.herokuapp.com/register', {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthdate: birthdate
-    }).then(function (response) {
-      var data = response.data;
-      alert('You signed up successfully, please login.');
-      console.log(data);
-      window.open('/client', '_self');
-    }).catch(function (e) {
-      console.log('error registering the user');
-    });
-  };
-  /*const handleSubmit = (e) => {  //Send a request to the server for authentication
-    e.preventDefault();
-     const createdUser = {
+    var createdUser = {
       Username: username,
       Password: password,
       Email: email,
       Birthdate: birthdate
     };
-     axios.post(`<https://movie-api-elwen.herokuapp.com/users>`, createdUser, {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday
-    })
-      .then(response => {
-        const data = response.data;
-        console.log(data);
-        window.open('/', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
-      })
-      .catch(e => {
-        console.log('error registering the user')
-      });
-    /*axios
-      .post(`<https://movie-api-elwen.herokuapp.com/users>`, createdUser)
-      .then((response) => {
-      //console.log(response);
-      //console.log(response.data);
-      const data = response.data;
+
+    _axios.default.post("https://movie-api-elwen.herokuapp.com/users", createdUser).then(function (response) {
+      console.log(response);
+      console.log(response.data); //const data = response.data;
+
       alert('You signed up successfully, please login.');
       console.log(data);
-      window.open('/client', '_self');
-    })
-    .catch((e) => {
-      console.log('Error. Your sign up was not successful.');
-    });*/
-  //};*/
-  // do I have to wrap 'render() {}' around the 'return()' ?
-  //render() {  //render the search result from GET all movies
-  // const { movies, createdUser } = this.state;
-  // Before the movies have been loaded
-  // if (!movies)
-  //  return <div className="main-view" />;
-
+      window.open('/client', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
+    }).catch(function (e) {
+      //console.log('Error. Your sign up was not successful.');
+      alert('Error. Sign up failed.');
+    });
+  };
 
   return _react.default.createElement(_Container.default, {
     className: "container-box"
@@ -37484,7 +37453,7 @@ function RegistrationView() {
     placeholder: "Firtstname blank Lastname",
     value: username,
     onChange: function onChange(e) {
-      return createUsername(e.target.value);
+      return setUsername(e.target.value);
     }
   }), _react.default.createElement(_Form.default.Text, {
     className: "text-muted"
@@ -37495,7 +37464,7 @@ function RegistrationView() {
     placeholder: "Enter password (8 digits letters and numbers)",
     value: password,
     onChange: function onChange(e) {
-      return createPassword(e.target.value);
+      return setPassword(e.target.value);
     }
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicEmail"
@@ -37504,7 +37473,7 @@ function RegistrationView() {
     placeholder: "Your Email address",
     value: email,
     onChange: function onChange(e) {
-      return createEmail(e.target.value);
+      return setEmail(e.target.value);
     }
   })), _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicBirthdate"
@@ -37513,13 +37482,13 @@ function RegistrationView() {
     placeholder: "Your day of birth (dd.mm.yyyy)",
     value: birthdate,
     onChange: function onChange(e) {
-      return createBirthdate(e.target.value);
+      return setBirthdate(e.target.value);
     }
   })), _react.default.createElement(_Button.default, {
     className: "button-primary",
-    variant: "primary",
+    variant: "dark",
     type: "submit",
-    onClick: this.handleSubmit
+    onClick: handleSubmit
   }, "SIGN UP"), _react.default.createElement(_reactRouterDom.Link, {
     to: "/login"
   }, _react.default.createElement(_Button.default, {
@@ -37527,8 +37496,54 @@ function RegistrationView() {
   }, "LOGIN"))));
 }
 
-;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
+; // OLD code
+
+/*const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post('https://movie-api-elwen.herokuapp.com/users', {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthdate: birthdate,
+      })
+      .then((response) => {
+        const data = response.data;
+        alert('You signed up successfully, please login.');
+        console.log(data);
+        window.open('/client', '_self');
+      })
+      .catch((e) => {
+        console.log('error registering the user');
+      });
+  };
+
+  axios.post(`https://movie-api-elwen.herokuapp.com/users`, createdUser, {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday
+    })
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        window.open('/', '_self');
+      })
+      .catch(e => {
+        console.log('error registering the user')
+      });
+
+        // do I have to wrap 'render() {}' around the 'return()' ?
+  //render() {  //render the search result from GET all movies
+  // const { movies, createdUser } = this.state;
+
+  // Before the movies have been loaded
+  // if (!movies)
+  //  return <div className="main-view" />;
+
+  */
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51621,7 +51636,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         console.log();
 
         _axios.default //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-        .put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+        .put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.putItem('user')), //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+        {
           Username: Username,
           Password: Password,
           Email: Email,
@@ -51929,14 +51945,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
-      }); //Profile A: no error, no content rendered
-      //Profile B: 3 react-dom errors
-      //Profile C: no error, no content rendered
-      //Profile D: no error, no content rendered
-      //Profile E: no error, no content rendered
-      //Profile F: no error, no content rendered (Shan's Advice?)
-      //Profile F: no error, no content rendered (Shan's Advice?)
-
+      });
       return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement(_Container.default, null, _react.default.createElement("div", {
         className: "main-view"
       }, _react.default.createElement(_reactBootstrap.Navbar, {
@@ -51953,9 +51962,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, "Home"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
         to: "/user"
-      }, "Profile Sh"), _react.default.createElement(_reactBootstrap.Nav.Link, {
+      }, "Profile"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
-        to: "/registration"
+        to: "/register"
       }, "Sign Up"))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
@@ -52033,6 +52042,15 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   return MainView;
 }(_react.default.Component);
 /* OLD Navbar approaches 3.5
+
+    //Profile A: no error, no content rendered
+    //Profile B: 3 react-dom errors
+    //Profile C: no error, no content rendered
+    //Profile D: no error, no content rendered
+    //Profile E: no error, no content rendered
+    //Profile F: no error, no content rendered (Shan's Advice?)
+    //Profile F: no error, no content rendered (Shan's Advice?)
+
 
  <Route exact path='/user' render={       THIS is the working code to show the Profile content
   () => <ProfileView movies={movies} />
@@ -52164,7 +52182,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54958" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56131" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

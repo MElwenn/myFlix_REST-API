@@ -62,7 +62,8 @@ export class ProfileView extends React.Component {
       console.log();
 
       axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-        .put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+        .put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.putItem('user')}`,
+          //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
           {
             Username: Username,
             Password: Password,

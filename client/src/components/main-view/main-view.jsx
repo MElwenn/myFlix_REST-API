@@ -86,14 +86,6 @@ export default class MainView extends React.Component {
     if (!movies)
       return <div className="main-view" />;
 
-    //Profile A: no error, no content rendered
-    //Profile B: 3 react-dom errors
-    //Profile C: no error, no content rendered
-    //Profile D: no error, no content rendered
-    //Profile E: no error, no content rendered
-    //Profile F: no error, no content rendered (Shan's Advice?)
-    //Profile F: no error, no content rendered (Shan's Advice?)
-
     return (
       <Router>
         <Container>
@@ -106,10 +98,10 @@ export default class MainView extends React.Component {
                 </Nav.Link>
 
                 <Nav.Link as={Link} to='/user'>
-                  Profile Sh
+                  Profile
                 </Nav.Link>
 
-                <Nav.Link as={Link} to='/registration'>
+                <Nav.Link as={Link} to='/register'>
                   Sign Up
                 </Nav.Link>
 
@@ -167,6 +159,15 @@ export default class MainView extends React.Component {
 }
 
 /* OLD Navbar approaches 3.5
+
+    //Profile A: no error, no content rendered
+    //Profile B: 3 react-dom errors
+    //Profile C: no error, no content rendered
+    //Profile D: no error, no content rendered
+    //Profile E: no error, no content rendered
+    //Profile F: no error, no content rendered (Shan's Advice?)
+    //Profile F: no error, no content rendered (Shan's Advice?)
+
 
  <Route exact path='/user' render={       THIS is the working code to show the Profile content
   () => <ProfileView movies={movies} />
