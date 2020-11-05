@@ -34,7 +34,7 @@ export class ProfileView extends React.Component {
 
     axios  //Displays users profile and favorite movies
       .get(`https://movie-api-elwen.herokuapp.com/users/${username}`, {
-        headers: { Authorization: 'Bearer ${token}' }
+        headers: { Authorization: `Bearer ${token}` }
       })
       .then((response) => {
         this.setState({
@@ -51,13 +51,13 @@ export class ProfileView extends React.Component {
   };
 
   updateProfile(props) {
-    const [Username, updateUsername] = useState('');
-    const [Password, updatePassword] = useState('');
-    const [Email, updateEmail] = useState('');
-    const [Birthdate, updateBirthdate] = useState('');
-    const [FavoriteMovies, updateFavoriteMovies] = useState('');
+    const [Username, updateUsername] = useState('');              //line 162
+    const [Password, updatePassword] = useState('');              //line 175
+    const [Email, updateEmail] = useState('');                    //line 185
+    const [Birthdate, updateBirthdate] = useState('');            //line 195
+    const [FavoriteMovies, updateFavoriteMovies] = useState('');  //line 205
 
-    const handleUpdate = (e) => {
+    const handleUpdate = (e) => {                                 //line 213
       e.preventDefault();
       console.log();
 
@@ -92,8 +92,9 @@ export class ProfileView extends React.Component {
               alert('Error. Your update was not successful.');
             })
         );
-    }
-  }
+    }//handleUpdate end
+
+  }//update profile end
 
   deleteProfile(e) {
     axios  //Allows existing users to deregister
@@ -110,7 +111,7 @@ export class ProfileView extends React.Component {
       .catch((e) => {
         alert('Error. Your account could not be deleted.');
       });
-  }
+  }//delete Profile end
 
   deleteFavoriteMovie(_id) {
     //deleteFavoriteMovie(e) {
@@ -131,7 +132,7 @@ export class ProfileView extends React.Component {
       .catch((e) => {
         alert('Error. Movie could not be removed from your favorites list.');
       });
-  }
+  }//delete FavMovie end
 
   render() {
     const { Username } = this.props;
@@ -162,7 +163,7 @@ export class ProfileView extends React.Component {
               />
               <Form.Text className="text-muted">
                 We'll never share your personal data with anyone else.
-              </Form.Text>
+             </Form.Text>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
@@ -191,7 +192,7 @@ export class ProfileView extends React.Component {
                 type="birthdate"
                 placeholder="30.09.1999"
                 value={Birthdate}
-                onChange={(e) => updateBirthdate(e.target.value)}
+                onChange={(e) => ubdateBirthdate(e.target.value)}
               />
             </Form.Group>
 
@@ -211,14 +212,14 @@ export class ProfileView extends React.Component {
               type="submit"
               onClick={handleUpdate}>
               UPDATE PROFILE
-            </Button>
+           </Button>
           </Form>
           <br />
           <br />
 
           <Button className='button-secondary' variant='dark' onClick={() => this.deleteUser()}>
             DELETE ACCOUNT
-          </Button>
+         </Button>
 
           <Link to={`/`}>
             <Button className='button-primary' variant='dark'>CLOSE</Button>
@@ -226,6 +227,7 @@ export class ProfileView extends React.Component {
 
         </Container>
       </div>
-    )
-  }
-}
+    )//return end
+  }//render end
+  //}NEW updateProfile end
+}//export end

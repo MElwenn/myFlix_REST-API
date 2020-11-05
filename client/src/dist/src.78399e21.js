@@ -51589,7 +51589,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       _axios.default //Displays users profile and favorite movies
       .get("https://movie-api-elwen.herokuapp.com/users/".concat(username), {
         headers: {
-          Authorization: 'Bearer ${token}'
+          Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
         _this2.setState({
@@ -51609,29 +51609,35 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var _useState = (0, _react.useState)(''),
           _useState2 = _slicedToArray(_useState, 2),
           Username = _useState2[0],
-          updateUsername = _useState2[1];
+          updateUsername = _useState2[1]; //line 162
+
 
       var _useState3 = (0, _react.useState)(''),
           _useState4 = _slicedToArray(_useState3, 2),
           Password = _useState4[0],
-          updatePassword = _useState4[1];
+          updatePassword = _useState4[1]; //line 175
+
 
       var _useState5 = (0, _react.useState)(''),
           _useState6 = _slicedToArray(_useState5, 2),
           Email = _useState6[0],
-          updateEmail = _useState6[1];
+          updateEmail = _useState6[1]; //line 185
+
 
       var _useState7 = (0, _react.useState)(''),
           _useState8 = _slicedToArray(_useState7, 2),
           Birthdate = _useState8[0],
-          updateBirthdate = _useState8[1];
+          updateBirthdate = _useState8[1]; //line 195
+
 
       var _useState9 = (0, _react.useState)(''),
           _useState10 = _slicedToArray(_useState9, 2),
           FavoriteMovies = _useState10[0],
-          updateFavoriteMovies = _useState10[1];
+          updateFavoriteMovies = _useState10[1]; //line 205
+
 
       var handleUpdate = function handleUpdate(e) {
+        //line 213
         e.preventDefault();
         console.log();
 
@@ -51656,8 +51662,10 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }).catch(function (e) {
           alert('Error. Your update was not successful.');
         }));
-      };
-    }
+      }; //handleUpdate end
+
+    } //update profile end
+
   }, {
     key: "deleteProfile",
     value: function deleteProfile(e) {
@@ -51674,7 +51682,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (e) {
         alert('Error. Your account could not be deleted.');
       });
-    }
+    } //delete Profile end
+
   }, {
     key: "deleteFavoriteMovie",
     value: function deleteFavoriteMovie(_id) {
@@ -51695,7 +51704,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       .catch(function (e) {
         alert('Error. Movie could not be removed from your favorites list.');
       });
-    }
+    } //delete FavMovie end
+
   }, {
     key: "render",
     value: function render() {
@@ -51751,7 +51761,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placeholder: "30.09.1999",
         value: Birthdate,
         onChange: function onChange(e) {
-          return updateBirthdate(e.target.value);
+          return ubdateBirthdate(e.target.value);
         }
       })), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicFavoriteMovies"
@@ -51778,12 +51788,15 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_Button.default, {
         className: "button-primary",
         variant: "dark"
-      }, "CLOSE"))));
-    }
+      }, "CLOSE")))); //return end
+    } //render end
+    //}NEW updateProfile end
+
   }]);
 
   return ProfileView;
-}(_react.default.Component);
+}(_react.default.Component); //export end
+
 
 exports.ProfileView = ProfileView;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
@@ -52182,7 +52195,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56131" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63420" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
