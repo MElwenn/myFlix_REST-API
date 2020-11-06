@@ -78,7 +78,7 @@ export function RegistrationView() {  //function component with hooks
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicBirthdate">
+        <Form.Group>
           <Form.Label>Birthdate</Form.Label>
           <Form.Control
             type="date"

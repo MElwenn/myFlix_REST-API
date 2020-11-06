@@ -37475,9 +37475,7 @@ function RegistrationView() {
     onChange: function onChange(e) {
       return setEmail(e.target.value);
     }
-  })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formBasicBirthdate"
-  }, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
+  })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
     type: "date",
     placeholder: "Your day of birth (dd.mm.yyyy)",
     value: birthdate,
@@ -51518,18 +51516,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -51562,12 +51548,43 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ProfileView);
 
     _this = _super.call(this, props);
+
+    _this.handleUpdate = function () {
+      //line 213
+      // e.preventDefault();
+      console.log(localStorage.getItem('token'));
+
+      _axios.default //Allows users to update their user info (username, password, email, date of birth, favorite movies)
+      .put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+        //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem('token'))
+        },
+        params: {
+          Username: _this.state.Username,
+          Password: _this.state.Password,
+          Email: _this.state.Email,
+          Birthdate: _this.state.Birthdate,
+          FavoriteMovies: _this.state.FavoriteMovies
+        }
+      }).then(function (response) {
+        var data = response.data;
+        console.log(data);
+        alert('Your profile was updated successfully, please login.');
+        localStorage.postItem('token', 'user', 'password', 'email', 'birthdate', 'favoriteMovies');
+        window.open('/client', '_self');
+      }).catch(function (e) {
+        console.log("err========", e);
+        alert('Error. Your update was not successful.');
+      });
+    };
+
     _this.state = {
       // Initialize the state to an empty object to destructure it later
-      Username: null,
-      Password: null,
-      Email: null,
-      Birthdate: null,
+      Username: '',
+      Password: '',
+      Email: '',
+      Birthdate: '',
       FavoriteMovies: []
     };
     return _this;
@@ -51588,6 +51605,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
       _axios.default //Displays users profile and favorite movies
       .get("https://movie-api-elwen.herokuapp.com/users/".concat(username), {
+        //this one is correct
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -51605,73 +51623,35 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "updateProfile",
-    value: function updateProfile(props) {
-      var _useState = (0, _react.useState)(''),
-          _useState2 = _slicedToArray(_useState, 2),
-          Username = _useState2[0],
-          updateUsername = _useState2[1]; //line 162
-
-
-      var _useState3 = (0, _react.useState)(''),
-          _useState4 = _slicedToArray(_useState3, 2),
-          Password = _useState4[0],
-          updatePassword = _useState4[1]; //line 175
-
-
-      var _useState5 = (0, _react.useState)(''),
-          _useState6 = _slicedToArray(_useState5, 2),
-          Email = _useState6[0],
-          updateEmail = _useState6[1]; //line 185
-
-
-      var _useState7 = (0, _react.useState)(''),
-          _useState8 = _slicedToArray(_useState7, 2),
-          Birthdate = _useState8[0],
-          updateBirthdate = _useState8[1]; //line 195
-
-
-      var _useState9 = (0, _react.useState)(''),
-          _useState10 = _slicedToArray(_useState9, 2),
-          FavoriteMovies = _useState10[0],
-          updateFavoriteMovies = _useState10[1]; //line 205
-
-
-      var handleUpdate = function handleUpdate(e) {
-        //line 213
-        e.preventDefault();
-        console.log();
-
-        _axios.default //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-        .put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.putItem('user')), //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
-        {
-          Username: Username,
-          Password: Password,
-          Email: Email,
-          Birthdate: Birthdate,
-          FavoriteMovies: FavoriteMovies
-        }, {
-          headers: {
-            Authorization: "Bearer ".concat(localStorage.postItem('token'))
-          }
-        }.then(function (response) {
-          var data = response.data;
-          console.log(data);
-          alert('Your profile was updated successfully, please login.');
-          localStorage.postItem('token', 'user', 'password', 'email', 'birthdate', 'favoriteMovies');
-          window.open('/client', '_self');
-        }).catch(function (e) {
-          alert('Error. Your update was not successful.');
-        }));
-      }; //handleUpdate end
-
-    } //update profile end
+    value: function updateProfile(props) {} //const [Username, updateUsername] = useState('');              //line 162
+    //const [Password, updatePassword] = useState('');              //line 175
+    //const [Email, updateEmail] = useState('');                    //line 185
+    //const [Birthdate, updateBirthdate] = useState('');            //line 195
+    //const [FavoriteMovies, updateFavoriteMovies] = useState('');  //line 205
+    // axios.get('/user', {
+    //   params: {
+    //     ID: 12345
+    //   }
+    // })
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // })
+    // .then(function () {
+    //   // always executed
+    // });  
 
   }, {
     key: "deleteProfile",
+    //handleUpdate end
+    //}//update profile end
     value: function deleteProfile(e) {
       _axios.default //Allows existing users to deregister
-      .delete("<https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'), ">"), //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,
-      {
+      .delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}>`,{ pre call version 2020-11-05
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,{
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -51691,8 +51671,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       console.log(this.props.movies);
 
       _axios.default //Allows users to remove a movie from their list of favorites
-      .delete("<https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Movies/").concat(_id, ">"), //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
-      {
+      .delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Movies/").concat(_id), {
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -51711,16 +51691,17 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      var Username = this.props.Username;
-      var Password = this.props.Password;
-      var Email = this.props.Email;
-      var Birthdate = this.props.Birthdate;
-      var movies = this.props.movies; //const { FavoriteMovies } = this.props;
+      var movies = this.props.movies;
+      var _this$state = this.state,
+          Username = _this$state.Username,
+          Password = _this$state.Password,
+          Email = _this$state.Email,
+          Birthdate = _this$state.Birthdate; //const { FavoriteMovies } = this.props;
 
       var FavoriteMovies = movies.filter(function (movie) {
         return _this3.state.FavoriteMovies.includes(movie._id);
-      });
-      var handleUpdate = this.props.handleUpdate;
+      }); // const { handleUpdate } = this.props;
+
       return _react.default.createElement("div", {
         className: "profile-view"
       }, _react.default.createElement(_Container.default, {
@@ -51732,7 +51713,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placeholder: "Firtstname blank Lastname",
         value: Username,
         onChange: function onChange(e) {
-          return updateUsername(e.target.value);
+          return _this3.setState({
+            Username: e.target.value
+          });
         }
       }), _react.default.createElement(_Form.default.Text, {
         className: "text-muted"
@@ -51743,7 +51726,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placeholder: "Password",
         value: Password,
         onChange: function onChange(e) {
-          return updatePassword(e.target.value);
+          return _this3.setState({
+            Password: e.target.value
+          });
         }
       })), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicEmail"
@@ -51752,16 +51737,18 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         placeholder: "Email",
         value: Email,
         onChange: function onChange(e) {
-          return updateEmail(e.target.value);
+          return _this3.setState({
+            Email: e.target.value
+          });
         }
-      })), _react.default.createElement(_Form.default.Group, {
-        controlId: "formBasicBirthdate"
-      }, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
-        type: "birthdate",
+      })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
+        type: "date",
         placeholder: "30.09.1999",
         value: Birthdate,
         onChange: function onChange(e) {
-          return ubdateBirthdate(e.target.value);
+          return _this3.setState({
+            Birthdate: e.target.value
+          });
         }
       })), _react.default.createElement(_Form.default.Group, {
         controlId: "formBasicFavoriteMovies"
@@ -51775,8 +51762,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       })), _react.default.createElement(_Button.default, {
         className: "button-primary",
         variant: "dark",
-        type: "submit",
-        onClick: handleUpdate
+        onClick: this.handleUpdate
       }, "UPDATE PROFILE")), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_Button.default, {
         className: "button-secondary",
         variant: "dark",
@@ -51974,7 +51960,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, "Home"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
-        to: "/user"
+        to: "/user/".concat(user)
       }, "Profile"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
         to: "/register"
@@ -52037,7 +52023,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
-        path: "/user",
+        path: "/user/:Username",
         render: function render() {
           return _react.default.createElement(_profileView.ProfileView, {
             movies: movies
@@ -52069,7 +52055,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   () => <ProfileView movies={movies} />
 } />
 
-The following attemots are all WRONG
+The following attempts are all WRONG
                 <Nav.Link as={Link} to='/user/:Username'>
                   Profile A
                 </Nav.Link>
@@ -52195,7 +52181,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63420" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54023" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

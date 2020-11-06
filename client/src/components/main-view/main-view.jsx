@@ -97,7 +97,7 @@ export default class MainView extends React.Component {
                   Home
                 </Nav.Link>
 
-                <Nav.Link as={Link} to='/user'>
+                <Nav.Link as={Link} to={`/user/${user}`}>
                   Profile
                 </Nav.Link>
 
@@ -141,7 +141,7 @@ export default class MainView extends React.Component {
               }
             } />
 
-            <Route exact path='/user'
+            <Route exact path='/user/:Username'
               render={
                 () => <ProfileView movies={movies} />
               }
@@ -173,7 +173,7 @@ export default class MainView extends React.Component {
   () => <ProfileView movies={movies} />
 } />
 
-The following attemots are all WRONG
+The following attempts are all WRONG
                 <Nav.Link as={Link} to='/user/:Username'>
                   Profile A
                 </Nav.Link>

@@ -11,16 +11,17 @@ import Button from 'react-bootstrap/Button';
 
 import './profile-view.scss';
 
+
 export class ProfileView extends React.Component {
   //export default class ProfileView extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {   // Initialize the state to an empty object to destructure it later
-      Username: null,
-      Password: null,
-      Email: null,
-      Birthdate: null,
+      Username: '',
+      Password: '',
+      Email: '',
+      Birthdate: '',
       FavoriteMovies: []
     };
   }
@@ -33,7 +34,7 @@ export class ProfileView extends React.Component {
     const username = localStorage.getItem('user');
 
     axios  //Displays users profile and favorite movies
-      .get(`https://movie-api-elwen.herokuapp.com/users/${username}`, {
+      .get(`https://movie-api-elwen.herokuapp.com/users/${username}`, {  //this one is correct
         headers: { Authorization: `Bearer ${token}` }
       })
       .then((response) => {
@@ -49,60 +50,76 @@ export class ProfileView extends React.Component {
         console.log(err);
       });
   };
-
   updateProfile(props) {
-    const [Username, updateUsername] = useState('');              //line 162
-    const [Password, updatePassword] = useState('');              //line 175
-    const [Email, updateEmail] = useState('');                    //line 185
-    const [Birthdate, updateBirthdate] = useState('');            //line 195
-    const [FavoriteMovies, updateFavoriteMovies] = useState('');  //line 205
+    //const [Username, updateUsername] = useState('');              //line 162
+    //const [Password, updatePassword] = useState('');              //line 175
+    //const [Email, updateEmail] = useState('');                    //line 185
+    //const [Birthdate, updateBirthdate] = useState('');            //line 195
+    //const [FavoriteMovies, updateFavoriteMovies] = useState('');  //line 205
+  }
 
-    const handleUpdate = (e) => {                                 //line 213
-      e.preventDefault();
-      console.log();
+  // axios.get('/user', {
+  //   params: {
+  //     ID: 12345
+  //   }
+  // })
+  // .then(function (response) {
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // })
+  // .then(function () {
+  //   // always executed
+  // });  
 
-      axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-        .put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.putItem('user')}`,
-          //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
-          {
-            Username: Username,
-            Password: Password,
-            Email: Email,
-            Birthdate: Birthdate,
-            FavoriteMovies: FavoriteMovies
-          },
-          {
-            headers: { Authorization: `Bearer ${localStorage.postItem('token')}` }
-          }
-            .then((response) => {
-              const data = response.data;
-              console.log(data);
-              alert('Your profile was updated successfully, please login.');
-              localStorage.postItem(
-                'token',
-                'user',
-                'password',
-                'email',
-                'birthdate',
-                'favoriteMovies'
-              );
-              window.open('/client', '_self');
-            })
-            .catch((e) => {
-              alert('Error. Your update was not successful.');
-            })
+  handleUpdate = () => {                                 //line 213
+    // e.preventDefault();
+    console.log(localStorage.getItem('token'));
+
+    axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
+      .put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`, {
+        //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        params: {
+          Username: this.state.Username,
+          Password: this.state.Password,
+          Email: this.state.Email,
+          Birthdate: this.state.Birthdate,
+          FavoriteMovies: this.state.FavoriteMovies
+        }
+
+      })
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        alert('Your profile was updated successfully, please login.');
+        localStorage.postItem(
+          'token',
+          'user',
+          'password',
+          'email',
+          'birthdate',
+          'favoriteMovies'
         );
-    }//handleUpdate end
+        window.open('/client', '_self');
+      })
+      .catch((e) => {
+        console.log("err========", e)
+        alert('Error. Your update was not successful.');
+      })
 
-  }//update profile end
+  }//handleUpdate end
+
+  //}//update profile end
 
   deleteProfile(e) {
     axios  //Allows existing users to deregister
-      .delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}>`,
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        })
+      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`, {
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}>`,{ pre call version 2020-11-05
+        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,{
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((response) => {
         alert('Your acount including all user data was deleted successfully.');
         localStorage.removeItem('token', 'user');
@@ -118,11 +135,10 @@ export class ProfileView extends React.Component {
     console.log(this.props.movies);
 
     axios  //Allows users to remove a movie from their list of favorites
-      .delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}>`,
+      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}`, {
         //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        })
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((response) => {
         alert('Movie has been removed from your fovorites list.');
         localStorage.removeItem('token', 'user');
@@ -134,17 +150,16 @@ export class ProfileView extends React.Component {
       });
   }//delete FavMovie end
 
+
   render() {
-    const { Username } = this.props;
-    const { Password } = this.props;
-    const { Email } = this.props;
-    const { Birthdate } = this.props;
     const { movies } = this.props;
+
+    const { Username, Password, Email, Birthdate } = this.state
     //const { FavoriteMovies } = this.props;
     const FavoriteMovies = movies.filter(
       (movie) => this.state.FavoriteMovies.includes(movie._id)
     );
-    const { handleUpdate } = this.props;
+    // const { handleUpdate } = this.props;
 
     return (
       <div className="profile-view" >
@@ -159,7 +174,7 @@ export class ProfileView extends React.Component {
                 type="text"
                 placeholder="Firtstname blank Lastname"
                 value={Username}
-                onChange={(e) => updateUsername(e.target.value)}
+                onChange={(e) => this.setState({ Username: e.target.value })}
               />
               <Form.Text className="text-muted">
                 We'll never share your personal data with anyone else.
@@ -172,7 +187,7 @@ export class ProfileView extends React.Component {
                 type="password"
                 placeholder="Password"
                 value={Password}
-                onChange={(e) => updatePassword(e.target.value)}
+                onChange={(e) => this.setState({ Password: e.target.value })}
               />
             </Form.Group>
 
@@ -182,17 +197,17 @@ export class ProfileView extends React.Component {
                 type="email"
                 placeholder="Email"
                 value={Email}
-                onChange={(e) => updateEmail(e.target.value)}
+                onChange={(e) => this.setState({ Email: e.target.value })}
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicBirthdate">
+            <Form.Group>
               <Form.Label>Birthdate</Form.Label>
               <Form.Control
-                type="birthdate"
+                type="date"
                 placeholder="30.09.1999"
                 value={Birthdate}
-                onChange={(e) => ubdateBirthdate(e.target.value)}
+                onChange={(e) => this.setState({ Birthdate: e.target.value })}
               />
             </Form.Group>
 
@@ -209,8 +224,7 @@ export class ProfileView extends React.Component {
             <Button
               className="button-primary"
               variant="dark"
-              type="submit"
-              onClick={handleUpdate}>
+              onClick={this.handleUpdate}>
               UPDATE PROFILE
            </Button>
           </Form>
@@ -229,5 +243,6 @@ export class ProfileView extends React.Component {
       </div>
     )//return end
   }//render end
+
   //}NEW updateProfile end
-}//export end
+} //export end
