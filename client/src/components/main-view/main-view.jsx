@@ -101,6 +101,10 @@ export default class MainView extends React.Component {
                   Profile
                 </Nav.Link>
 
+                {/*<Nav.Link as={Link} to='/login'>
+                  Login
+                </Nav.Link>*/}
+
                 <Nav.Link as={Link} to='/register'>
                   Sign Up
                 </Nav.Link>
@@ -116,6 +120,8 @@ export default class MainView extends React.Component {
                 );
               return movies.map((m) => <MovieCard key={m._id} movie={m} />);
             }} />
+
+            {/*<Route path="/login" render={() => <LoginView />} />*/}
 
             <Route path="/register" render={() => <RegistrationView />} />
 
@@ -158,49 +164,4 @@ export default class MainView extends React.Component {
   }
 }
 
-/* OLD Navbar approaches 3.5
-
-    //Profile A: no error, no content rendered
-    //Profile B: 3 react-dom errors
-    //Profile C: no error, no content rendered
-    //Profile D: no error, no content rendered
-    //Profile E: no error, no content rendered
-    //Profile F: no error, no content rendered (Shan's Advice?)
-    //Profile F: no error, no content rendered (Shan's Advice?)
-
-
- <Route exact path='/user' render={       THIS is the working code to show the Profile content
-  () => <ProfileView movies={movies} />
-} />
-
-The following attempts are all WRONG
-                <Nav.Link as={Link} to='/user/:Username'>
-                  Profile A
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile/:_id'>
-                  Profile C
-                </Nav.Link>
-                <Nav.Link as={Link} to='/user/:_id'>
-                  Profile D
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile'>
-                  Profile E
-                </Nav.Link>
-                <Nav.Link as={Link} to={'/user/${Username._id}'}>
-                  Profile F
-                </Nav.Link>
-
-                <Nav.Link as={Link} to={`/users/${this.state.user}`}>  Akunnas Suggestion
-                  Profile AK
-                </Nav.Link>
-
-                <Link to={`/users/:Username`}>
-                  <Button variant="link">PROFILE</Button>
-                </Link>
-*/
-
-
-//Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
-
-// <Route exact path="/users" component={ProfileView} />
 

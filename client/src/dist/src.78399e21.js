@@ -37331,11 +37331,7 @@ function LoginView(props) {
     variant: "primary",
     type: "submit",
     onClick: handleSubmit
-  }, "LOGIN"), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/registration"
-  }, _react.default.createElement(_Button.default, {
-    className: "button-secondary"
-  }, "SIGN UP"))));
+  }, "LOGIN")));
 }
 
 ;
@@ -37344,16 +37340,6 @@ function LoginView(props) {
           LOGIN
         </Button>
 */
-
-/*LoginView.propTypes = {  // why LoginView is yellow whereas in other components it's cyan?
-  user: PropTypes.shape({
-    Username: PropTypes.string,
-    Password: PropTypes.string.isRequired,
-    Email: PropTypes.string.isRequired,
-    Birthdate: PropTypes.string.isRequired // is this really a string or rather a date?
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-};*/
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -37479,11 +37465,7 @@ function RegistrationView() {
     variant: "dark",
     type: "submit",
     onClick: handleSubmit
-  }, "SIGN UP"), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/login"
-  }, _react.default.createElement(_Button.default, {
-    className: "button-secondary"
-  }, "LOGIN"))));
+  }, "SIGN UP")));
 }
 
 ; // OLD code
@@ -51986,49 +51968,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
   return MainView;
 }(_react.default.Component);
-/* OLD Navbar approaches 3.5
-
-    //Profile A: no error, no content rendered
-    //Profile B: 3 react-dom errors
-    //Profile C: no error, no content rendered
-    //Profile D: no error, no content rendered
-    //Profile E: no error, no content rendered
-    //Profile F: no error, no content rendered (Shan's Advice?)
-    //Profile F: no error, no content rendered (Shan's Advice?)
-
-
- <Route exact path='/user' render={       THIS is the working code to show the Profile content
-  () => <ProfileView movies={movies} />
-} />
-
-The following attempts are all WRONG
-                <Nav.Link as={Link} to='/user/:Username'>
-                  Profile A
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile/:_id'>
-                  Profile C
-                </Nav.Link>
-                <Nav.Link as={Link} to='/user/:_id'>
-                  Profile D
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile'>
-                  Profile E
-                </Nav.Link>
-                <Nav.Link as={Link} to={'/user/${Username._id}'}>
-                  Profile F
-                </Nav.Link>
-
-                <Nav.Link as={Link} to={`/users/${this.state.user}`}>  Akunnas Suggestion
-                  Profile AK
-                </Nav.Link>
-
-                <Link to={`/users/:Username`}>
-                  <Button variant="link">PROFILE</Button>
-                </Link>
-*/
-//Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
-// <Route exact path="/users" component={ProfileView} />
-
 
 exports.default = MainView;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-bootstrap/esm/Button":"../node_modules/react-bootstrap/esm/Button.js","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
@@ -52127,7 +52066,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52573" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55572" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
