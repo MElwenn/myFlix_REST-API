@@ -37,8 +37,8 @@ export function RegistrationView() {  //function component with hooks
         window.open('/client', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
       })
       .catch((e) => {
-        //console.log('Error. Your sign up was not successful.');
-        alert('Error. Sign up failed.');
+        console.log('Error. Your sign up was not successful.');
+        //alert('Error. Sign up failed.');
       });
   };
 
@@ -78,7 +78,7 @@ export function RegistrationView() {  //function component with hooks
           />
         </Form.Group>
 
-        <Form.Group>
+        {/*<Form.Group>
           <Form.Label>Birthdate</Form.Label>
           <Form.Control
             type="date"
@@ -86,7 +86,7 @@ export function RegistrationView() {  //function component with hooks
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
           />
-        </Form.Group>
+        </Form.Group>*/}
 
         <Button className="button-primary" variant="dark" type="submit" onClick={handleSubmit}>
           SIGN UP

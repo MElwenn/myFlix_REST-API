@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import Container from 'react-bootstrap/Container';
-//import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
@@ -50,76 +50,44 @@ export class ProfileView extends React.Component {
         console.log(err);
       });
   };
-  updateProfile(props) {
-    //const [Username, updateUsername] = useState('');              //line 162
-    //const [Password, updatePassword] = useState('');              //line 175
-    //const [Email, updateEmail] = useState('');                    //line 185
-    //const [Birthdate, updateBirthdate] = useState('');            //line 195
-    //const [FavoriteMovies, updateFavoriteMovies] = useState('');  //line 205
-  }
 
-  // axios.get('/user', {
-  //   params: {
-  //     ID: 12345
-  //   }
-  // })
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // })
-  // .then(function () {
-  //   // always executed
-  // });  
+  handleUpdate = () => {
+    console.log(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`);
 
-  handleUpdate = () => {                                 //line 213
-    // e.preventDefault();
-    console.log(localStorage.getItem('token'));
+    //Allows users to update their user info (username, password, email, date of birth, favorite movies)
+    axios.put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`, {
+      Username: this.state.Username,
+      Password: this.state.Password,
+      Email: this.state.Email,
+      //Birthdate: this.state.Birthdate,
+      FavoriteMovies: this.state.FavoriteMovies
 
-    axios  //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      .put(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`, {
-        //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        params: {
-          Username: this.state.Username,
-          Password: this.state.Password,
-          Email: this.state.Email,
-          Birthdate: this.state.Birthdate,
-          FavoriteMovies: this.state.FavoriteMovies
-        }
 
-      })
+    }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
       .then((response) => {
         const data = response.data;
         console.log(data);
         alert('Your profile was updated successfully, please login.');
-        localStorage.postItem(
-          'token',
-          'user',
-          'password',
-          'email',
-          'birthdate',
-          'favoriteMovies'
-        );
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', data.Username);
+
         window.open('/client', '_self');
       })
       .catch((e) => {
-        console.log("err========", e)
         alert('Error. Your update was not successful.');
       })
 
-  }//handleUpdate end
-
-  //}//update profile end
+  }
 
   deleteProfile(e) {
     axios  //Allows existing users to deregister
-      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`, {
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}>`,{ pre call version 2020-11-05
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,{
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
+      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        })
       .then((response) => {
         alert('Your acount including all user data was deleted successfully.');
         localStorage.removeItem('token', 'user');
@@ -128,7 +96,7 @@ export class ProfileView extends React.Component {
       .catch((e) => {
         alert('Error. Your account could not be deleted.');
       });
-  }//delete Profile end
+  }
 
   deleteFavoriteMovie(_id) {
     //deleteFavoriteMovie(e) {
@@ -148,19 +116,17 @@ export class ProfileView extends React.Component {
       .catch((e) => {
         alert('Error. Movie could not be removed from your favorites list.');
       });
-  }//delete FavMovie end
+  }
 
 
   render() {
     const { movies } = this.props;
 
     const { Username, Password, Email, Birthdate } = this.state
-    //const { FavoriteMovies } = this.props;
+
     const FavoriteMovies = movies.filter(
       (movie) => this.state.FavoriteMovies.includes(movie._id)
     );
-    // const { handleUpdate } = this.props;
-
     return (
       <div className="profile-view" >
         <Container className="container-box" >
@@ -201,25 +167,22 @@ export class ProfileView extends React.Component {
               />
             </Form.Group>
 
-            <Form.Group>
-              <Form.Label>Birthdate</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder="30.09.1999"
-                value={Birthdate}
-                onChange={(e) => this.setState({ Birthdate: e.target.value })}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicFavoriteMovies">
+            {/*<Form.Group controlId="formBasicFavoriteMovies">
               <Form.Label>Favorite Movie</Form.Label>
+              <Card className='container-box-text'>
+                {FavoriteMovies.map((movie, id) => <div key={id}>{movie.Title}</div>)}
+              </Card>
               <Form.Control
-                type="favoriteMovies"
                 placeholder="Add Favorite Movie"
                 value={FavoriteMovies}
                 onChange={(e) => updateFavoriteMovies(e.target.value)}
               />
-            </Form.Group>
+            </Form.Group>*/}
+
+            <Card className='container-box-text'>
+              {FavoriteMovies.map((movie, id) => <div key={id}>{movie.Title}</div>)}
+            </Card>
+
 
             <Button
               className="button-primary"
@@ -231,9 +194,9 @@ export class ProfileView extends React.Component {
           <br />
           <br />
 
-          <Button className='button-secondary' variant='dark' onClick={() => this.deleteUser()}>
+          <Button className='button-secondary' variant='dark' onClick={() => this.deleteProfile()}>
             DELETE ACCOUNT
-         </Button>
+          </Button>
 
           <Link to={`/`}>
             <Button className='button-primary' variant='dark'>CLOSE</Button>
@@ -244,5 +207,4 @@ export class ProfileView extends React.Component {
     )//return end
   }//render end
 
-  //}NEW updateProfile end
 } //export end

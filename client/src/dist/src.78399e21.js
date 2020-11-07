@@ -37439,8 +37439,7 @@ function RegistrationView() {
       console.log(data);
       window.open('/client', '_self'); // the second argument '_self' is necessary so that the page will open in the current tab
     }).catch(function (e) {
-      //console.log('Error. Your sign up was not successful.');
-      alert('Error. Sign up failed.');
+      console.log('Error. Your sign up was not successful.'); //alert('Error. Sign up failed.');
     });
   };
 
@@ -37474,13 +37473,6 @@ function RegistrationView() {
     value: email,
     onChange: function onChange(e) {
       return setEmail(e.target.value);
-    }
-  })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
-    type: "date",
-    placeholder: "Your day of birth (dd.mm.yyyy)",
-    value: birthdate,
-    onChange: function onChange(e) {
-      return setBirthdate(e.target.value);
     }
   })), _react.default.createElement(_Button.default, {
     className: "button-primary",
@@ -51502,6 +51494,8 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
+var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+
 var _reactRouterDom = require("react-router-dom");
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
@@ -51550,31 +51544,26 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
 
     _this.handleUpdate = function () {
-      //line 213
-      // e.preventDefault();
-      console.log(localStorage.getItem('token'));
+      console.log("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'))); //Allows users to update their user info (username, password, email, date of birth, favorite movies)
 
-      _axios.default //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      .put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
-        //.get(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+      _axios.default.put("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+        Username: _this.state.Username,
+        Password: _this.state.Password,
+        Email: _this.state.Email,
+        //Birthdate: this.state.Birthdate,
+        FavoriteMovies: _this.state.FavoriteMovies
+      }, {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
-        },
-        params: {
-          Username: _this.state.Username,
-          Password: _this.state.Password,
-          Email: _this.state.Email,
-          Birthdate: _this.state.Birthdate,
-          FavoriteMovies: _this.state.FavoriteMovies
         }
       }).then(function (response) {
         var data = response.data;
         console.log(data);
         alert('Your profile was updated successfully, please login.');
-        localStorage.postItem('token', 'user', 'password', 'email', 'birthdate', 'favoriteMovies');
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', data.Username);
         window.open('/client', '_self');
       }).catch(function (e) {
-        console.log("err========", e);
         alert('Error. Your update was not successful.');
       });
     };
@@ -51622,36 +51611,10 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "updateProfile",
-    value: function updateProfile(props) {} //const [Username, updateUsername] = useState('');              //line 162
-    //const [Password, updatePassword] = useState('');              //line 175
-    //const [Email, updateEmail] = useState('');                    //line 185
-    //const [Birthdate, updateBirthdate] = useState('');            //line 195
-    //const [FavoriteMovies, updateFavoriteMovies] = useState('');  //line 205
-    // axios.get('/user', {
-    //   params: {
-    //     ID: 12345
-    //   }
-    // })
-    // .then(function (response) {
-    //   console.log(response);
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // })
-    // .then(function () {
-    //   // always executed
-    // });  
-
-  }, {
     key: "deleteProfile",
-    //handleUpdate end
-    //}//update profile end
     value: function deleteProfile(e) {
       _axios.default //Allows existing users to deregister
       .delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}>`,{ pre call version 2020-11-05
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}>`,{
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -51662,8 +51625,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (e) {
         alert('Error. Your account could not be deleted.');
       });
-    } //delete Profile end
-
+    }
   }, {
     key: "deleteFavoriteMovie",
     value: function deleteFavoriteMovie(_id) {
@@ -51684,8 +51646,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       .catch(function (e) {
         alert('Error. Movie could not be removed from your favorites list.');
       });
-    } //delete FavMovie end
-
+    }
   }, {
     key: "render",
     value: function render() {
@@ -51696,12 +51657,10 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Username = _this$state.Username,
           Password = _this$state.Password,
           Email = _this$state.Email,
-          Birthdate = _this$state.Birthdate; //const { FavoriteMovies } = this.props;
-
+          Birthdate = _this$state.Birthdate;
       var FavoriteMovies = movies.filter(function (movie) {
         return _this3.state.FavoriteMovies.includes(movie._id);
-      }); // const { handleUpdate } = this.props;
-
+      });
       return _react.default.createElement("div", {
         className: "profile-view"
       }, _react.default.createElement(_Container.default, {
@@ -51741,24 +51700,12 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
             Email: e.target.value
           });
         }
-      })), _react.default.createElement(_Form.default.Group, null, _react.default.createElement(_Form.default.Label, null, "Birthdate"), _react.default.createElement(_Form.default.Control, {
-        type: "date",
-        placeholder: "30.09.1999",
-        value: Birthdate,
-        onChange: function onChange(e) {
-          return _this3.setState({
-            Birthdate: e.target.value
-          });
-        }
-      })), _react.default.createElement(_Form.default.Group, {
-        controlId: "formBasicFavoriteMovies"
-      }, _react.default.createElement(_Form.default.Label, null, "Favorite Movie"), _react.default.createElement(_Form.default.Control, {
-        type: "favoriteMovies",
-        placeholder: "Add Favorite Movie",
-        value: FavoriteMovies,
-        onChange: function onChange(e) {
-          return updateFavoriteMovies(e.target.value);
-        }
+      })), _react.default.createElement(_Card.default, {
+        className: "container-box-text"
+      }, FavoriteMovies.map(function (movie, id) {
+        return _react.default.createElement("div", {
+          key: id
+        }, movie.Title);
       })), _react.default.createElement(_Button.default, {
         className: "button-primary",
         variant: "dark",
@@ -51767,7 +51714,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         className: "button-secondary",
         variant: "dark",
         onClick: function onClick() {
-          return _this3.deleteUser();
+          return _this3.deleteProfile();
         }
       }, "DELETE ACCOUNT"), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -51776,7 +51723,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         variant: "dark"
       }, "CLOSE")))); //return end
     } //render end
-    //}NEW updateProfile end
 
   }]);
 
@@ -51785,7 +51731,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -52181,7 +52127,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59683" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52573" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
