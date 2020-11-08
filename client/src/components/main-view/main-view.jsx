@@ -22,8 +22,10 @@ import Button from 'react-bootstrap/esm/Button';
 
 import './main-view.scss';
 
-//export class MainView extends React.Component {
-export default class MainView extends React.Component {
+//export default class MainView extends React.Component { 
+// 3.5-export to be replaced by export default connect(mapStateToProps (line 178) 
+//as Only one default export allowed per module
+class MainView extends React.Component {
   constructor(props) {
     super(props);  // Call the superclass constructor so React can initialize it
     this.state = {   // Initialize the state to an empty object so we can destructure it later
