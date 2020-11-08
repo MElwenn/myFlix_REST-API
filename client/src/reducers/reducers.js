@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { SET_FILTER, SET_MOVIES } from '../actions/actions';
+import { SET_FILTER, SET_MOVIES, SET_MOVIE_FILTER } from '../actions/actions';
 
 function visibilityFilter(state = '', action) {
     switch (action.type) {
@@ -20,6 +20,15 @@ function movies(state = [], action) {
     }
 }
 
+function movieFilter(state = '', action) {
+    switch (action.type) {
+        case SET_MOVIE_FILTER:
+            return action.value;
+        default:
+            return state;
+    }
+}
+
 // groups all the reducers together and only passes them the state that they care about
 //function moviesApp(state = {}, action) {
 //    return {
@@ -30,7 +39,8 @@ function movies(state = [], action) {
 
 const moviesApp = combineReducers({
     visibilityFilter,
-    movies
+    movies,
+    movieFilter
 });
 
 export default moviesApp;

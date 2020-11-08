@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
@@ -15,10 +16,12 @@ import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
+import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import { MovieFilter } from '../movie-filter/movie-filter';
+import movieFilterDropdown from '../movie-filter/movie-filter';
 
 import Container from 'react-bootstrap/Container';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/esm/Button';
 
 import './main-view.scss';
@@ -94,6 +97,22 @@ class MainView extends React.Component {
     let { movies } = this.props;       // THIS is what's proposed in 3.6
     let { user } = this.state;         // THIS is what's proposed in 3.6
 
+    //filter movies
+    /*const { visibilityFilter, movieFilter } = props;
+    const filteredMovies = [...movies];
+
+    if (visibilityFilter !== '') {
+      filteredMovies = movies.filter(m => m.Title.toLowerCase().includes(visibilityFilter.toLowerCase()));
+    }
+
+    switch (movieFilter) {
+      case 'Movie Title':
+        filteredMovies.sort((a, b) => (a.Title > b.Title) ? 1 : -1)
+        break;
+      default:
+        break;
+    }*/ // filter movies end
+
     // Before the movies have been loaded
     if (!movies)
       return <div className="main-view" />;
@@ -126,6 +145,18 @@ class MainView extends React.Component {
             <br />
             <br />
             <br />
+
+            {/*<div>
+              <Row className="mb-3">
+                <Col xs={12} sm={4}>
+                  <VisibilityFilterInput visibilityFilter={visibilityFilter} />
+                </Col>
+                <Col xs={12} sm={4}>
+                  <MovieFilterDropdown movieFilter={movieFilter} />
+                </Col>
+              </Row>
+            </div>*/}
+
             <Route exact path="/" render={() => {
               if (!user)
                 return (
@@ -184,3 +215,22 @@ let mapStateToProps = state => {
 
 export default connect(mapStateToProps, { setMovies })(MainView);
 
+/*MainView.propTypes = {
+
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      Title: PropTypes.string,
+      ImageUrl: PropTypes.string,
+      Description: PropTypes.string,
+      Genre: PropTypes.exact({
+        _id: PropTypes.string,
+        Name: PropTypes.string,
+        Description: PropTypes.string
+      }),
+      Director: PropTypes.shape({
+        Name: PropTypes.string
+      })
+    })
+  ),
+  //onToggleFavourite: PropTypes.func.isRequired
+};*/
