@@ -1,9 +1,13 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
+import { setMovies } from '../../actions/actions';  //import actions for Redux
+
+import MoviesList from '../movies-list/movies-list';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
@@ -43,9 +47,10 @@ export default class MainView extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
-        this.setState({   // Assign the result to the state
-          movies: response.data
-        });
+        //this.setState({   // working 3.5 code (Assign the result to the state)
+        this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
+        movies: response.data
+        //});               // working 3.5 code (Assign the result to the state)
       })
       .catch(function (error) {
         console.log(error);
@@ -80,7 +85,11 @@ export default class MainView extends React.Component {
   }
 
   render() {  //render the search result from GET all movies
-    const { movies, user } = this.state;
+
+    //const { movies, user } = this.state; // working 3.5 code
+    // connect actions to the MainView (wrapping inputs and outputs to a component)
+    let { movies } = this.props;       // THIS is what's proposed in 3.6
+    let { user } = this.state;         // THIS is what's proposed in 3.6
 
     // Before the movies have been loaded
     if (!movies)
@@ -101,9 +110,9 @@ export default class MainView extends React.Component {
                   Profile
                 </Nav.Link>
 
-                <Nav.Link as={Link} to='/register'>
-                  Sign Up
-                </Nav.Link>
+                {/*<Nav.Link as={Link} to='/login'>
+                 Login
+                </Nav.Link>*/}
 
               </Nav>
             </Navbar>
@@ -114,10 +123,13 @@ export default class MainView extends React.Component {
                 return (
                   <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
                 );
-              return movies.map((m) => <MovieCard key={m._id} movie={m} />);
+              //return movies.map((m) => <MovieCard key={m._id} movie={m} />);  // working 3.5 code
+              return <MoviesList movies={movies} />; // 3.6 code
             }} />
 
             <Route path="/register" render={() => <RegistrationView />} />
+
+            {/*<Route path="/login" render={() => <LoginView />} />*/}
 
             <Route path="/movies/:movieId" render={
               ({ match }) => <MovieView movie={
@@ -158,49 +170,9 @@ export default class MainView extends React.Component {
   }
 }
 
-/* OLD Navbar approaches 3.5
+let mapStateToProps = state => {
+  return { movies: state.movies }
+}
 
-    //Profile A: no error, no content rendered
-    //Profile B: 3 react-dom errors
-    //Profile C: no error, no content rendered
-    //Profile D: no error, no content rendered
-    //Profile E: no error, no content rendered
-    //Profile F: no error, no content rendered (Shan's Advice?)
-    //Profile F: no error, no content rendered (Shan's Advice?)
-
-
- <Route exact path='/user' render={       THIS is the working code to show the Profile content
-  () => <ProfileView movies={movies} />
-} />
-
-The following attempts are all WRONG
-                <Nav.Link as={Link} to='/user/:Username'>
-                  Profile A
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile/:_id'>
-                  Profile C
-                </Nav.Link>
-                <Nav.Link as={Link} to='/user/:_id'>
-                  Profile D
-                </Nav.Link>
-                <Nav.Link as={Link} to='/profile'>
-                  Profile E
-                </Nav.Link>
-                <Nav.Link as={Link} to={'/user/${Username._id}'}>
-                  Profile F
-                </Nav.Link>
-
-                <Nav.Link as={Link} to={`/users/${this.state.user}`}>  Akunnas Suggestion
-                  Profile AK
-                </Nav.Link>
-
-                <Link to={`/users/:Username`}>
-                  <Button variant="link">PROFILE</Button>
-                </Link>
-*/
-
-
-//Do I have to add propTypes here? "While you’re at it, add propTypes for your other components, as well (and any other components you create in the future!)"
-
-// <Route exact path="/users" component={ProfileView} />
+export default connect(mapStateToProps, { setMovies })(MainView);
 

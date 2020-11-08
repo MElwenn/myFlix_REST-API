@@ -59,9 +59,9 @@ export function LoginView(props) {  //function component with hooks
         <Button className="button-primary" variant="primary" type="submit" onClick={handleSubmit}>
           LOGIN
         </Button>
-        <Link to={`/registration`}>
-          <Button className="button-secondary">SIGN UP</Button>
-        </Link>
+        {/*<Link to={`/register`}>
+         <Button className="button-secondary">SIGN UP</Button>
+        </Link>*/}
       </Form>
     </Container>
   );

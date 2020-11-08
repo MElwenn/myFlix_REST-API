@@ -37331,11 +37331,7 @@ function LoginView(props) {
     variant: "primary",
     type: "submit",
     onClick: handleSubmit
-  }, "LOGIN"), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/registration"
-  }, _react.default.createElement(_Button.default, {
-    className: "button-secondary"
-  }, "SIGN UP"))));
+  }, "LOGIN")));
 }
 
 ;
@@ -37479,11 +37475,7 @@ function RegistrationView() {
     variant: "dark",
     type: "submit",
     onClick: handleSubmit
-  }, "SIGN UP"), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/login"
-  }, _react.default.createElement(_Button.default, {
-    className: "button-secondary"
-  }, "LOGIN"))));
+  }, "SIGN UP")));
 }
 
 ; // OLD code
@@ -51907,10 +51899,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, "Home"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
         to: "/user/".concat(user)
-      }, "Profile"), _react.default.createElement(_reactBootstrap.Nav.Link, {
-        as: _reactRouterDom.Link,
-        to: "/register"
-      }, "Sign Up"))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
+      }, "Profile"))), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -52127,7 +52116,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52573" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54157" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
