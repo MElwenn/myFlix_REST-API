@@ -15,6 +15,7 @@ import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { MovieFilter } from '../movie-filter/movie-filter';
 
 import Container from 'react-bootstrap/Container';
 import { Navbar, Nav } from 'react-bootstrap';
@@ -112,6 +113,10 @@ class MainView extends React.Component {
                   Profile
                 </Nav.Link>
 
+                <Nav.Link as={Link} to='/register'>
+                  Sign Up
+                </Nav.Link>
+
                 {/*<Nav.Link as={Link} to='/login'>
                  Login
                 </Nav.Link>*/}
@@ -119,7 +124,8 @@ class MainView extends React.Component {
               </Nav>
             </Navbar>
             <br />
-
+            <br />
+            <br />
             <Route exact path="/" render={() => {
               if (!user)
                 return (
