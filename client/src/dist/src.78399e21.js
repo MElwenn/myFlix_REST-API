@@ -54174,8 +54174,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           });
         }
       })), _react.default.createElement(_Card.default, {
-        className: "container-box-text"
-      }, FavoriteMovies.map(function (movie, id) {
+        className: "container-box"
+      }, _react.default.createElement(_Card.default.Title, null, "My favotite Movies: "), FavoriteMovies.map(function (movie, id) {
         return _react.default.createElement("div", {
           key: id
         }, movie.Title);
@@ -54744,7 +54744,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59110" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60287" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -179,8 +179,12 @@ export class ProfileView extends React.Component {
               />
             </Form.Group>*/}
 
-            <Card className='container-box-text'>
+            <Card className='container-box'>
+              {/*<Card.Img variant="top" src={movie.ImagePath} />*/}
+              {/*<Card.Body className="container-box" style={{ margin: '0px' }}>*/}
+              <Card.Title>My favotite Movies: </Card.Title>
               {FavoriteMovies.map((movie, id) => <div key={id}>{movie.Title}</div>)}
+              {/*</Card.Body>*/}
             </Card>
 
 
