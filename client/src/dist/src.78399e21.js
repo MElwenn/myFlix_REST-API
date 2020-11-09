@@ -38015,14 +38015,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.setMovies = setMovies;
 exports.setFilter = setFilter;
-exports.setMovieFilter = setMovieFilter;
-exports.SET_MOVIE_FILTER = exports.SET_FILTER = exports.SET_MOVIES = void 0;
+exports.setUser = setUser;
+exports.SET_USER = exports.SET_FILTER = exports.SET_MOVIES = void 0;
 var SET_MOVIES = 'SET_MOVIES';
 exports.SET_MOVIES = SET_MOVIES;
 var SET_FILTER = 'SET_FILTER';
 exports.SET_FILTER = SET_FILTER;
-var SET_MOVIE_FILTER = 'SET_MOVIE_FILTER';
-exports.SET_MOVIE_FILTER = SET_MOVIE_FILTER;
+var SET_USER = 'SET_USER';
+exports.SET_USER = SET_USER;
 
 function setMovies(value) {
   return {
@@ -38038,9 +38038,9 @@ function setFilter(value) {
   };
 }
 
-function setMovieFilter(value) {
+function setUser(value) {
   return {
-    type: SET_MOVIE_FILTER,
+    type: SET_USER,
     value: value
   };
 }
@@ -39872,19 +39872,24 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
       var movie = this.props.movie; //  console.log(this.props)
 
       return (//<div onClick={() => onClick(movie)} className="movie-card">  {movie.Title}</div>
-        _react.default.createElement(_Card.default, {
+        _react.default.createElement("div", null, _react.default.createElement("br", null), _react.default.createElement(_Card.default, {
           style: {
-            width: '70%'
+            width: '100%'
           }
         }, _react.default.createElement(_Card.default.Img, {
           variant: "top",
           src: movie.ImagePath
-        }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
+        }), _react.default.createElement(_Card.default.Body, {
+          className: "container-box",
+          style: {
+            margin: '0px'
+          }
+        }, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
           to: "/movies/".concat(movie._id)
         }, _react.default.createElement(_Button.default, {
           className: "button-primary",
           variant: "link"
-        }, "Open"))))
+        }, "Open")))), _react.default.createElement("br", null))
       );
     }
   }]);
@@ -39951,12 +39956,16 @@ function MoviesList(props) {
   if (!movies) return _react.default.createElement("div", {
     className: "main-view"
   });
-  return filteredMovies.map(function (m) {
+  return _react.default.createElement("div", {
+    className: "movies-list"
+  }, _react.default.createElement(_visibilityFilterInput.default, {
+    visibilityFilter: visibilityFilter
+  }), filteredMovies.map(function (m) {
     return _react.default.createElement(_movieCard.MovieCard, {
       key: m._id,
       movie: m
     });
-  });
+  }));
 }
 
 var _default = (0, _reactRedux.connect)(mapStateToProps)(MoviesList);
@@ -53713,36 +53722,22 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var movie = this.props.movie;
       if (!movie) return null;
-      return _react.default.createElement("div", {
+      return _react.default.createElement(_reactBootstrap.Card, {
+        className: "container-box",
+        style: {
+          width: '100%'
+        }
+      }, _react.default.createElement("div", {
         className: "movie-view"
-      }, _react.default.createElement("img", {
-        className: "movie-poster",
+      }, _react.default.createElement(_reactBootstrap.Card.Img, {
+        variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement("div", {
-        className: "movie-title"
-      }, _react.default.createElement("span", {
-        className: "label"
-      }, "Title: "), _react.default.createElement("span", {
-        className: "value"
-      }, movie.Title)), _react.default.createElement("div", {
-        className: "movie-description"
-      }, _react.default.createElement("span", {
-        className: "label"
-      }, "Description: "), _react.default.createElement("span", {
-        className: "value"
-      }, movie.Description)), _react.default.createElement("div", {
-        className: "movie-genre"
-      }, _react.default.createElement("span", {
-        className: "label"
-      }, "Genre:"), _react.default.createElement("span", {
-        className: "value"
-      }, movie.Genre.Name)), _react.default.createElement("div", {
-        className: "movie-director"
-      }, _react.default.createElement("span", {
-        className: "label"
-      }, "Director:"), _react.default.createElement("span", {
-        className: "value"
-      }, movie.Director.Name)), _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
+      }), _react.default.createElement(_reactBootstrap.Card.Body, {
+        className: "container-box",
+        style: {
+          margin: '0px'
+        }
+      }, _react.default.createElement(_reactBootstrap.Card.Title, null, movie.Title), _react.default.createElement(_reactBootstrap.Card.Text, null, "Derscription: ", movie.Description), _react.default.createElement(_reactBootstrap.Card.Text, null, "Genre: ", movie.Genre.Name), _react.default.createElement(_reactBootstrap.Card.Text, null, "Director: ", movie.Director.Name), _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/genres/".concat(movie.Genre.Name)
       }, _react.default.createElement(_reactBootstrap.Button, {
         className: "button-primary",
@@ -53757,7 +53752,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_reactBootstrap.Button, {
         className: "button-primary",
         variant: "link"
-      }, "Back"))));
+      }, "Back"))))));
     }
   }]);
 
@@ -54360,10 +54355,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
+    // "By the end of the Task, the following data should no longer be passed through props but, instead, be handled by stores and modified through actions"
     _this = _super.call(this, props); // Call the superclass constructor so React can initialize it
+    //constructor() {
+    //  super();
 
     _this.state = {
-      // Initialize the state to an empty object so we can destructure it later
       movies: [],
       user: null
     };
@@ -54392,11 +54389,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        //this.setState({   // working 3.5 code (Assign the result to the state)
         _this2.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
-
-
-        movies: response.data; //});               // working 3.5 code (Assign the result to the state)
+        //this.setState({       // working 3.5 code (Assign the result to the state)
+        //movies: response.data // working 3.5 code (Assign the result to the state)
+        //});                   // working 3.5 code (Assign the result to the state)
 
       }).catch(function (error) {
         console.log(error);
@@ -54442,6 +54438,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       var movies = this.props.movies; // THIS is what's proposed in 3.6
 
       var user = this.state.user; // THIS is what's proposed in 3.6
+      //THIS is done in movies-list
       //filter movies
 
       /*const { visibilityFilter, movieFilter } = props;
@@ -54481,7 +54478,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }, "Profile"), _react.default.createElement(_reactBootstrap.Nav.Link, {
         as: _reactRouterDom.Link,
         to: "/register"
-      }, "Sign Up"))), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
+      }, "Sign Up"), _react.default.createElement(_Button.default, {
+        className: "button-secondary",
+        onClick: function onClick() {
+          return _this3.onLoggedOut();
+        }
+      }, "LOGOUT"))), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
         path: "/",
         render: function render() {
@@ -54544,12 +54546,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             movies: movies
           });
         }
-      }), _react.default.createElement("br", null), _react.default.createElement(_Button.default, {
-        className: "button-secondary",
-        onClick: function onClick() {
-          return _this3.onLoggedOut();
-        }
-      }, "LOGOUT"))));
+      }), _react.default.createElement("br", null))));
     }
   }]);
 
@@ -54625,30 +54622,22 @@ function movies() {
   }
 }
 
-function movieFilter() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+function user() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
-    case _actions.SET_MOVIE_FILTER:
+    case SET_USER:
       return action.value;
 
     default:
       return state;
   }
-} // groups all the reducers together and only passes them the state that they care about
-//function moviesApp(state = {}, action) {
-//    return {
-//        visibilityFilter: visibilityFilter(state.visibilityFilter, action),
-//        movies: movies(state.movies, action)
-//    }
-//}
-
+}
 
 var moviesApp = (0, _redux.combineReducers)({
   visibilityFilter: visibilityFilter,
-  movies: movies,
-  movieFilter: movieFilter
+  movies: movies
 });
 var _default = moviesApp;
 exports.default = _default;
@@ -54755,7 +54744,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49728" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59110" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

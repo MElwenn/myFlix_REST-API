@@ -30,9 +30,11 @@ import './main-view.scss';
 // 3.5-export to be replaced by export default connect(mapStateToProps (line 178) 
 //as Only one default export allowed per module
 class MainView extends React.Component {
-  constructor(props) {
+  constructor(props) {                       // "By the end of the Task, the following data should no longer be passed through props but, instead, be handled by stores and modified through actions"
     super(props);  // Call the superclass constructor so React can initialize it
-    this.state = {   // Initialize the state to an empty object so we can destructure it later
+    //constructor() {
+    //  super();
+    this.state = {
       movies: [],
       user: null
     };
@@ -53,10 +55,10 @@ class MainView extends React.Component {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
-        //this.setState({   // working 3.5 code (Assign the result to the state)
         this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
-        movies: response.data
-        //});               // working 3.5 code (Assign the result to the state)
+        //this.setState({       // working 3.5 code (Assign the result to the state)
+        //movies: response.data // working 3.5 code (Assign the result to the state)
+        //});                   // working 3.5 code (Assign the result to the state)
       })
       .catch(function (error) {
         console.log(error);
@@ -97,6 +99,7 @@ class MainView extends React.Component {
     let { movies } = this.props;       // THIS is what's proposed in 3.6
     let { user } = this.state;         // THIS is what's proposed in 3.6
 
+    //THIS is done in movies-list
     //filter movies
     /*const { visibilityFilter, movieFilter } = props;
     const filteredMovies = [...movies];
@@ -135,6 +138,10 @@ class MainView extends React.Component {
                 <Nav.Link as={Link} to='/register'>
                   Sign Up
                 </Nav.Link>
+
+                <Button className="button-secondary" onClick={() => this.onLoggedOut()}>
+                  LOGOUT
+                </Button>
 
                 {/*<Nav.Link as={Link} to='/login'>
                  Login
@@ -199,9 +206,9 @@ class MainView extends React.Component {
             />
             <br />
 
-            <Button className="button-secondary" onClick={() => this.onLoggedOut()}>
+            {/*<Button className="button-secondary" onClick={() => this.onLoggedOut()}>
               LOGOUT
-            </Button>
+            </Button>*/}
           </div >
         </Container>
       </Router >
