@@ -1,10 +1,9 @@
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -13,8 +12,7 @@ body {
   text-decoration: none;
   /*margin: 0px;*/
   padding: 2px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -26,8 +24,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -38,15 +35,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -55,8 +51,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -68,8 +63,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -80,15 +74,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -97,8 +90,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -110,8 +102,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -122,15 +113,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -139,8 +129,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -152,8 +141,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -164,15 +152,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -181,8 +168,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -195,8 +181,7 @@ body {
   padding: 10px;
   border-radius: 3px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -207,15 +192,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -224,8 +208,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: none;
@@ -237,8 +220,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -249,15 +231,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -266,8 +247,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .container-box-text {
   background-color: #F5F5F5;
@@ -276,8 +256,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -289,8 +268,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -301,15 +279,14 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 body {
   background-color: #2B2B2B;
-  font-family: "Lato", sans-serif;
-  font-weight: "400";
+  font-family: 'Lato', sans-serif;
+  font-weight: '400';
   font-size: 16px;
-  line-height: 1.6;
-}
+  line-height: 1.6; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -318,8 +295,7 @@ body {
   text-decoration: none;
   margin: 10px;
   padding: 10px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .button-primary {
   border: #FF9900 1px solid;
@@ -331,8 +307,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.2s opacity;
-}
+  transition: 0.2s opacity; }
 
 .button-secondary {
   border: #FF9900 1px solid;
@@ -344,10 +319,10 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
-  white-space: nowrap;
-}
+  white-space: nowrap; }
+
 .my-flix {
-  color: steelblue;
-}
+  color: steelblue; }
+
 
 /*# sourceMappingURL=/src.78399e21.css.map */

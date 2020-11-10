@@ -99,23 +99,6 @@ class MainView extends React.Component {
     let { movies } = this.props;       // THIS is what's proposed in 3.6
     let { user } = this.state;         // THIS is what's proposed in 3.6
 
-    //THIS is done in movies-list
-    //filter movies
-    /*const { visibilityFilter, movieFilter } = props;
-    const filteredMovies = [...movies];
-
-    if (visibilityFilter !== '') {
-      filteredMovies = movies.filter(m => m.Title.toLowerCase().includes(visibilityFilter.toLowerCase()));
-    }
-
-    switch (movieFilter) {
-      case 'Movie Title':
-        filteredMovies.sort((a, b) => (a.Title > b.Title) ? 1 : -1)
-        break;
-      default:
-        break;
-    }*/ // filter movies end
-
     // Before the movies have been loaded
     if (!movies)
       return <div className="main-view" />;

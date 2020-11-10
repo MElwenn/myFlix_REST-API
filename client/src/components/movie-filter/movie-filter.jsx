@@ -26,8 +26,7 @@ function movieFilterDropdown(props) {
                     (eventKey) => {
                         props.setMovieFilter(eventKey);
                     }
-                }
-            >
+                }>
                 <DropdownItem eventKey=''>Movie Title</DropdownItem>
                 <Dropdown.Divider />
                 <DropdownItem eventKey=''>Genre</DropdownItem>
