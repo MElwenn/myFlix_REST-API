@@ -73,9 +73,10 @@ class MainView extends React.Component {
   }
 
   onLoggedIn(authData) {
-    console.log(authData);
+    console.log(authData, "=======authdata");
     this.setState({
-      user: authData.user.Username
+      user: authData.user.Username,
+      favoriteMovies: authData.user.FavoriteMovies
     });
 
     localStorage.setItem('token', authData.token);
@@ -161,9 +162,12 @@ class MainView extends React.Component {
             {/*<Route path="/login" render={() => <LoginView />} />*/}
 
             <Route path="/movies/:movieId" render={
-              ({ match }) => <MovieView movie={
-                movies.find(m => m._id === match.params.movieId)
-              } />
+              ({ match }) => <MovieView
+                movie={
+                  movies.find(m => m._id === match.params.movieId)
+                }
+                favoriteMovies={this.state.favoriteMovies}
+              />
             } />
 
             <Route path="/movies/genres/:name" render={

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
+import axios from 'axios';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 //import Animated from 'react-css-animated';
 
@@ -14,10 +15,45 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+  isInFavorites = () => {
+    const { movie, favoriteMovies } = this.props;
+    if (!favoriteMovies || !favoriteMovies.length) return false
+    const exists = favoriteMovies.filter(favorite => favorite == movie._id)
+
+    return exists.length > 0
+  }
+
+  updateFavoriteMovieList(eventKey) {
+    console.log("changed=====", eventKey)
+    if (eventKey) {
+      this.addFavorites()
+    } else {
+      // removeFromFavorites() fctn to be created still
+    }
+  }
+
+  addFavorites = () => {
+    const { movie } = this.props
+    const userName = localStorage.getItem('user')
+    console.log(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`);
+
+    //Allows users to update their user info (username, password, email, date of birth, favorite movies)
+    // users/:Username/movies/:_id
+    axios.post(`https://movie-api-elwen.herokuapp.com/users/${userName}/movies/${movie._id}`, {}, {
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then((response) => {
+        const data = response.data;
+        alert('Your profile was updated successfully, please login.');
+        window.open('/client', '_self');
+      })
+      .catch((e) => {
+        alert('Error. Your update was not successful.');
+      })
+  }
 
   render() {
-    const { movie } = this.props;
-
+    const { movie, favoriteMovies } = this.props;
     if (!movie) return null;
 
     return (
@@ -40,15 +76,12 @@ export class MovieView extends React.Component {
             </Card.Text>
             <Card.Text>Favorite: </Card.Text>
             <BootstrapSwitchButton
-              checked={false}
+              checked={this.isInFavorites()}
               size="lg"
               onstyle="warning"
               width={100}
-              onChecked={
-                (eventKey) => {
-                  props.setFavorite(eventKey);
-                }
-              }>
+              onChange={(eventKey) => this.updateFavoriteMovieList(eventKey)}
+            >
 
             </BootstrapSwitchButton>
 
@@ -214,3 +247,4 @@ function favorite(props) {
   }
   */
  //export default connect(null, { favMovies })(favorite);
+

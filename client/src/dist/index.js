@@ -52122,8 +52122,6 @@ var _reactRouterDom = require("react-router-dom");
 
 var _reactBootstrap = require("react-bootstrap");
 
-var _axios = _interopRequireDefault(require("axios"));
-
 var _bootstrapSwitchButtonReact = _interopRequireDefault(require("bootstrap-switch-button-react"));
 
 require("./movie-view.scss");
@@ -52164,35 +52162,13 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this);
 
-    _this.isInFavorites = function () {
-      var _this$props = _this.props,
-          movie = _this$props.movie,
-          favoriteMovies = _this$props.favoriteMovies;
-      if (!favoriteMovies || !favoriteMovies.length) return false;
-      var exists = favoriteMovies.filter(function (favorite) {
-        return favorite == movie._id;
+    _this.isInFavorites = function (currMovie) {
+      var favoritelist = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      if (!favoritelist.length) return false;
+      var exists = favoritelist.filter(function (favorite) {
+        return favorite == currMovie;
       });
-      return exists.length > 0;
-    };
-
-    _this.addFavorites = function () {
-      var movie = _this.props.movie;
-      var userName = localStorage.getItem('user');
-      console.log("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'))); //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      // users/:Username/movies/:_id
-
-      _axios.default.post("https://movie-api-elwen.herokuapp.com/users/".concat(userName, "/movies/").concat(movie._id), {}, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': "Bearer ".concat(localStorage.getItem('token'))
-        }
-      }).then(function (response) {
-        var data = response.data;
-        alert('Your profile was updated successfully, please login.');
-        window.open('/client', '_self');
-      }).catch(function (e) {
-        alert('Error. Your update was not successful.');
-      });
+      return exists > 0;
     };
 
     _this.state = {};
@@ -52200,23 +52176,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(MovieView, [{
-    key: "updateFavoriteMovieList",
-    value: function updateFavoriteMovieList(eventKey) {
-      console.log("changed=====", eventKey);
-
-      if (eventKey) {
-        this.addFavorites();
-      } else {// removeFromFavorites() fctn to be created still
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      var _this$props2 = this.props,
-          movie = _this$props2.movie,
-          favoriteMovies = _this$props2.favoriteMovies;
+      var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement(_reactBootstrap.Card, {
         className: "container-box",
@@ -52238,12 +52200,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       }, "Genre: ", movie.Genre.Name)), _react.default.createElement(_reactBootstrap.Card.Text, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/directors/".concat(movie.Director.Name)
       }, "Director: ", movie.Director.Name)), _react.default.createElement(_reactBootstrap.Card.Text, null, "Favorite: "), _react.default.createElement(_bootstrapSwitchButtonReact.default, {
-        checked: this.isInFavorites(),
+        checked: false,
         size: "lg",
         onstyle: "warning",
         width: 100,
-        onChange: function onChange(eventKey) {
-          return _this2.updateFavoriteMovieList(eventKey);
+        onChecked: function onChecked(eventKey) {
+          props.setFavorite(eventKey);
         }
       }), _react.default.createElement(_reactBootstrap.Card.Footer, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
@@ -52405,7 +52367,7 @@ function favorite(props) {
 
 
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","axios":"../node_modules/axios/index.js","bootstrap-switch-button-react":"../node_modules/bootstrap-switch-button-react/lib/bootstrap-switch-button-react.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","bootstrap-switch-button-react":"../node_modules/bootstrap-switch-button-react/lib/bootstrap-switch-button-react.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -53057,7 +53019,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       console.log(authData, "=======authdata");
       this.setState({
         user: authData.user.Username,
-        favoriteMovies: authData.user.FavoriteMovies
+        favoriteList: authData.user.FavoriteMovies
       });
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
@@ -53139,8 +53101,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return _react.default.createElement(_movieView.MovieView, {
             movie: movies.find(function (m) {
               return m._id === match.params.movieId;
-            }),
-            favoriteMovies: _this3.state.favoriteMovies
+            })
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -53390,7 +53351,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57913" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57658" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -53567,4 +53528,4 @@ function hmrAcceptRun(bundle, id) {
   }
 }
 },{}]},{},["../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.jsx"], null)
-//# sourceMappingURL=/src.78399e21.js.map
+//# sourceMappingURL=/index.js.map
