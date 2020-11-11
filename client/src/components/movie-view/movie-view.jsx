@@ -60,7 +60,7 @@ export class MovieView extends React.Component {
     console.log(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`);
 
     // users/:Username/movies/:_id
-    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${userName}/movies/${movie._id}`, {}, {
+    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${userName}/movies/${movie._id}`, {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
     })
       .then((response) => {

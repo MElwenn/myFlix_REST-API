@@ -52200,7 +52200,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       var userName = localStorage.getItem('user');
       console.log("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'))); // users/:Username/movies/:_id
 
-      _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(userName, "/movies/").concat(movie._id), {}, {
+      _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(userName, "/movies/").concat(movie._id), {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': "Bearer ".concat(localStorage.getItem('token'))
@@ -53411,7 +53411,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54695" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49283" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
