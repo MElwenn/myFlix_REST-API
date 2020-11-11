@@ -24,11 +24,13 @@ export class MovieView extends React.Component {
   }
 
   updateFavoriteMovieList(eventKey) {
+    var token = localStorage.getItem('token')
     console.log("changed=====", eventKey)
     if (eventKey) {
       this.addFavorites()
     } else {
-      // removeFromFavorites() fctn to be created still
+      console.log("deleted========")
+      this.removeFavorites()
     }
   }
 
@@ -45,7 +47,26 @@ export class MovieView extends React.Component {
       .then((response) => {
         const data = response.data;
         alert('Your profile was updated successfully, please login.');
-        window.open('/client', '_self');
+        window.open('/user/:Username', '_self');
+      })
+      .catch((e) => {
+        alert('Error. Your update was not successful.');
+      })
+  }
+
+  removeFavorites = () => {
+    const { movie } = this.props
+    const userName = localStorage.getItem('user')
+    console.log(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`);
+
+    // users/:Username/movies/:_id
+    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${userName}/movies/${movie._id}`, {}, {
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+    })
+      .then((response) => {
+        const data = response.data;
+        alert('Your profile was updated successfully, please login.');
+        window.open('/', '_self');
       })
       .catch((e) => {
         alert('Error. Your update was not successful.');

@@ -83,11 +83,11 @@ export class ProfileView extends React.Component {
   }
 
   deleteProfile(e) {
-    axios  //Allows existing users to deregister
-      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        })
+    //Allows existing users to deregister
+    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((response) => {
         alert('Your acount including all user data was deleted successfully.');
         localStorage.removeItem('token', 'user');
@@ -102,15 +102,15 @@ export class ProfileView extends React.Component {
     //deleteFavoriteMovie(e) {
     console.log(this.props.movies);
 
-    axios  //Allows users to remove a movie from their list of favorites
-      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}`, {
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
+    //Allows users to remove a movie from their list of favorites
+    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}`, {
+      //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
       .then((response) => {
         alert('Movie has been removed from your fovorites list.');
         localStorage.removeItem('token', 'user');
-        window.open('/client', '_self');
+        window.open('/user/:Username', '_self');
       })
       //.catch((_id) => {
       .catch((e) => {

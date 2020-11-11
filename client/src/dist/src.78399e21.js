@@ -52189,7 +52189,26 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       }).then(function (response) {
         var data = response.data;
         alert('Your profile was updated successfully, please login.');
-        window.open('/client', '_self');
+        window.open('/user/:Username', '_self');
+      }).catch(function (e) {
+        alert('Error. Your update was not successful.');
+      });
+    };
+
+    _this.removeFavorites = function () {
+      var movie = _this.props.movie;
+      var userName = localStorage.getItem('user');
+      console.log("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'))); // users/:Username/movies/:_id
+
+      _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(userName, "/movies/").concat(movie._id), {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer ".concat(localStorage.getItem('token'))
+        }
+      }).then(function (response) {
+        var data = response.data;
+        alert('Your profile was updated successfully, please login.');
+        window.open('/', '_self');
       }).catch(function (e) {
         alert('Error. Your update was not successful.');
       });
@@ -52202,11 +52221,14 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieView, [{
     key: "updateFavoriteMovieList",
     value: function updateFavoriteMovieList(eventKey) {
+      var token = localStorage.getItem('token');
       console.log("changed=====", eventKey);
 
       if (eventKey) {
         this.addFavorites();
-      } else {// removeFromFavorites() fctn to be created still
+      } else {
+        console.log("deleted========");
+        this.removeFavorites();
       }
     }
   }, {
@@ -52731,8 +52753,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "deleteProfile",
     value: function deleteProfile(e) {
-      _axios.default //Allows existing users to deregister
-      .delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
+      //Allows existing users to deregister
+      _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user')), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -52748,10 +52770,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     key: "deleteFavoriteMovie",
     value: function deleteFavoriteMovie(_id) {
       //deleteFavoriteMovie(e) {
-      console.log(this.props.movies);
+      console.log(this.props.movies); //Allows users to remove a movie from their list of favorites
 
-      _axios.default //Allows users to remove a movie from their list of favorites
-      .delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Movies/").concat(_id), {
+      _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Movies/").concat(_id), {
         //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
@@ -52759,7 +52780,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       }).then(function (response) {
         alert('Movie has been removed from your fovorites list.');
         localStorage.removeItem('token', 'user');
-        window.open('/client', '_self');
+        window.open('/user/:Username', '_self');
       }) //.catch((_id) => {
       .catch(function (e) {
         alert('Error. Movie could not be removed from your favorites list.');
@@ -53390,7 +53411,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57913" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54695" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
