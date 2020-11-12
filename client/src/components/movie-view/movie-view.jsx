@@ -15,6 +15,16 @@ export class MovieView extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
+      });
+      //this.getMovies(accessToken);
+    }
+  }
+
   isInFavorites = () => {
     const { movie, favoriteMovies } = this.props;
     if (!favoriteMovies || !favoriteMovies.length) return false
@@ -28,9 +38,12 @@ export class MovieView extends React.Component {
     console.log("changed=====", eventKey)
     if (eventKey) {
       this.addFavorites()
-    } else {
+      this.isInFavorites()
+    }
+    else {
       console.log("deleted========")
       this.removeFavorites()
+      this.isInFavorites()
     }
   }
 
@@ -46,7 +59,7 @@ export class MovieView extends React.Component {
     })
       .then((response) => {
         const data = response.data;
-        alert('Your profile was updated successfully, please login.');
+        alert('Your profile was updated successfully.');
         window.open('/user/:Username', '_self');
       })
       .catch((e) => {
@@ -71,6 +84,42 @@ export class MovieView extends React.Component {
       .catch((e) => {
         alert('Error. Your update was not successful.');
       })
+  }
+
+  getMovies(token) {
+    axios.get('https://movie-api-elwen.herokuapp.com/movies', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
+        console.log('=======realizedChange?==========')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  onLoggedIn(authData) {
+    console.log(authData, "=======authdata");
+    this.setState({
+      user: authData.user.Username,
+      favoriteMovies: authData.user.favoriteMovies
+    });
+
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    localStorage.setItem('exists', authData.movies.favoriteMovies);
+    this.getMovies(authData.token);
+  }
+
+  onLoggedOut(authData) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.setItem('exists', authData.movies.favoriteMovies);
+    this.setState({
+      user: null,
+    });
+    window.open('/', '_self');
   }
 
   render() {
@@ -101,7 +150,10 @@ export class MovieView extends React.Component {
               size="lg"
               onstyle="warning"
               width={100}
-              onChange={(eventKey) => this.updateFavoriteMovieList(eventKey)}
+              onChange={
+                (eventKey) => this.updateFavoriteMovieList(eventKey)
+                //this.isInFavorites()
+              }
             >
 
             </BootstrapSwitchButton>

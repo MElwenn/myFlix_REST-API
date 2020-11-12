@@ -52188,7 +52188,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (response) {
         var data = response.data;
-        alert('Your profile was updated successfully, please login.');
+        alert('Your profile was updated successfully.');
         window.open('/user/:Username', '_self');
       }).catch(function (e) {
         alert('Error. Your update was not successful.');
@@ -52219,6 +52219,17 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(MovieView, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var accessToken = localStorage.getItem('token');
+
+      if (accessToken !== null) {
+        this.setState({
+          user: localStorage.getItem('user')
+        }); //this.getMovies(accessToken);
+      }
+    }
+  }, {
     key: "updateFavoriteMovieList",
     value: function updateFavoriteMovieList(eventKey) {
       var token = localStorage.getItem('token');
@@ -52226,15 +52237,59 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 
       if (eventKey) {
         this.addFavorites();
+        this.isInFavorites();
       } else {
         console.log("deleted========");
         this.removeFavorites();
+        this.isInFavorites();
       }
+    }
+  }, {
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this2 = this;
+
+      _axios.default.get('https://movie-api-elwen.herokuapp.com/movies', {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        _this2.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
+
+
+        console.log('=======realizedChange?==========');
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "onLoggedIn",
+    value: function onLoggedIn(authData) {
+      console.log(authData, "=======authdata");
+      this.setState({
+        user: authData.user.Username,
+        favoriteMovies: authData.user.favoriteMovies
+      });
+      localStorage.setItem('token', authData.token);
+      localStorage.setItem('user', authData.user.Username);
+      localStorage.setItem('exists', authData.movies.favoriteMovies);
+      this.getMovies(authData.token);
+    }
+  }, {
+    key: "onLoggedOut",
+    value: function onLoggedOut(authData) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.setItem('exists', authData.movies.favoriteMovies);
+      this.setState({
+        user: null
+      });
+      window.open('/', '_self');
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props2 = this.props,
           movie = _this$props2.movie,
@@ -52265,8 +52320,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         onstyle: "warning",
         width: 100,
         onChange: function onChange(eventKey) {
-          return _this2.updateFavoriteMovieList(eventKey);
-        }
+          return _this3.updateFavoriteMovieList(eventKey);
+        } //this.isInFavorites()
+
       }), _react.default.createElement(_reactBootstrap.Card.Footer, null, _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
@@ -53411,7 +53467,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49283" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51607" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
