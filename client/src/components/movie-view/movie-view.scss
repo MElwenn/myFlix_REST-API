@@ -12,6 +12,11 @@ body {
   line-height: 1.6;
 }
 
+.link-text {
+  color: #FF9900;
+  cursor: pointer;
+}
+
 .container-box{
   background-color: $secondary-color;
   font-family: inherit;
@@ -31,7 +36,8 @@ body {
 	text-decoration: none;
 	margin: 10px;
 	padding: 10px;
-	border-radius: 8px;
+  border-radius: 8px;
+  cursor: pointer;
 	transition: 0.2s opacity;
 }
 
@@ -41,6 +47,32 @@ body {
   color: #FF9900;
   text-decoration: none;
   padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s opacity;
+  white-space: nowrap;
+}
+
+.button-primary-toggle {
+  border: #FF9900 1px solid;
+	display: inline-block;
+	font-family: inherit;
+	background-color: $primary-color;
+	color: #F5F5F5;
+	text-decoration: none;
+	margin: 10px;
+	padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+	transition: 0.2s opacity;
+}
+
+.button-secondary-toggle {
+  border: #FF9900 1px solid;
+  background-color: rgba(255,255,255,0.2);
+  color: #FF9900;
+  text-decoration: none;
+  /*padding: 10px 20px;*/
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;

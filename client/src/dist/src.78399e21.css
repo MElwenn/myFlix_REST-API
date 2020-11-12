@@ -24,6 +24,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -63,6 +64,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -102,6 +104,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -121,6 +124,10 @@ body {
   font-weight: '400';
   font-size: 16px;
   line-height: 1.6; }
+
+.link-text {
+  color: #FF9900;
+  cursor: pointer; }
 
 .container-box {
   background-color: #2B2B2B;
@@ -141,6 +148,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -149,6 +157,30 @@ body {
   color: #FF9900;
   text-decoration: none;
   padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s opacity;
+  white-space: nowrap; }
+
+.button-primary-toggle {
+  border: #FF9900 1px solid;
+  display: inline-block;
+  font-family: inherit;
+  background-color: #FF9900;
+  color: #F5F5F5;
+  text-decoration: none;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s opacity; }
+
+.button-secondary-toggle {
+  border: #FF9900 1px solid;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FF9900;
+  text-decoration: none;
+  /*padding: 10px 20px;*/
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s opacity;
@@ -181,6 +213,7 @@ body {
   padding: 10px;
   border-radius: 3px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -220,6 +253,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -268,6 +302,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {
@@ -307,6 +342,7 @@ body {
   margin: 10px;
   padding: 10px;
   border-radius: 8px;
+  cursor: pointer;
   transition: 0.2s opacity; }
 
 .button-secondary {

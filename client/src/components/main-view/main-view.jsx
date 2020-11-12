@@ -123,7 +123,7 @@ class MainView extends React.Component {
                   Sign Up
                 </Nav.Link>
 
-                <Button className="button-secondary" onClick={() => this.onLoggedOut()}>
+                <Button className="button-secondary" variant="link" onClick={() => this.onLoggedOut()}>
                   LOGOUT
                 </Button>
 

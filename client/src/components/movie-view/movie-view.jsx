@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card } from 'react-bootstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Button, Card, ButtonGroup } from 'react-bootstrap';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 //import Animated from 'react-css-animated';
 
@@ -38,12 +38,12 @@ export class MovieView extends React.Component {
     console.log("changed=====", eventKey)
     if (eventKey) {
       this.addFavorites()
-      this.isInFavorites()
+      //this.isInFavorites()
     }
     else {
       console.log("deleted========")
       this.removeFavorites()
-      this.isInFavorites()
+      //this.isInFavorites()
     }
   }
 
@@ -59,7 +59,7 @@ export class MovieView extends React.Component {
     })
       .then((response) => {
         const data = response.data;
-        alert('Your profile was updated successfully.');
+        alert('Movie was added to your Favorites List.');
         window.open('/user/:Username', '_self');
       })
       .catch((e) => {
@@ -78,27 +78,27 @@ export class MovieView extends React.Component {
     })
       .then((response) => {
         const data = response.data;
-        alert('Your profile was updated successfully, please login.');
+        alert('Movie was deleted from your Favorites List.');
         window.open('/', '_self');
       })
       .catch((e) => {
         alert('Error. Your update was not successful.');
       })
   }
-
-  getMovies(token) {
-    axios.get('https://movie-api-elwen.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(response => {
-        this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
-        console.log('=======realizedChange?==========')
+  /* not needed, to be deleted when the line numbering is not needed any more
+    getMovies(token) {
+      axios.get('https://movie-api-elwen.herokuapp.com/movies', {
+        headers: { Authorization: `Bearer ${token}` }
       })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
+        .then(response => {
+          this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
+          console.log('=======realizedChange?==========')
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    */
   onLoggedIn(authData) {
     console.log(authData, "=======authdata");
     this.setState({
@@ -108,14 +108,14 @@ export class MovieView extends React.Component {
 
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    localStorage.setItem('exists', authData.movies.favoriteMovies);
+    localStorage.setItem('exists', authData.movies.favoriteMovies);  // Is this correct?
     this.getMovies(authData.token);
   }
 
   onLoggedOut(authData) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    localStorage.setItem('exists', authData.movies.favoriteMovies);
+    localStorage.setItem('exists', authData.movies.favoriteMovies);  // Is this correct?
     this.setState({
       user: null,
     });
@@ -135,34 +135,39 @@ export class MovieView extends React.Component {
             <Card.Title>{movie.Title}</Card.Title>
             <Card.Text>Derscription: {movie.Description}</Card.Text>
             <Card.Text>
-              <Link to={`/movies/genres/${movie.Genre.Name}`}>
+              <Link className="link-text" to={`/movies/genres/${movie.Genre.Name}`}>
                 Genre: {movie.Genre.Name}
               </Link>
             </Card.Text>
             <Card.Text>
-              <Link to={`/movies/directors/${movie.Director.Name}`}>
+              <Link className="link-text" to={`/movies/directors/${movie.Director.Name}`}>
                 Director: {movie.Director.Name}
               </Link>
             </Card.Text>
             <Card.Text>Favorite: </Card.Text>
-            <BootstrapSwitchButton
-              checked={this.isInFavorites()}
-              size="lg"
-              onstyle="warning"
-              width={100}
-              onChange={
-                (eventKey) => this.updateFavoriteMovieList(eventKey)
-                //this.isInFavorites()
-              }
-            >
-
-            </BootstrapSwitchButton>
-
             <Card.Footer>
+              <BootstrapSwitchButton
+                onlabel="Yes"
+                offlabel="No"
+                onstyle="dark"
+                offstyle="light"
+                style="button-primary-toggle"
+                checked={this.isInFavorites()}
+                //disabled={this.isInFavorites()}
+                size="lg"
+                width={100}
+                onChange={
+                  (eventKey) => this.updateFavoriteMovieList(eventKey)
+                  //this.isInFavorites()
+
+                }
+              >
+              </BootstrapSwitchButton>
               <Link to={`/`}>
                 <Button className="button-primary" variant="link">Back</Button>
               </Link>
             </Card.Footer>
+
           </Card.Body>
         </div>
       </Card>

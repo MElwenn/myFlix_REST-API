@@ -38559,7 +38559,7 @@ function LoginView(props) {
     }
   })), _react.default.createElement(_Button.default, {
     className: "button-primary",
-    variant: "primary",
+    variant: "link",
     type: "submit",
     onClick: handleSubmit
   }, "LOGIN")));
@@ -52118,11 +52118,11 @@ exports.MovieView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _reactRouterDom = require("react-router-dom");
 
 var _reactBootstrap = require("react-bootstrap");
-
-var _axios = _interopRequireDefault(require("axios"));
 
 var _bootstrapSwitchButtonReact = _interopRequireDefault(require("bootstrap-switch-button-react"));
 
@@ -52188,7 +52188,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (response) {
         var data = response.data;
-        alert('Your profile was updated successfully.');
+        alert('Movie was added to your Favorites List.');
         window.open('/user/:Username', '_self');
       }).catch(function (e) {
         alert('Error. Your update was not successful.');
@@ -52207,7 +52207,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (response) {
         var data = response.data;
-        alert('Your profile was updated successfully, please login.');
+        alert('Movie was deleted from your Favorites List.');
         window.open('/', '_self');
       }).catch(function (e) {
         alert('Error. Your update was not successful.');
@@ -52236,34 +52236,29 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       console.log("changed=====", eventKey);
 
       if (eventKey) {
-        this.addFavorites();
-        this.isInFavorites();
+        this.addFavorites(); //this.isInFavorites()
       } else {
         console.log("deleted========");
-        this.removeFavorites();
-        this.isInFavorites();
+        this.removeFavorites(); //this.isInFavorites()
       }
     }
   }, {
-    key: "getMovies",
-    value: function getMovies(token) {
-      var _this2 = this;
-
-      _axios.default.get('https://movie-api-elwen.herokuapp.com/movies', {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        _this2.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
-
-
-        console.log('=======realizedChange?==========');
-      }).catch(function (error) {
-        console.log(error);
-      });
-    }
-  }, {
     key: "onLoggedIn",
+
+    /* not needed, to be deleted when the line numbering is not needed any more
+      getMovies(token) {
+        axios.get('https://movie-api-elwen.herokuapp.com/movies', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then(response => {
+            this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
+            console.log('=======realizedChange?==========')
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+      */
     value: function onLoggedIn(authData) {
       console.log(authData, "=======authdata");
       this.setState({
@@ -52272,7 +52267,8 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       });
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
-      localStorage.setItem('exists', authData.movies.favoriteMovies);
+      localStorage.setItem('exists', authData.movies.favoriteMovies); // Is this correct?
+
       this.getMovies(authData.token);
     }
   }, {
@@ -52280,7 +52276,8 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function onLoggedOut(authData) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      localStorage.setItem('exists', authData.movies.favoriteMovies);
+      localStorage.setItem('exists', authData.movies.favoriteMovies); // Is this correct?
+
       this.setState({
         user: null
       });
@@ -52289,7 +52286,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _this$props2 = this.props,
           movie = _this$props2.movie,
@@ -52311,19 +52308,26 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
           margin: '0px'
         }
       }, _react.default.createElement(_reactBootstrap.Card.Title, null, movie.Title), _react.default.createElement(_reactBootstrap.Card.Text, null, "Derscription: ", movie.Description), _react.default.createElement(_reactBootstrap.Card.Text, null, _react.default.createElement(_reactRouterDom.Link, {
+        className: "link-text",
         to: "/movies/genres/".concat(movie.Genre.Name)
       }, "Genre: ", movie.Genre.Name)), _react.default.createElement(_reactBootstrap.Card.Text, null, _react.default.createElement(_reactRouterDom.Link, {
+        className: "link-text",
         to: "/movies/directors/".concat(movie.Director.Name)
-      }, "Director: ", movie.Director.Name)), _react.default.createElement(_reactBootstrap.Card.Text, null, "Favorite: "), _react.default.createElement(_bootstrapSwitchButtonReact.default, {
-        checked: this.isInFavorites(),
+      }, "Director: ", movie.Director.Name)), _react.default.createElement(_reactBootstrap.Card.Text, null, "Favorite: "), _react.default.createElement(_reactBootstrap.Card.Footer, null, _react.default.createElement(_bootstrapSwitchButtonReact.default, {
+        onlabel: "Yes",
+        offlabel: "No",
+        onstyle: "dark",
+        offstyle: "light",
+        style: "button-primary-toggle",
+        checked: this.isInFavorites() //disabled={this.isInFavorites()}
+        ,
         size: "lg",
-        onstyle: "warning",
         width: 100,
         onChange: function onChange(eventKey) {
-          return _this3.updateFavoriteMovieList(eventKey);
+          return _this2.updateFavoriteMovieList(eventKey);
         } //this.isInFavorites()
 
-      }), _react.default.createElement(_reactBootstrap.Card.Footer, null, _react.default.createElement(_reactRouterDom.Link, {
+      }), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
         className: "button-primary",
@@ -52483,7 +52487,7 @@ function favorite(props) {
 
 
 exports.MovieView = MovieView;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","axios":"../node_modules/axios/index.js","bootstrap-switch-button-react":"../node_modules/bootstrap-switch-button-react/lib/bootstrap-switch-button-react.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","bootstrap-switch-button-react":"../node_modules/bootstrap-switch-button-react/lib/bootstrap-switch-button-react.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/director-view/director-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -53187,6 +53191,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         to: "/register"
       }, "Sign Up"), _react.default.createElement(_Button.default, {
         className: "button-secondary",
+        variant: "link",
         onClick: function onClick() {
           return _this3.onLoggedOut();
         }
@@ -53467,7 +53472,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51607" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54373" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
