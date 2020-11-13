@@ -23,11 +23,19 @@ export class MovieView extends React.Component {
       });
       //this.getMovies(accessToken);
     }
+    /*
+    //Attempt2 to keep favorite Movies in the localStorage
+    let favoriteState = localStorage.getItem('FavoriteMovies'); // ERROR-Message: favoriteState is not defined
+    if (favoriteState !== null) {
+      this.setFavorite(favoriteState);
+    }*/
   }
 
+  // returns true or false for favMovies
   isInFavorites = () => {
     const { movie, favoriteMovies } = this.props;
-    if (!favoriteMovies || !favoriteMovies.length) return false
+    if (!favoriteMovies || !favoriteMovies.length)
+      return false
     const exists = favoriteMovies.filter(favorite => favorite == movie._id)
 
     return exists.length > 0
@@ -37,14 +45,20 @@ export class MovieView extends React.Component {
     var token = localStorage.getItem('token')
     console.log("changed=====", eventKey)
     if (eventKey) {
-      this.addFavorites()
-      //this.isInFavorites()
+      this.addFavorites();
+      //this.isInFavorites() // Attempt1 to keep favorite Movies in the localStorage
+      //const buttonState = localStorage.setItem('true'); Attempt4 to keep favorite Movies in the localStorage
     }
     else {
       console.log("deleted========")
-      this.removeFavorites()
-      //this.isInFavorites()
+      this.removeFavorites();
+      //this.isInFavorites() // Attempt1 to keep favorite Movies in the localStorage
+      //const buttonState = localStorage.setItem('false'); Attempt4 to keep favorite Movies in the localStorage
     }
+    //Attempt3 to keep favorite Movies in the session storage (=> sessionStarage is killed at the end of session !!! =bad)
+    //Storage.prototype.setFavoriteMovieList = function (key, obj) {
+    //  return this.setItem(key, JSON.stringify(obj))
+    //}
   }
 
   addFavorites = () => {
@@ -115,7 +129,7 @@ export class MovieView extends React.Component {
   onLoggedOut(authData) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    localStorage.setItem('exists', authData.movies.favoriteMovies);  // Is this correct?
+    localStorage.removeItem('exists', authData.movies.favoriteMovies);  // Is this correct?
     this.setState({
       user: null,
     });
@@ -123,7 +137,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, favoriteMovies } = this.props;
+    const { movie, favoriteMovies } = this.props;  //Why: 'favoriteMovies' is declared but its value is never read.
     if (!movie) return null;
 
     return (
@@ -152,8 +166,18 @@ export class MovieView extends React.Component {
                 onstyle="dark"
                 offstyle="light"
                 style="button-primary-toggle"
-                checked={this.isInFavorites()}
-                //disabled={this.isInFavorites()}
+                checked={
+                  this.isInFavorites()
+                  //this.setFavorite()
+                  //this.setFavorite(favoriteState)
+                  //this.getItem(key)
+                  //this.buttonState() // Error: this.buttonState is not a function
+                }
+                //disabled={
+                //{this.isInFavorites()}   Do I have to do something with disabled as well ???
+                //this.buttonState()
+                //}
+
                 size="lg"
                 width={100}
                 onChange={

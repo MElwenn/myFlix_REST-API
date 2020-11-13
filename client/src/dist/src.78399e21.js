@@ -52228,7 +52228,15 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
           user: localStorage.getItem('user')
         }); //this.getMovies(accessToken);
       }
-    }
+      /*
+      //Attempt2 to keep favorite Movies in the localStorage
+      let favoriteState = localStorage.getItem('FavoriteMovies'); // ERROR-Message: favoriteState is not defined
+      if (favoriteState !== null) {
+        this.setFavorite(favoriteState);
+      }*/
+
+    } // returns true or false for favMovies
+
   }, {
     key: "updateFavoriteMovieList",
     value: function updateFavoriteMovieList(eventKey) {
@@ -52236,11 +52244,17 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       console.log("changed=====", eventKey);
 
       if (eventKey) {
-        this.addFavorites(); //this.isInFavorites()
+        this.addFavorites(); //this.isInFavorites() // Attempt1 to keep favorite Movies in the localStorage
+        //const buttonState = localStorage.setItem('true'); Attempt4 to keep favorite Movies in the localStorage
       } else {
         console.log("deleted========");
-        this.removeFavorites(); //this.isInFavorites()
-      }
+        this.removeFavorites(); //this.isInFavorites() // Attempt1 to keep favorite Movies in the localStorage
+        //const buttonState = localStorage.setItem('false'); Attempt4 to keep favorite Movies in the localStorage
+      } //Attempt3 to keep favorite Movies in the session storage (=> sessionStarage is killed at the end of session !!! =bad)
+      //Storage.prototype.setFavoriteMovieList = function (key, obj) {
+      //  return this.setItem(key, JSON.stringify(obj))
+      //}
+
     }
   }, {
     key: "onLoggedIn",
@@ -52276,7 +52290,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function onLoggedOut(authData) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      localStorage.setItem('exists', authData.movies.favoriteMovies); // Is this correct?
+      localStorage.removeItem('exists', authData.movies.favoriteMovies); // Is this correct?
 
       this.setState({
         user: null
@@ -52290,7 +52304,8 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 
       var _this$props2 = this.props,
           movie = _this$props2.movie,
-          favoriteMovies = _this$props2.favoriteMovies;
+          favoriteMovies = _this$props2.favoriteMovies; //Why: 'favoriteMovies' is declared but its value is never read.
+
       if (!movie) return null;
       return _react.default.createElement(_reactBootstrap.Card, {
         className: "container-box",
@@ -52319,7 +52334,14 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         onstyle: "dark",
         offstyle: "light",
         style: "button-primary-toggle",
-        checked: this.isInFavorites() //disabled={this.isInFavorites()}
+        checked: this.isInFavorites() //this.setFavorite()
+        //this.setFavorite(favoriteState)
+        //this.getItem(key)
+        //this.buttonState() // Error: this.buttonState is not a function
+        //disabled={
+        //{this.isInFavorites()}   Do I have to do something with disabled as well ???
+        //this.buttonState()
+        //}
         ,
         size: "lg",
         width: 100,
@@ -53472,7 +53494,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54373" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57380" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
