@@ -68,7 +68,6 @@ export class ProfileView extends React.Component {
     })
       .then((response) => {
         const data = response.data;
-        console.log(data);
         alert('Your profile was updated successfully, please login.');
 
         localStorage.setItem('token', data.token);

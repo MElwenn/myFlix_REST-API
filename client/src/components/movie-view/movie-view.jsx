@@ -12,34 +12,34 @@ export class MovieView extends React.Component {
   constructor() {
     super();
 
-    this.state = {};
+    this.state = {
+      favoriteMovies: []
+    };
   }
 
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
+    let favoriteMovies = localStorage.getItem('favoriteMovies');
+    this.setState({ favoriteMovies: favoriteMovies.split(',') })
     if (accessToken !== null) {
       this.setState({
         user: localStorage.getItem('user')
       });
-      //this.getMovies(accessToken);
     }
-    /*
-    //Attempt2 to keep favorite Movies in the localStorage
-    let favoriteState = localStorage.getItem('FavoriteMovies'); // ERROR-Message: favoriteState is not defined
-    if (favoriteState !== null) {
-      this.setFavorite(favoriteState);
-    }*/
   }
 
   // returns true or false for favMovies
   isInFavorites = () => {
-    const { movie, favoriteMovies } = this.props;
-    if (!favoriteMovies || !favoriteMovies.length)
-      return false
+    const { movie } = this.props;
+    const { favoriteMovies } = this.state
+    if (!favoriteMovies || !favoriteMovies.length) return false
+    console.log(favoriteMovies)
     const exists = favoriteMovies.filter(favorite => favorite == movie._id)
 
     return exists.length > 0
   }
+
+  // re-added ther former verion inbetween
 
   updateFavoriteMovieList(eventKey) {
     var token = localStorage.getItem('token')
@@ -61,18 +61,16 @@ export class MovieView extends React.Component {
     //}
   }
 
+  // re-added ther former verion inbetween
+
   addFavorites = () => {
     const { movie } = this.props
     const userName = localStorage.getItem('user')
-    console.log(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`);
-
-    //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-    // users/:Username/movies/:_id
     axios.post(`https://movie-api-elwen.herokuapp.com/users/${userName}/movies/${movie._id}`, {}, {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
     })
       .then((response) => {
-        const data = response.data;
+        localStorage.setItem('favoriteMovies', response.data.FavoriteMovies)
         alert('Movie was added to your Favorites List.');
         window.open('/user/:Username', '_self');
       })
@@ -84,14 +82,11 @@ export class MovieView extends React.Component {
   removeFavorites = () => {
     const { movie } = this.props
     const userName = localStorage.getItem('user')
-    console.log(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`);
-
-    // users/:Username/movies/:_id
     axios.delete(`https://movie-api-elwen.herokuapp.com/users/${userName}/movies/${movie._id}`, {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
     })
       .then((response) => {
-        const data = response.data;
+        localStorage.setItem('favoriteMovies', response.data.FavoriteMovies)
         alert('Movie was deleted from your Favorites List.');
         window.open('/', '_self');
       })
@@ -99,47 +94,10 @@ export class MovieView extends React.Component {
         alert('Error. Your update was not successful.');
       })
   }
-  /* not needed, to be deleted when the line numbering is not needed any more
-    getMovies(token) {
-      axios.get('https://movie-api-elwen.herokuapp.com/movies', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-        .then(response => {
-          this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
-          console.log('=======realizedChange?==========')
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-    */
-  onLoggedIn(authData) {
-    console.log(authData, "=======authdata");
-    this.setState({
-      user: authData.user.Username,
-      favoriteMovies: authData.user.favoriteMovies
-    });
-
-    localStorage.setItem('token', authData.token);
-    localStorage.setItem('user', authData.user.Username);
-    localStorage.setItem('exists', authData.movies.favoriteMovies);  // Is this correct?
-    this.getMovies(authData.token);
-  }
-
-  onLoggedOut(authData) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('exists', authData.movies.favoriteMovies);  // Is this correct?
-    this.setState({
-      user: null,
-    });
-    window.open('/', '_self');
-  }
 
   render() {
-    const { movie, favoriteMovies } = this.props;  //Why: 'favoriteMovies' is declared but its value is never read.
+    const { movie } = this.props;  //Why: 'favoriteMovies' is declared but its value is never read.
     if (!movie) return null;
-
     return (
       <Card className="container-box" style={{ width: '100%' }}>
         <div className="movie-view">
@@ -166,25 +124,12 @@ export class MovieView extends React.Component {
                 onstyle="dark"
                 offstyle="light"
                 style="button-primary-toggle"
-                checked={
-                  this.isInFavorites()
-                  //this.setFavorite()
-                  //this.setFavorite(favoriteState)
-                  //this.getItem(key)
-                  //this.buttonState() // Error: this.buttonState is not a function
-                }
-                //disabled={
-                //{this.isInFavorites()}   Do I have to do something with disabled as well ???
-                //this.buttonState()
-                //}
-
+                checked={this.isInFavorites()}
                 size="lg"
                 width={100}
-                onChange={
-                  (eventKey) => this.updateFavoriteMovieList(eventKey)
-                  //this.isInFavorites()
-
-                }
+                
+                onChange={(eventKey) => this.updateFavoriteMovieList(eventKey)}
+                 
               >
               </BootstrapSwitchButton>
               <Link to={`/`}>
@@ -199,7 +144,7 @@ export class MovieView extends React.Component {
   }
 }
 
-
+// Akunnas version: /*onChange={(eventKey) => eventKey ? this.addFavorites : this.removeFavorites}*/
 
 //before animation was added
 /*constructor() {

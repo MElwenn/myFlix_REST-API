@@ -52165,10 +52165,10 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this);
 
     _this.isInFavorites = function () {
-      var _this$props = _this.props,
-          movie = _this$props.movie,
-          favoriteMovies = _this$props.favoriteMovies;
+      var movie = _this.props.movie;
+      var favoriteMovies = _this.state.favoriteMovies;
       if (!favoriteMovies || !favoriteMovies.length) return false;
+      console.log(favoriteMovies);
       var exists = favoriteMovies.filter(function (favorite) {
         return favorite == movie._id;
       });
@@ -52178,8 +52178,6 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     _this.addFavorites = function () {
       var movie = _this.props.movie;
       var userName = localStorage.getItem('user');
-      console.log("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'))); //Allows users to update their user info (username, password, email, date of birth, favorite movies)
-      // users/:Username/movies/:_id
 
       _axios.default.post("https://movie-api-elwen.herokuapp.com/users/".concat(userName, "/movies/").concat(movie._id), {}, {
         headers: {
@@ -52187,7 +52185,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
           'Authorization': "Bearer ".concat(localStorage.getItem('token'))
         }
       }).then(function (response) {
-        var data = response.data;
+        localStorage.setItem('favoriteMovies', response.data.FavoriteMovies);
         alert('Movie was added to your Favorites List.');
         window.open('/user/:Username', '_self');
       }).catch(function (e) {
@@ -52198,7 +52196,6 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     _this.removeFavorites = function () {
       var movie = _this.props.movie;
       var userName = localStorage.getItem('user');
-      console.log("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'))); // users/:Username/movies/:_id
 
       _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(userName, "/movies/").concat(movie._id), {
         headers: {
@@ -52206,7 +52203,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
           'Authorization': "Bearer ".concat(localStorage.getItem('token'))
         }
       }).then(function (response) {
-        var data = response.data;
+        localStorage.setItem('favoriteMovies', response.data.FavoriteMovies);
         alert('Movie was deleted from your Favorites List.');
         window.open('/', '_self');
       }).catch(function (e) {
@@ -52214,7 +52211,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       });
     };
 
-    _this.state = {};
+    _this.state = {
+      favoriteMovies: []
+    };
     return _this;
   }
 
@@ -52222,23 +52221,21 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var accessToken = localStorage.getItem('token');
+      var favoriteMovies = localStorage.getItem('favoriteMovies');
+      this.setState({
+        favoriteMovies: favoriteMovies.split(',')
+      });
 
       if (accessToken !== null) {
         this.setState({
           user: localStorage.getItem('user')
-        }); //this.getMovies(accessToken);
+        });
       }
-      /*
-      //Attempt2 to keep favorite Movies in the localStorage
-      let favoriteState = localStorage.getItem('FavoriteMovies'); // ERROR-Message: favoriteState is not defined
-      if (favoriteState !== null) {
-        this.setFavorite(favoriteState);
-      }*/
-
     } // returns true or false for favMovies
 
   }, {
     key: "updateFavoriteMovieList",
+    // re-added ther former verion inbetween
     value: function updateFavoriteMovieList(eventKey) {
       var token = localStorage.getItem('token');
       console.log("changed=====", eventKey);
@@ -52255,56 +52252,14 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       //  return this.setItem(key, JSON.stringify(obj))
       //}
 
-    }
-  }, {
-    key: "onLoggedIn",
+    } // re-added ther former verion inbetween
 
-    /* not needed, to be deleted when the line numbering is not needed any more
-      getMovies(token) {
-        axios.get('https://movie-api-elwen.herokuapp.com/movies', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-          .then(response => {
-            this.props.setMovies(response.data); // #1"the movies live in the store now" potentially NOT working 3.6 code (throws errors)
-            console.log('=======realizedChange?==========')
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-      */
-    value: function onLoggedIn(authData) {
-      console.log(authData, "=======authdata");
-      this.setState({
-        user: authData.user.Username,
-        favoriteMovies: authData.user.favoriteMovies
-      });
-      localStorage.setItem('token', authData.token);
-      localStorage.setItem('user', authData.user.Username);
-      localStorage.setItem('exists', authData.movies.favoriteMovies); // Is this correct?
-
-      this.getMovies(authData.token);
-    }
-  }, {
-    key: "onLoggedOut",
-    value: function onLoggedOut(authData) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('exists', authData.movies.favoriteMovies); // Is this correct?
-
-      this.setState({
-        user: null
-      });
-      window.open('/', '_self');
-    }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      var _this$props2 = this.props,
-          movie = _this$props2.movie,
-          favoriteMovies = _this$props2.favoriteMovies; //Why: 'favoriteMovies' is declared but its value is never read.
+      var movie = this.props.movie; //Why: 'favoriteMovies' is declared but its value is never read.
 
       if (!movie) return null;
       return _react.default.createElement(_reactBootstrap.Card, {
@@ -52334,21 +52289,12 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         onstyle: "dark",
         offstyle: "light",
         style: "button-primary-toggle",
-        checked: this.isInFavorites() //this.setFavorite()
-        //this.setFavorite(favoriteState)
-        //this.getItem(key)
-        //this.buttonState() // Error: this.buttonState is not a function
-        //disabled={
-        //{this.isInFavorites()}   Do I have to do something with disabled as well ???
-        //this.buttonState()
-        //}
-        ,
+        checked: this.isInFavorites(),
         size: "lg",
         width: 100,
         onChange: function onChange(eventKey) {
           return _this2.updateFavoriteMovieList(eventKey);
-        } //this.isInFavorites()
-
+        }
       }), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
@@ -52359,7 +52305,8 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return MovieView;
-}(_react.default.Component); //before animation was added
+}(_react.default.Component); // Akunnas version: /*onChange={(eventKey) => eventKey ? this.addFavorites : this.removeFavorites}*/
+//before animation was added
 
 /*constructor() {
   super();
@@ -52592,6 +52539,7 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
       }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, director.Name), _react.default.createElement(_Card.default.Text, null, "Bio: ", director.Bio), _react.default.createElement(_Card.default.Text, null, "Born: ", director.Birth), _react.default.createElement(_Card.default.Text, null, "Died: ", director.Death), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_Button.default, {
+        className: "link-text",
         variant: "link"
       }, "CLOSE"))))));
     }
@@ -52780,7 +52728,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (response) {
         var data = response.data;
-        console.log(data);
         alert('Your profile was updated successfully, please login.');
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', data.Username);
@@ -53157,13 +53104,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
-      console.log(authData, "=======authdata");
       this.setState({
         user: authData.user.Username,
         favoriteMovies: authData.user.FavoriteMovies
       });
       localStorage.setItem('token', authData.token);
       localStorage.setItem('user', authData.user.Username);
+      localStorage.setItem('favoriteMovies', authData.user.FavoriteMovies);
       this.getMovies(authData.token);
     }
   }, {
@@ -53494,7 +53441,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57380" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62066" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

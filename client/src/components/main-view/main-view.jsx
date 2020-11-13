@@ -73,7 +73,6 @@ class MainView extends React.Component {
   }
 
   onLoggedIn(authData) {
-    console.log(authData, "=======authdata");
     this.setState({
       user: authData.user.Username,
       favoriteMovies: authData.user.FavoriteMovies
@@ -81,6 +80,7 @@ class MainView extends React.Component {
 
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
+    localStorage.setItem('favoriteMovies', authData.user.FavoriteMovies);
     this.getMovies(authData.token);
   }
 
