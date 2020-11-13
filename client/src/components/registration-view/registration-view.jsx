@@ -88,7 +88,7 @@ export function RegistrationView() {  //function component with hooks
           />
         </Form.Group>*/}
 
-        <Button className="button-primary" variant="dark" type="submit" onClick={handleSubmit}>
+        <Button className="button-primary" variant="link" type="submit" onClick={handleSubmit}>
           SIGN UP
         </Button>
         {/*<Link to={`/login`}>

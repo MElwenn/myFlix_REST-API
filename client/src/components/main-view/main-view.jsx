@@ -30,7 +30,7 @@ import './main-view.scss';
 // 3.5-export to be replaced by export default connect(mapStateToProps (line 178) 
 //as Only one default export allowed per module
 class MainView extends React.Component {
-  constructor(props) {                       // "By the end of the Task, the following data should no longer be passed through props but, instead, be handled by stores and modified through actions"
+  constructor(props) {  // "By the end of the Task, the following data should no longer be passed through props but, instead, be handled by stores and modified through actions"
     super(props);  // Call the superclass constructor so React can initialize it
     //constructor() {
     //  super();
@@ -111,6 +111,7 @@ class MainView extends React.Component {
             <Navbar className="fixed-top" bg="dark" variant="dark">
               <Navbar.Brand href="#home">Navbar</Navbar.Brand>
               <Nav className="mr-auto">
+
                 <Nav.Link as={Link} to='/'>
                   Home
                 </Nav.Link>
@@ -127,26 +128,11 @@ class MainView extends React.Component {
                   LOGOUT
                 </Button>
 
-                {/*<Nav.Link as={Link} to='/login'>
-                 Login
-                </Nav.Link>*/}
-
               </Nav>
             </Navbar>
             <br />
             <br />
             <br />
-
-            {/*<div>
-              <Row className="mb-3">
-                <Col xs={12} sm={4}>
-                  <VisibilityFilterInput visibilityFilter={visibilityFilter} />
-                </Col>
-                <Col xs={12} sm={4}>
-                  <MovieFilterDropdown movieFilter={movieFilter} />
-                </Col>
-              </Row>
-            </div>*/}
 
             <Route exact path="/" render={() => {
               if (!user)
@@ -158,8 +144,6 @@ class MainView extends React.Component {
             }} />
 
             <Route path="/register" render={() => <RegistrationView />} />
-
-            {/*<Route path="/login" render={() => <LoginView />} />*/}
 
             <Route path="/movies/:movieId" render={
               ({ match }) => <MovieView
@@ -192,10 +176,6 @@ class MainView extends React.Component {
               }
             />
             <br />
-
-            {/*<Button className="button-secondary" onClick={() => this.onLoggedOut()}>
-              LOGOUT
-            </Button>*/}
           </div >
         </Container>
       </Router >
@@ -209,22 +189,3 @@ let mapStateToProps = state => {
 
 export default connect(mapStateToProps, { setMovies })(MainView);
 
-/*MainView.propTypes = {
-
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      Title: PropTypes.string,
-      ImageUrl: PropTypes.string,
-      Description: PropTypes.string,
-      Genre: PropTypes.exact({
-        _id: PropTypes.string,
-        Name: PropTypes.string,
-        Description: PropTypes.string
-      }),
-      Director: PropTypes.shape({
-        Name: PropTypes.string
-      })
-    })
-  ),
-  //onToggleFavourite: PropTypes.func.isRequired
-};*/

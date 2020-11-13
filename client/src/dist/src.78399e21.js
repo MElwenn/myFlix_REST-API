@@ -38234,8 +38234,6 @@ exports.MovieCard = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
@@ -38282,90 +38280,33 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
-      var movie = this.props.movie; //  console.log(this.props)
-
-      return (//<div onClick={() => onClick(movie)} className="movie-card">  {movie.Title}</div>
-        _react.default.createElement("div", null, _react.default.createElement("br", null), _react.default.createElement(_Card.default, {
-          style: {
-            width: '100%'
-          }
-        }, _react.default.createElement(_Card.default.Img, {
-          variant: "top",
-          src: movie.ImagePath
-        }), _react.default.createElement(_Card.default.Body, {
-          className: "container-box",
-          style: {
-            margin: '0px'
-          }
-        }, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_Card.default.Footer, null, _react.default.createElement(_reactRouterDom.Link, {
-          to: "/movies/".concat(movie._id)
-        }, _react.default.createElement(_Button.default, {
-          className: "button-primary",
-          variant: "link"
-        }, "Open"))))), _react.default.createElement("br", null))
-      );
+      var movie = this.props.movie;
+      return _react.default.createElement("div", null, _react.default.createElement("br", null), _react.default.createElement(_Card.default, {
+        style: {
+          width: '100%'
+        }
+      }, _react.default.createElement(_Card.default.Img, {
+        variant: "top",
+        src: movie.ImagePath
+      }), _react.default.createElement(_Card.default.Body, {
+        className: "container-box",
+        style: {
+          margin: '0px'
+        }
+      }, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_Card.default.Footer, null, _react.default.createElement(_reactRouterDom.Link, {
+        to: "/movies/".concat(movie._id)
+      }, _react.default.createElement(_Button.default, {
+        className: "button-primary",
+        variant: "link"
+      }, "Open"))))), _react.default.createElement("br", null));
     }
   }]);
 
   return MovieCard;
 }(_react.default.Component);
-/* <Button onClick={() => onClick(movie)} variant="link">Open</Button> removed as throws error
-MovieCard.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string,
-    Description: PropTypes.string.isRequired,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired
-    }),
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired,
-      Birth: PropTypes.string.isRequired
-    }),
-    ImagePath: PropTypes.string.isRequired
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-}; */
-//Animation
-
-/*constructor() {
-  super();
-
-  this.state = {
-    favorite: undefined, //should be this.state of the movie_id
-    animateFav: true
-  };
-}
-
-unmount = true;
-
-componentDidMount() {
-  const { movies, favorites } = this.props;
-  const component = this;
-  this.unmount = false;
-  var search = favorites.find(e => { return e._id === movies._id }) // how to address each movie id here?
-
-  if (search) {
-    component.setState({
-      favorite: true,
-      animateFav: true
-    })
-  }
-  else {
-    component.setState({
-      favorite: false,
-    })
-  }
-}*/
-//<Animated> isVisible={this.state.animateFav}
-//<Animated>
-//  <Button className="button-secondary" variant="link">My Favorite</Button>
-//</Animated>
-
 
 exports.MovieCard = MovieCard;
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movies-list/movies-list.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movies-list/movies-list.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -38484,8 +38425,6 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
-var _reactRouterDom = require("react-router-dom");
-
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 require("./login-view.scss");
@@ -38532,8 +38471,7 @@ function LoginView(props) {
     }).catch(function (e) {
       console.log('User is unknown.');
     });
-  }; // do I have to wrap 'render() {}' around the 'return()' ?
-
+  };
 
   return _react.default.createElement(_Container.default, {
     className: "container-box"
@@ -38566,22 +38504,7 @@ function LoginView(props) {
 }
 
 ;
-/* DEBUGGING TRY
-<Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
-          LOGIN
-        </Button>
-*/
-
-/*LoginView.propTypes = {  // why LoginView is yellow whereas in other components it's cyan?
-  user: PropTypes.shape({
-    Username: PropTypes.string,
-    Password: PropTypes.string.isRequired,
-    Email: PropTypes.string.isRequired,
-    Birthdate: PropTypes.string.isRequired // is this really a string or rather a date?
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-};*/
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -38703,7 +38626,7 @@ function RegistrationView() {
     }
   })), _react.default.createElement(_Button.default, {
     className: "button-primary",
-    variant: "dark",
+    variant: "link",
     type: "submit",
     onClick: handleSubmit
   }, "SIGN UP")));
@@ -52235,23 +52158,17 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "updateFavoriteMovieList",
-    // re-added ther former verion inbetween
+    // re-added ther former version inbetween
     value: function updateFavoriteMovieList(eventKey) {
       var token = localStorage.getItem('token');
       console.log("changed=====", eventKey);
 
       if (eventKey) {
-        this.addFavorites(); //this.isInFavorites() // Attempt1 to keep favorite Movies in the localStorage
-        //const buttonState = localStorage.setItem('true'); Attempt4 to keep favorite Movies in the localStorage
+        this.addFavorites();
       } else {
         console.log("deleted========");
-        this.removeFavorites(); //this.isInFavorites() // Attempt1 to keep favorite Movies in the localStorage
-        //const buttonState = localStorage.setItem('false'); Attempt4 to keep favorite Movies in the localStorage
-      } //Attempt3 to keep favorite Movies in the session storage (=> sessionStarage is killed at the end of session !!! =bad)
-      //Storage.prototype.setFavoriteMovieList = function (key, obj) {
-      //  return this.setItem(key, JSON.stringify(obj))
-      //}
-
+        this.removeFavorites();
+      }
     } // re-added ther former verion inbetween
 
   }, {
@@ -52259,8 +52176,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var movie = this.props.movie; //Why: 'favoriteMovies' is declared but its value is never read.
-
+      var movie = this.props.movie;
       if (!movie) return null;
       return _react.default.createElement(_reactBootstrap.Card, {
         className: "container-box",
@@ -52305,153 +52221,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return MovieView;
-}(_react.default.Component); // Akunnas version: /*onChange={(eventKey) => eventKey ? this.addFavorites : this.removeFavorites}*/
-//before animation was added
-
-/*constructor() {
-  super();
-
-  this.state = {};
-}*/
-//Removed as too many buttons
-//<Button className="button-primary" variant="link">Genre</Button>
-//<Button className="button-primary" variant="link">Director</Button>
-
-/*
-<Route path="/movies/:movieId" render={
-              ({ match }) => <MovieView movie={
-                movies.find(m => m._id === match.params.movieId)
-              } />
-            } />
-
-            <Route path="/movies/genres/:name" render={
-              ({ match }) => {
-                if (!movies)
-                  return <div className="main-view" />;
-                return <GenreView genre={movies.find((m) => m.Genre.Name === match.params.name).Genre} />
-              }
-            } />
-*/
-
-/*
-{
-  this.state.favorite ?
-    <Animated isVisible={this.state.animateFav}>
-      <BootstrapSwitchButton checked={true} className="button-primary" />Favorite
-      <Button onClick={() => this.setFavorite(movie)} className="button-primary">My Favorite</Button>
-    </Animated> :
-    <Animated>
-      <Button onClick={() => this.setFavorite(movie)} className="button-secondary">Add to Favorites</Button>
-    </Animated>
-}
-*/
-//Logic for animation approach
-
-/*
-    componentDidMount() {
-      const { movie, favorites } = this.props;
-      const component = this;
-
-      var search = favorites.find(e => { return e._id === movie._id }); // what's missing? error: "Cannot read property 'find' "
-
-      if (search) {
-        component.setState({
-          favorite: true,
-          //animateFav: true
-        })
-      }
-      else {
-        component.setState({
-          favorite: false,
-        })
-      }
-    }
-
-    setFavorite(movie) {
-      var token = localStorage.getItem('token');
-      const { updateFavorites } = this.props;
-      const component = this;
-
-      if (this.state.favorite) {
-        axios({
-          method: 'delete', url: `https://movie-api-elwen.herokuapp.com/movies${movie._id}`,
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        })
-          .then(response => {
-            updateFavorites()
-            component.setState({
-              favorite: false,
-            })
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
-      else {
-        axios({
-          method: 'post', url: `https://movie-api-elwen.herokuapp.com/movies${movie._id}`,
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        })
-          .then(response => {
-            updateFavorites()
-            component.setState({
-              favorite: true,
-              //animateFav: false
-            })
-            component.setState({
-              animateFav: true
-            })
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
-    }*/
-// IF ELSE approach
-// IF favMovie [] ==='' favorite: false, checked={false}
-
-/*const favoriteMovie = movies.filter(
-  (movie) => this.state.FavoriteMovies.includes(movie._id)
-);
-
-if (this.state.favoriteMovie === '') {
-  console.log('No favorite movie');
-  component.setState({
-    favorite: false,
-    checked: false
-  })
-}
-// ELSE favorite: true, checked={true}
-else {
-  console.log(FavoriteMovies);
-  component.setState({
-    favorite: true,
-    checked: true
-  })
-}*/
-// Event-listener toggle button => onChange 
-// call fct addFavoriteMovie(_id), favorite: true, checked={true}
-// Event-listener toggle button => onChange 
-// call fct addFavoriteMovie(_id), favorite: true, checked={true}
-// stateToProps Approach
-
-/*const favorite = state => {
-  const { favorite } = state;
-  return { favorite };
-};
-
-function favorite(props) {
-  const { movies, favorite } = props;
-  let favMovies = movies;
-
-  if (favorite !== '') {
-    favMovies = movies.filter(m => m.Title.includes(favorite));
-  }
-  */
+}(_react.default.Component); // ANs version of use within toggle-button: /*onChange={(eventKey) => eventKey ? this.addFavorites : this.removeFavorites}*/
 //export default connect(null, { favMovies })(favorite);
 
 
@@ -52537,9 +52307,9 @@ var DirectorView = /*#__PURE__*/function (_React$Component) {
           width: '70%'
         }
       }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, director.Name), _react.default.createElement(_Card.default.Text, null, "Bio: ", director.Bio), _react.default.createElement(_Card.default.Text, null, "Born: ", director.Birth), _react.default.createElement(_Card.default.Text, null, "Died: ", director.Death), _react.default.createElement(_reactRouterDom.Link, {
+        className: "link-text",
         to: "/"
       }, _react.default.createElement(_Button.default, {
-        className: "link-text",
         variant: "link"
       }, "CLOSE"))))));
     }
@@ -52631,8 +52401,10 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
           width: '70%'
         }
       }, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, genre.Name), _react.default.createElement(_Card.default.Text, null, "Description: ", genre.Description), _react.default.createElement(_reactRouterDom.Link, {
+        className: "link-text",
         to: "/"
       }, _react.default.createElement(_Button.default, {
+        className: "link-text",
         variant: "link"
       }, "CLOSE"))))));
     }
@@ -52705,7 +52477,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(ProfileView);
 
-  //export default class ProfileView extends React.Component {
   function ProfileView(props) {
     var _this;
 
@@ -52759,11 +52530,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function getUser(token) {
       var _this2 = this;
 
-      var username = localStorage.getItem('user');
+      var username = localStorage.getItem('user'); //Displays users profile and favorite movies
 
-      _axios.default //Displays users profile and favorite movies
-      .get("https://movie-api-elwen.herokuapp.com/users/".concat(username), {
-        //this one is correct
+      _axios.default.get("https://movie-api-elwen.herokuapp.com/users/".concat(username), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -52798,11 +52567,9 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "deleteFavoriteMovie",
     value: function deleteFavoriteMovie(_id) {
-      //deleteFavoriteMovie(e) {
       console.log(this.props.movies); //Allows users to remove a movie from their list of favorites
 
       _axios.default.delete("https://movie-api-elwen.herokuapp.com/users/".concat(localStorage.getItem('user'), "/Movies/").concat(_id), {
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem('token'))
         }
@@ -52810,8 +52577,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         alert('Movie has been removed from your fovorites list.');
         localStorage.removeItem('token', 'user');
         window.open('/user/:Username', '_self');
-      }) //.catch((_id) => {
-      .catch(function (e) {
+      }).catch(function (e) {
         alert('Error. Movie could not be removed from your favorites list.');
       });
     }
@@ -52870,7 +52636,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         }
       })), _react.default.createElement(_Card.default, {
         className: "container-box"
-      }, _react.default.createElement(_Card.default.Title, null, "My favotite Movies: "), FavoriteMovies.map(function (movie, id) {
+      }, _react.default.createElement(_Card.default.Title, null, "My favorite Movies: "), FavoriteMovies.map(function (movie, id) {
         return _react.default.createElement("div", {
           key: id
         }, movie.Title);
@@ -52888,15 +52654,13 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
         to: "/"
       }, _react.default.createElement(_Button.default, {
         className: "button-primary",
-        variant: "dark"
-      }, "CLOSE")))); //return end
-    } //render end
-
+        variant: "link"
+      }, "CLOSE"))));
+    }
   }]);
 
   return ProfileView;
-}(_react.default.Component); //export end
-
+}(_react.default.Component);
 
 exports.ProfileView = ProfileView;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","./profile-view.scss":"components/profile-view/profile-view.scss"}],"components/movie-filter/movie-filter.jsx":[function(require,module,exports) {
@@ -53244,26 +53008,6 @@ var mapStateToProps = function mapStateToProps(state) {
 var _default = (0, _reactRedux.connect)(mapStateToProps, {
   setMovies: _actions.setMovies
 })(MainView);
-/*MainView.propTypes = {
-
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      Title: PropTypes.string,
-      ImageUrl: PropTypes.string,
-      Description: PropTypes.string,
-      Genre: PropTypes.exact({
-        _id: PropTypes.string,
-        Name: PropTypes.string,
-        Description: PropTypes.string
-      }),
-      Director: PropTypes.shape({
-        Name: PropTypes.string
-      })
-    })
-  ),
-  //onToggleFavourite: PropTypes.func.isRequired
-};*/
-
 
 exports.default = _default;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-redux":"../node_modules/react-redux/es/index.js","prop-types":"../node_modules/prop-types/index.js","react-dom":"../node_modules/react-dom/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../../actions/actions":"actions/actions.js","../movies-list/movies-list":"components/movies-list/movies-list.jsx","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../visibility-filter-input/visibility-filter-input":"components/visibility-filter-input/visibility-filter-input.jsx","../movie-filter/movie-filter":"components/movie-filter/movie-filter.jsx","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-bootstrap/esm/Button":"../node_modules/react-bootstrap/esm/Button.js","./main-view.scss":"components/main-view/main-view.scss"}],"reducers/reducers.js":[function(require,module,exports) {
@@ -53441,7 +53185,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62066" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55253" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

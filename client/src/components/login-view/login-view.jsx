@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-//import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
 import './login-view.scss';
@@ -29,7 +27,6 @@ export function LoginView(props) {  //function component with hooks
       });
   };
 
-  // do I have to wrap 'render() {}' around the 'return()' ?
   return (
     <Container className="container-box">
       <Form>
@@ -59,26 +56,10 @@ export function LoginView(props) {  //function component with hooks
         <Button className="button-primary" variant="link" type="submit" onClick={handleSubmit}>
           LOGIN
         </Button>
-        {/*<Link to={`/register`}>
-         <Button className="button-secondary">SIGN UP</Button>
-        </Link>*/}
+
       </Form>
     </Container>
   );
 };
 
-/* DEBUGGING TRY
-<Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
-          LOGIN
-        </Button>
-*/
 
-/*LoginView.propTypes = {  // why LoginView is yellow whereas in other components it's cyan?
-  user: PropTypes.shape({
-    Username: PropTypes.string,
-    Password: PropTypes.string.isRequired,
-    Email: PropTypes.string.isRequired,
-    Birthdate: PropTypes.string.isRequired // is this really a string or rather a date?
-  }).isRequired,
-  onClick: PropTypes.func.isRequired
-};*/
