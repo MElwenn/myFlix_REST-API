@@ -52158,7 +52158,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "updateFavoriteMovieList",
-    // re-added ther former version inbetween
+    // allows a user to add or remove a favorite movie to / from the profile view
     value: function updateFavoriteMovieList(eventKey) {
       var token = localStorage.getItem('token');
       console.log("changed=====", eventKey);
@@ -52169,8 +52169,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         console.log("deleted========");
         this.removeFavorites();
       }
-    } // re-added ther former verion inbetween
-
+    }
   }, {
     key: "render",
     value: function render() {
@@ -53185,7 +53184,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55253" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64307" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

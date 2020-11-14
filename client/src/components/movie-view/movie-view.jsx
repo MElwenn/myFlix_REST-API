@@ -38,7 +38,7 @@ export class MovieView extends React.Component {
     return exists.length > 0
   }
 
-  // re-added ther former version inbetween
+  // allows a user to add or remove a favorite movie to / from the profile view
   updateFavoriteMovieList(eventKey) {
     var token = localStorage.getItem('token')
     console.log("changed=====", eventKey)
@@ -50,7 +50,6 @@ export class MovieView extends React.Component {
       this.removeFavorites();
     }
   }
-  // re-added ther former verion inbetween
 
   addFavorites = () => {
     const { movie } = this.props
