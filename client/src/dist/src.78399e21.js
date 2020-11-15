@@ -52110,7 +52110,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       }).then(function (response) {
         localStorage.setItem('favoriteMovies', response.data.FavoriteMovies);
         alert('Movie was added to your Favorites List.');
-        window.open('/user/:Username', '_self');
+        window.open('/', '_self');
       }).catch(function (e) {
         alert('Error. Your update was not successful.');
       });
@@ -52176,6 +52176,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var movie = this.props.movie;
+      var user = this.props.user;
       if (!movie) return null;
       return _react.default.createElement(_reactBootstrap.Card, {
         className: "container-box",
@@ -52209,7 +52210,9 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         width: 100,
         onChange: function onChange(eventKey) {
           return _this2.updateFavoriteMovieList(eventKey);
-        }
+        },
+        as: _reactRouterDom.Link,
+        to: "/user/".concat(user)
       }), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, _react.default.createElement(_reactBootstrap.Button, {
@@ -53184,7 +53187,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64307" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50543" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

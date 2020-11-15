@@ -60,7 +60,8 @@ export class MovieView extends React.Component {
       .then((response) => {
         localStorage.setItem('favoriteMovies', response.data.FavoriteMovies)
         alert('Movie was added to your Favorites List.');
-        window.open('/user/:Username', '_self');
+        window.open('/', '_self');
+
       })
       .catch((e) => {
         alert('Error. Your update was not successful.');
@@ -85,6 +86,7 @@ export class MovieView extends React.Component {
 
   render() {
     const { movie } = this.props;
+    const { user } = this.props;
     if (!movie) return null;
     return (
       <Card className="container-box" style={{ width: '100%' }}>
@@ -106,6 +108,7 @@ export class MovieView extends React.Component {
             </Card.Text>
             <Card.Text>Favorite: </Card.Text>
             <Card.Footer>
+
               <BootstrapSwitchButton
                 onlabel="Yes"
                 offlabel="No"
@@ -115,11 +118,11 @@ export class MovieView extends React.Component {
                 checked={this.isInFavorites()}
                 size="lg"
                 width={100}
-
                 onChange={(eventKey) => this.updateFavoriteMovieList(eventKey)}
-
+                as={Link} to={`/user/${user}`}
               >
               </BootstrapSwitchButton>
+
               <Link to={`/`}>
                 <Button className="button-primary" variant="link">Back</Button>
               </Link>
