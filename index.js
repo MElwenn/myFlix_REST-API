@@ -43,6 +43,12 @@ const { check, validationResult } = require('express-validator');
 // middleware components
 app.use(express.static('public')); // invoke files from the public folder
 
+//webpage to be shown at https://movie-api-elwen.herokuapp.com/
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
+
 app.use(morgan('common'));         // logging
 app.use(requestTime);
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,12 +77,6 @@ app.use(cors({ // creates a list of allowed domains within the variable allowedO
     return callback(null, true);
   }
 }));
-
-//webpage to be shown at https://movie-api-elwen.herokuapp.com/
-app.use("/client", express.static(path.join(__dirname, "client", "dist")));
-app.get("/client/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
 
 //GET public documentation (this is the webpage currently at https://movie-api-elwen.herokuapp.com/)
 //app.get('/', (req, res) => {
