@@ -15,7 +15,8 @@ export class ProfileView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {   // Initialize the state to an empty object to destructure it later
+    // Initialize the state to an empty object to destructure it later
+    this.state = {
       Username: '',
       Password: '',
       Email: '',
@@ -57,7 +58,6 @@ export class ProfileView extends React.Component {
       Username: this.state.Username,
       Password: this.state.Password,
       Email: this.state.Email,
-      //Birthdate: this.state.Birthdate,
       FavoriteMovies: this.state.FavoriteMovies
     },
       {
@@ -78,6 +78,7 @@ export class ProfileView extends React.Component {
   }
 
   deleteProfile(e) {
+
     //Allows existing users to deregister
     axios.delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
       {
@@ -109,7 +110,6 @@ export class ProfileView extends React.Component {
         alert('Error. Movie could not be removed from your favorites list.');
       });
   }
-
 
   render() {
     const { movies } = this.props;
@@ -160,11 +160,8 @@ export class ProfileView extends React.Component {
             </Form.Group>
 
             <Card className='container-box'>
-              {/*<Card.Img variant="top" src={movie.ImagePath} />*/}
-              {/*<Card.Body className="container-box" style={{ margin: '0px' }}>*/}
               <Card.Title>My favorite Movies: </Card.Title>
               {FavoriteMovies.map((movie, id) => <div key={id}>{movie.Title}</div>)}
-              {/*</Card.Body>*/}
             </Card>
 
             <Button
