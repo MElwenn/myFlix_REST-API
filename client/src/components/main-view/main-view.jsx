@@ -108,7 +108,7 @@ class MainView extends React.Component {
               <Navbar.Brand href="#home">Navbar</Navbar.Brand>
               <Nav className="mr-auto">
 
-                <Nav.Link as={Link} to='/client'>
+                <Nav.Link as={Link} to='/'>
                   Home
                 </Nav.Link>
 
