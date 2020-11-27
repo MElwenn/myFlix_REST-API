@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+//import PropTypes from 'prop-types';
+//import ReactDOM from 'react-dom';
 
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 
@@ -11,20 +11,23 @@ import { setMovies } from '../../actions/actions';  //import actions for Redux
 import MoviesList from '../movies-list/movies-list';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { MovieCard } from '../movie-card/movie-card';
+//import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView } from '../profile-view/profile-view';
-import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
-import { MovieFilter } from '../movie-filter/movie-filter';
-import movieFilterDropdown from '../movie-filter/movie-filter';
+//import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
+//import { MovieFilter } from '../movie-filter/movie-filter';
+//import movieFilterDropdown from '../movie-filter/movie-filter';
 
 import Container from 'react-bootstrap/Container';
 import { Navbar, Nav, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/esm/Button';
 
 import './main-view.scss';
+
+// automatically add “/client” to all client-side requests
+const basename = location.host === "localhost:1234" ? "/" : "/client";
 
 class MainView extends React.Component {
   constructor(props) {
@@ -83,7 +86,7 @@ class MainView extends React.Component {
     this.setState({
       user: null,
     });
-    window.open('/', '_self');
+    window.open('/client', '_self'); // replaced "/"
   }
 
   //render the search result from 'GET all movies'
@@ -98,14 +101,14 @@ class MainView extends React.Component {
       return <div className="main-view" />;
 
     return (
-      <Router>
+      <Router basename={baseName}>
         <Container>
           <div className="main-view">
             <Navbar className="fixed-top" bg="dark" variant="dark">
               <Navbar.Brand href="#home">Navbar</Navbar.Brand>
               <Nav className="mr-auto">
 
-                <Nav.Link as={Link} to='/'>
+                <Nav.Link as={Link} to='/client'>
                   Home
                 </Nav.Link>
 
@@ -127,7 +130,7 @@ class MainView extends React.Component {
             <br />
             <br />
 
-            <Route exact path="/" render={() => {
+            <Route exact path="/client" render={() => {
               if (!user)
                 return (
                   <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />

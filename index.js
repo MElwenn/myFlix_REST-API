@@ -1,3 +1,6 @@
+// import path module to enable working with the file system
+const path = require("path");
+
 // Cross Origin Resource Sharing (CORS) ensure that all domains are allowed to make requests to the API
 const cors = require('cors');
 
@@ -39,6 +42,7 @@ const { check, validationResult } = require('express-validator');
 
 // middleware components
 app.use(express.static('public')); // invoke files from the public folder
+
 app.use(morgan('common'));         // logging
 app.use(requestTime);
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -68,15 +72,16 @@ app.use(cors({ // creates a list of allowed domains within the variable allowedO
   }
 }));
 
-// GET public documentation
-//app.get('/documentation', (req, res) => {
+//webpage to be shown at https://movie-api-elwen.herokuapp.com/
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
+
+//GET public documentation (this is the webpage currently at https://movie-api-elwen.herokuapp.com/)
+//app.get('/', (req, res) => {
 //  res.sendFile('public/documentation.html', { root: __dirname });
 //});
-
-//GET public documentation
-app.get('/', (req, res) => {
-  res.sendFile('public/documentation.html', { root: __dirname });
-});
 
 // Get ALL movies
 app.get(
