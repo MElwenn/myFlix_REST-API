@@ -22,6 +22,11 @@ body {
 	border-radius: 3px;
 }
 
+.link-text {
+  color: #FF9900;
+  cursor: pointer;
+}
+
 .container-box-text{
   background-color: #F5F5F5;
   font-family: inherit;
@@ -41,7 +46,8 @@ body {
 	text-decoration: none;
 	margin: 10px;
 	padding: 10px;
-	border-radius: 8px;
+  border-radius: 8px;
+  cursor: pointer;
 	transition: 0.2s opacity;
 }
 

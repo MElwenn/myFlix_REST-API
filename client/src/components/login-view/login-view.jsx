@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-//import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
 import './login-view.scss';
 
-export function LoginView(props) {  //function component with hooks
+//function component with hooks
+export function LoginView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,7 +28,6 @@ export function LoginView(props) {  //function component with hooks
       });
   };
 
-  // do I have to wrap 'render() {}' around the 'return()' ?
   return (
     <Container className="container-box">
       <Form>
@@ -56,20 +54,12 @@ export function LoginView(props) {  //function component with hooks
           />
         </Form.Group>
 
-        <Button className="button-primary" variant="primary" type="submit" onClick={handleSubmit}>
+        <Button className="button-primary" variant="link" type="submit" onClick={handleSubmit}>
           LOGIN
         </Button>
-        {/*<Link to={`/register`}>
-          <Button className="button-secondary">SIGN UP</Button>
-        </Link>*/}
       </Form>
     </Container>
   );
 };
 
-/* DEBUGGING TRY
-<Button className="button-primary" variant="primary" type="submit" onClick={this.handleSubmit}>
-          LOGIN
-        </Button>
-*/
 

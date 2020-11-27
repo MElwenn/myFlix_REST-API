@@ -22,6 +22,11 @@ body {
 	border-radius: 3px;
 }
 
+.link-text {
+  color: #FF9900;
+  cursor: pointer;
+}
+
 .button-primary{
   border: #FF9900 1px solid;
 	display: inline-block;
@@ -31,7 +36,8 @@ body {
 	text-decoration: none;
 	margin: 10px;
 	padding: 10px;
-	border-radius: 8px;
+  border-radius: 8px;
+  cursor: pointer;
 	transition: 0.2s opacity;
 }
 
@@ -40,6 +46,7 @@ body {
   background-color: rgba(255,255,255,0.2);
   color: #FF9900;
   text-decoration: none;
+  text-align-last: right;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-//import React from 'react';
-//import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import Container from 'react-bootstrap/Container';
@@ -13,7 +11,7 @@ import './profile-view.scss';
 
 
 export class ProfileView extends React.Component {
-  //export default class ProfileView extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -33,10 +31,10 @@ export class ProfileView extends React.Component {
   getUser(token) {
     const username = localStorage.getItem('user');
 
-    axios  //Displays users profile and favorite movies
-      .get(`https://movie-api-elwen.herokuapp.com/users/${username}`, {  //this one is correct
-        headers: { Authorization: `Bearer ${token}` }
-      })
+    //Displays users profile and favorite movies
+    axios.get(`https://movie-api-elwen.herokuapp.com/users/${username}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then((response) => {
         this.setState({
           Username: response.data.Username,
@@ -61,14 +59,12 @@ export class ProfileView extends React.Component {
       Email: this.state.Email,
       //Birthdate: this.state.Birthdate,
       FavoriteMovies: this.state.FavoriteMovies
-
-
-    }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    })
+    },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((response) => {
         const data = response.data;
-        console.log(data);
         alert('Your profile was updated successfully, please login.');
 
         localStorage.setItem('token', data.token);
@@ -79,15 +75,14 @@ export class ProfileView extends React.Component {
       .catch((e) => {
         alert('Error. Your update was not successful.');
       })
-
   }
 
   deleteProfile(e) {
-    axios  //Allows existing users to deregister
-      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        })
+    //Allows existing users to deregister
+    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
       .then((response) => {
         alert('Your acount including all user data was deleted successfully.');
         localStorage.removeItem('token', 'user');
@@ -99,20 +94,17 @@ export class ProfileView extends React.Component {
   }
 
   deleteFavoriteMovie(_id) {
-    //deleteFavoriteMovie(e) {
     console.log(this.props.movies);
 
-    axios  //Allows users to remove a movie from their list of favorites
-      .delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}`, {
-        //.delete(`<https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem(user)}/Movies/${_id}>`,
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
+    //Allows users to remove a movie from their list of favorites
+    axios.delete(`https://movie-api-elwen.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${_id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    })
       .then((response) => {
         alert('Movie has been removed from your fovorites list.');
         localStorage.removeItem('token', 'user');
-        window.open('/client', '_self');
+        window.open('/user/:Username', '_self');
       })
-      //.catch((_id) => {
       .catch((e) => {
         alert('Error. Movie could not be removed from your favorites list.');
       });
@@ -167,22 +159,13 @@ export class ProfileView extends React.Component {
               />
             </Form.Group>
 
-            {/*<Form.Group controlId="formBasicFavoriteMovies">
-              <Form.Label>Favorite Movie</Form.Label>
-              <Card className='container-box-text'>
-                {FavoriteMovies.map((movie, id) => <div key={id}>{movie.Title}</div>)}
-              </Card>
-              <Form.Control
-                placeholder="Add Favorite Movie"
-                value={FavoriteMovies}
-                onChange={(e) => updateFavoriteMovies(e.target.value)}
-              />
-            </Form.Group>*/}
-
-            <Card className='container-box-text'>
+            <Card className='container-box'>
+              {/*<Card.Img variant="top" src={movie.ImagePath} />*/}
+              {/*<Card.Body className="container-box" style={{ margin: '0px' }}>*/}
+              <Card.Title>My favorite Movies: </Card.Title>
               {FavoriteMovies.map((movie, id) => <div key={id}>{movie.Title}</div>)}
+              {/*</Card.Body>*/}
             </Card>
-
 
             <Button
               className="button-primary"
@@ -199,12 +182,11 @@ export class ProfileView extends React.Component {
           </Button>
 
           <Link to={`/`}>
-            <Button className='button-primary' variant='dark'>CLOSE</Button>
+            <Button className='button-primary' variant='link'>CLOSE</Button>
           </Link>
 
         </Container>
       </div>
-    )//return end
-  }//render end
-
-} //export end
+    )
+  }
+}

@@ -29,7 +29,7 @@ export class DirectorView extends React.Component {
               <Card.Text>Bio: {director.Bio}</Card.Text>
               <Card.Text>Born: {director.Birth}</Card.Text>
               <Card.Text>Died: {director.Death}</Card.Text>
-              <Link to={`/`}>
+              <Link className="link-text" to={`/`}>
                 <Button variant="link">CLOSE</Button>
               </Link>
             </Card.Body>

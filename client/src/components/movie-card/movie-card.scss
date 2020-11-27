@@ -17,9 +17,14 @@ body {
   font-family: inherit;
   color: white;
 	text-decoration: none;
-	margin: 10px;
-	padding: 10px;
+	/*margin: 0px;*/
+	padding: 2px;
 	border-radius: 3px;
+}
+
+.link-text {
+  color: #FF9900;
+  cursor: pointer;
 }
 
 .button-primary{
@@ -31,7 +36,8 @@ body {
 	text-decoration: none;
 	margin: 10px;
 	padding: 10px;
-	border-radius: 8px;
+  border-radius: 8px;
+  cursor: pointer;
 	transition: 0.2s opacity;
 }
 
