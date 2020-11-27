@@ -101,7 +101,7 @@ class MainView extends React.Component {
       return <div className="main-view" />;
 
     return (
-      <Router basename={baseName}>
+      <Router basename={basename}>
         <Container>
           <div className="main-view">
             <Navbar className="fixed-top" bg="dark" variant="dark">
