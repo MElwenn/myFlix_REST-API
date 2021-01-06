@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bootstrap-switch-button-react": "^1.2.0",
     "mdbreact": "^4.27.0",
     "prop-types": "^15.7.2",
